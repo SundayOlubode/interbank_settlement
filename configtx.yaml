@@ -1,0 +1,225 @@
+---
+Organizations:
+  - &CentralBankOrg
+    Name: CentralBankOrg
+    ID: CentralBankMSP
+    MSPDir: crypto-config/ordererOrganizations/cbn.naijachain.org/msp
+
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('CentralBankMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('CentralBankMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('CentralBankMSP.admin')"
+
+    OrdererEndpoints:
+      - orderer.cbn.naijachain.org:6050
+
+  - &AccessBankOrg
+    Name: AccessBankOrg
+    ID: AccessBankMSP
+    MSPDir: crypto-config/peerOrganizations/accessbank.naijachain.org/msp
+
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('AccessBankMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('AccessBankMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('AccessBankMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('AccessBankMSP.peer')"
+
+    AnchorPeers:
+      - Host: peer0.accessbank.naijachain.org
+      - Port: 7051
+
+  - &GTBankOrg
+    Name: GTBankOrg
+    ID: GTBankMSP
+    MSPDir: crypto-config/peerOrganizations/gtbank.naijachain.org/msp
+
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('GTBankMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('GTBankMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('GTBankMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('GTBankMSP.peer')"
+
+    AnchorPeers:
+      - Host: peer0.gtbank.naijachain.org
+      - Port: 8051
+
+  - &ZenithBankOrg
+    Name: ZenithBankOrg
+    ID: ZenithBankMSP
+    MSPDir: crypto-config/peerOrganizations/zenithbank.naijachain.org/msp
+
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('ZenithBankMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('ZenithBankMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('ZenithBankMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('ZenithBankMSP.peer')"
+
+    AnchorPeers:
+      - Host: peer0.zenithbank.naijachain.org
+      - Port: 9051
+
+  - &FirstBankOrg
+    Name: FirstBankOrg
+    ID: FirstBankMSP
+    MSPDir: crypto-config/peerOrganizations/firstbank.naijachain.org/msp
+
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('FirstBankMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('FirstBankMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('FirstBankMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('FirstBankMSP.peer')"
+
+    AnchorPeers:
+      - Host: peer0.firstbank.naijachain.org
+      - Port: 10051
+
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+
+  Orderer: &OrdererCapabilities
+    V2_0: true
+
+  Application: &ApplicationCapabilities
+    V2_0: true
+
+Application: &ApplicationDefaults
+  Organizations:
+
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+
+  Capabilities:
+    <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+  OrdererType: solo
+
+  Addresses:
+    - orderer.cbn.naijachain.org:6050
+
+  BatchTimeout: 2s
+
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+
+  EtcdRaft:
+    Consenters:
+      - Host: orderer.cbn.naijachain.org
+        Port: 6050
+        ClientTLSCert: crypto-config/ordererOrganizations/cbn.naijachain.org/orderers/orderer.cbn.naijachain.org/tls/server.crt
+        ServerTLSCert: crypto-config/ordererOrganizations/cbn.naijachain.org/orderers/orderer.cbn.naijachain.org/tls/server.crt
+
+  Organizations:
+    - *CentralBankOrg
+
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+  Capabilities:
+    <<: *OrdererCapabilities
+
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+
+  Capabilities:
+    <<: *ChannelCapabilities
+
+Profiles:
+  NaijaGenesis:
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *CentralBankOrg
+
+    Consortiums:
+      NaijaConsortium:
+        Organizations:
+          - *AccessBankOrg
+          - *GTBankOrg
+          - *ZenithBankOrg
+          - *FirstBankOrg
+
+  NaijaChannel:
+    Consortium: NaijaConsortium
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *AccessBankOrg
+        - *GTBankOrg
+        - *ZenithBankOrg
+        - *FirstBankOrg

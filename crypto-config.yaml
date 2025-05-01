@@ -1,0 +1,39 @@
+OrdererOrgs:
+  - Name: CentralBankOrg
+    Domain: cbn.naijachain.org
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer
+
+PeerOrgs:
+  - Name: AccessBankOrg
+    Domain: accessbank.naijachain.org
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1
+
+  - Name: GTBankOrg
+    Domain: gtbank.naijachain.org
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1
+
+  - Name: ZenithBankOrg
+    Domain: zenithbank.naijachain.org
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1
+
+  - Name: FirstBankOrg
+    Domain: firstbank.naijachain.org
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1
