@@ -1,1 +1,3 @@
 crypto-config/
+.env
+channel-artifacts/

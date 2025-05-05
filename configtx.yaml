@@ -17,7 +17,7 @@ Organizations:
         Rule: "OR('CentralBankMSP.admin')"
 
     OrdererEndpoints:
-      - orderer.cbn.naijachain.org:6050
+      - orderer.cbn.naijachain.org:7050
 
   - &AccessBankOrg
     Name: AccessBankOrg
@@ -30,7 +30,7 @@ Organizations:
         Rule: "OR('AccessBankMSP.member')"
       Writers:
         Type: Signature
-        Rule: "OR('AccessBankMSP.member')"
+        Rule: "OR('AccessBankMSP.admin', 'AccessBankMSP.client')"
       Admins:
         Type: Signature
         Rule: "OR('AccessBankMSP.admin')"
@@ -53,7 +53,7 @@ Organizations:
         Rule: "OR('GTBankMSP.member')"
       Writers:
         Type: Signature
-        Rule: "OR('GTBankMSP.member')"
+        Rule: "OR('GTBankMSP.admin', 'GTBankMSP.client')"
       Admins:
         Type: Signature
         Rule: "OR('GTBankMSP.admin')"
@@ -76,7 +76,7 @@ Organizations:
         Rule: "OR('ZenithBankMSP.member')"
       Writers:
         Type: Signature
-        Rule: "OR('ZenithBankMSP.member')"
+        Rule: "OR('ZenithBankMSP.admin', 'ZenithBankMSP.client')"
       Admins:
         Type: Signature
         Rule: "OR('ZenithBankMSP.admin')"
@@ -99,7 +99,7 @@ Organizations:
         Rule: "OR('FirstBankMSP.member')"
       Writers:
         Type: Signature
-        Rule: "OR('FirstBankMSP.member')"
+        Rule: "OR('FirstBankMSP.admin', 'FirstBankMSP.client')"
       Admins:
         Type: Signature
         Rule: "OR('FirstBankMSP.admin')"
@@ -148,7 +148,7 @@ Orderer: &OrdererDefaults
   OrdererType: solo
 
   Addresses:
-    - orderer.cbn.naijachain.org:6050
+    - orderer.cbn.naijachain.org:7050
 
   BatchTimeout: 2s
 
@@ -160,7 +160,7 @@ Orderer: &OrdererDefaults
   EtcdRaft:
     Consenters:
       - Host: orderer.cbn.naijachain.org
-        Port: 6050
+        Port: 7050
         ClientTLSCert: crypto-config/ordererOrganizations/cbn.naijachain.org/orderers/orderer.cbn.naijachain.org/tls/server.crt
         ServerTLSCert: crypto-config/ordererOrganizations/cbn.naijachain.org/orderers/orderer.cbn.naijachain.org/tls/server.crt
 
@@ -200,22 +200,26 @@ Channel: &ChannelDefaults
     <<: *ChannelCapabilities
 
 Profiles:
-  NaijaGenesis:
+  NaijaBanksOrdererGenesis:
+    <<: *ChannelDefaults
     Orderer:
       <<: *OrdererDefaults
       Organizations:
         - *CentralBankOrg
+      Capabilities:
+        <<: *OrdererCapabilities
 
     Consortiums:
-      NaijaConsortium:
+      RetailConsortium:
         Organizations:
           - *AccessBankOrg
           - *GTBankOrg
           - *ZenithBankOrg
           - *FirstBankOrg
 
-  NaijaChannel:
-    Consortium: NaijaConsortium
+  RetailChannel:
+    Consortium: RetailConsortium
+    <<: *ChannelDefaults
     Application:
       <<: *ApplicationDefaults
       Organizations:
@@ -223,3 +227,5 @@ Profiles:
         - *GTBankOrg
         - *ZenithBankOrg
         - *FirstBankOrg
+      Capabilities:
+        <<: *ApplicationCapabilities
