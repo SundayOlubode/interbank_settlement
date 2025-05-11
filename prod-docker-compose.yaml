@@ -32,6 +32,52 @@ services:
     networks:
       - retail
 
+  peer0.cbn.naijachain.org:
+    container_name: peer0.cbn.naijachain.org
+    image: hyperledger/fabric-peer:$IMAGE_TAG
+    environment:
+      #Generic peer variables
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_banking
+      - FABRIC_LOGGING_SPEC=INFO
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_TLS_ENABLED=true
+      # - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/peer/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/peer/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/peer/tls/ca.crt
+      # Peer specific variabes
+      - CORE_PEER_ID=peer0.cbn.naijachain.org
+      - CORE_PEER_ADDRESS=peer0.cbn.naijachain.org:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.cbn.naijachain.org:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.cbn.naijachain.org:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.cbn.naijachain.org:7051
+      # - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_LOCALMSPID=AccessBankMSP
+      # - CORE_OPERATIONS_LISTENADDRESS=
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/cbn.naijachain.org/users/Admin@cbn.naijachain.org/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: peer node start
+    ports:
+      - 7051:7051
+      - 7053:7053
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - ./crypto-config/peerOrganizations/accessbank.naijachain.org/peers/peer0.accessbank.naijachain.org/msp:/var/hyperledger/peer/msp
+      - ./crypto-config/peerOrganizations/accessbank.naijachain.org/peers/peer0.accessbank.naijachain.org/tls/:/var/hyperledger/peer/tls
+      - peer0.accessbank.naijachain.org:/var/hyperledger/production
+      # Scripts and Artifacts
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/
+      - ./cli_scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./contracts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/contracts/
+    networks:
+      - retail
+    depends_on:
+      - orderer.cbn.naijachain.org
+
   peer0.accessbank.naijachain.org:
     container_name: peer0.accessbank.naijachain.org
     image: hyperledger/fabric-peer:$IMAGE_TAG
