@@ -1,3 +1,7 @@
+# You're submitting a configuration transaction to the channel to:
+# Update the channel config with anchor peer(s) for your org.
+# Commit this change to the ledger so it’s known network-wide.
+
 # === Required environment variables (set in the container) ===
 # CHANNEL_NAME          -> e.g., "retailchannel"
 # CORE_PEER_LOCALMSPID -> e.g., "GTBankMSP"
