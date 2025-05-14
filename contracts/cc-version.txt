@@ -1,0 +1,4 @@
+1.1
+LABEL=account_1.1
+PACKAGE_PATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/contracts/cc-packages/account_1.1.tar.gz
+PACKAGE_NAME=account_1.1.tar.gz
