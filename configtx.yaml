@@ -27,7 +27,7 @@ Organizations:
     Policies:
       Readers:
         Type: Signature
-        Rule: "OR('AccessBankMSP.member')"
+        Rule: "OR('AccessBankMSP.admin', 'AccessBankMSP.peer', 'AccessBankMSP.client')"
       Writers:
         Type: Signature
         Rule: "OR('AccessBankMSP.admin', 'AccessBankMSP.client')"
@@ -40,7 +40,7 @@ Organizations:
 
     AnchorPeers:
       - Host: peer0.accessbank.naijachain.org
-      - Port: 7051
+        Port: 7051
 
   - &GTBankOrg
     Name: GTBankOrg
@@ -50,7 +50,7 @@ Organizations:
     Policies:
       Readers:
         Type: Signature
-        Rule: "OR('GTBankMSP.member')"
+        Rule: "OR('GTBankMSP.admin', 'GTBankMSP.peer', 'GTBankMSP.client')"
       Writers:
         Type: Signature
         Rule: "OR('GTBankMSP.admin', 'GTBankMSP.client')"
@@ -63,7 +63,7 @@ Organizations:
 
     AnchorPeers:
       - Host: peer0.gtbank.naijachain.org
-      - Port: 8051
+        Port: 8051
 
   - &ZenithBankOrg
     Name: ZenithBankOrg
@@ -73,7 +73,7 @@ Organizations:
     Policies:
       Readers:
         Type: Signature
-        Rule: "OR('ZenithBankMSP.member')"
+        Rule: "OR('ZenithBankMSP.admin', 'ZenithBankMSP.peer', 'ZenithBankMSP.client')"
       Writers:
         Type: Signature
         Rule: "OR('ZenithBankMSP.admin', 'ZenithBankMSP.client')"
@@ -86,7 +86,7 @@ Organizations:
 
     AnchorPeers:
       - Host: peer0.zenithbank.naijachain.org
-      - Port: 9051
+        Port: 9051
 
   - &FirstBankOrg
     Name: FirstBankOrg
@@ -96,7 +96,7 @@ Organizations:
     Policies:
       Readers:
         Type: Signature
-        Rule: "OR('FirstBankMSP.member')"
+        Rule: "OR('FirstBankMSP.admin', 'FirstBankMSP.peer', 'FirstBankMSP.client')"
       Writers:
         Type: Signature
         Rule: "OR('FirstBankMSP.admin', 'FirstBankMSP.client')"
@@ -109,7 +109,7 @@ Organizations:
 
     AnchorPeers:
       - Host: peer0.firstbank.naijachain.org
-      - Port: 10051
+        Port: 10051
 
 Capabilities:
   Channel: &ChannelCapabilities
@@ -134,9 +134,9 @@ Application: &ApplicationDefaults
     Admins:
       Type: ImplicitMeta
       Rule: "MAJORITY Admins"
-    LifecycleEndorsement:
+    LifecycleEndorsement: # Chaincode Definition Approval
       Type: ImplicitMeta
-      Rule: "MAJORITY Endorsement"
+      Rule: "ANY Endorsement"
     Endorsement:
       Type: ImplicitMeta
       Rule: "MAJORITY Endorsement"

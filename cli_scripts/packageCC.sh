@@ -1,12 +1,13 @@
 ## Package and install chaincode
 
 BASE_PATH="/opt/gopath/src/github.com/hyperledger/fabric/peer"
+GO_VERSION="1.24.3"
 
 installGo() {
-  echo "\nRunning apt-get update ....\n"
+  echo -e "\nRunning apt-get update ....\n"
   apt-get update
 
-  echo "\n🔄 Installing wget ....\n"
+  echo -e "\n🔄 Installing wget ....\n"
   apt-get install -y wget
 
   wget https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz
@@ -28,7 +29,7 @@ if [ $? -ne 0 ]; then
   if [ $? -ne 0 ]; then
     echo "❌ Failed to install Go." >&2
     exit 1
-    else
+  else
     echo "✅ Go installed successfully."
   fi
 fi
@@ -46,20 +47,29 @@ VERSION_FILE="$CHAINCODE_PATH/cc-version.txt"
 
 mkdir -p "$PACKAGE_DIR"
 
-# === Determine new version ===
+# === Determine new version and sequence ===
 if [ -f "$VERSION_FILE" ]; then
   CURRENT_VERSION=$(head -n 1 "$VERSION_FILE")
+  IFS='.' read -r MAJOR MINOR <<<"$CURRENT_VERSION"
+  NEW_MINOR=$((MINOR + 1))
+  NEW_VERSION="${MAJOR}.${NEW_MINOR}"
+
+  CURRENT_SEQUENCE=$(grep SEQUENCE_NUM "$VERSION_FILE" | cut -d'=' -f2)
+  if [ -n "$CURRENT_SEQUENCE" ]; then
+    NEW_SEQUENCE_NUM=$((CURRENT_SEQUENCE + 1))
+  else
+    NEW_SEQUENCE_NUM=1
+  fi
 else
   CURRENT_VERSION="1.0"
+  NEW_VERSION=$CURRENT_VERSION
+  NEW_SEQUENCE_NUM=1
 fi
 
-IFS='.' read -r MAJOR MINOR <<<"$CURRENT_VERSION"
-NEW_MINOR=$((MINOR + 1))
-NEW_VERSION="${MAJOR}.${NEW_MINOR}"
 NEW_LABEL="${CHAINCODE_LABEL_BASE}_${NEW_VERSION}"
 PACKAGE_NAME="${NEW_LABEL}.tar.gz"
 
-echo "📦 Packaging chaincode as $PACKAGE_NAME (version $NEW_VERSION)..."
+echo "📦 Packaging chaincode as $PACKAGE_NAME (version $NEW_VERSION, sequence $NEW_SEQUENCE_NUM)..."
 
 # === Package chaincode ===
 peer lifecycle chaincode package "$PACKAGE_DIR/$PACKAGE_NAME" \
@@ -73,6 +83,7 @@ peer lifecycle chaincode package "$PACKAGE_DIR/$PACKAGE_NAME" \
   echo "LABEL=$NEW_LABEL"
   echo "PACKAGE_PATH=$PACKAGE_DIR/$PACKAGE_NAME"
   echo "PACKAGE_NAME=$PACKAGE_NAME"
+  echo "SEQUENCE_NUM=$NEW_SEQUENCE_NUM"
 } >"$VERSION_FILE"
 
 echo "✅ Chaincode packaged and metadata saved to $VERSION_FILE"

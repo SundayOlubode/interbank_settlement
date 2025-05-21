@@ -1,0 +1,2 @@
+[34m2025-05-15 21:12:38.509 UTC 0001 INFO[0m [channelCmd] [34;1mInitCmdFactory[0m -> Endorser and orderer connections initialized
+Error: channel create configuration tx file not found open ./peer/channel-artifacts/retailchannel/channel.tx: no such file or directory
