@@ -1,3 +1,5 @@
+export FABRIC_CFG_PATH=$(pwd)
+
 # If crypto-config directory exists, remove it
 if [ -d "crypto-config" ]; then
     rm -rf crypto-config
