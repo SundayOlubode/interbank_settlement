@@ -19,11 +19,14 @@ ANCHOR_TX="./peer/channel-artifacts/retailchannel/${CORE_PEER_LOCALMSPID}anchors
 echo ">>> Updating anchor peer for $CORE_PEER_LOCALMSPID on channel $CHANNEL_NAME..."
 echo ">>> Using anchor tx: $ANCHOR_TX"
 
+set -x
+
 peer channel update \
   -o $ORDERER_ADDRESS \
+  --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
   -c $CHANNEL_NAME \
   -f $ANCHOR_TX \
-  --tls \
+  --tls $CORE_PEER_TLS_ENABLE \
   --cafile $ORDERER_CA
 
 # Capture exit code
@@ -36,3 +39,5 @@ if [ $EXIT_CODE -ne 0 ]; then
 else
   echo "✅ Successfully updated anchor peer for $CORE_PEER_LOCALMSPID."
 fi
+
+set +x

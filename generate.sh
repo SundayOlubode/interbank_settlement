@@ -1,4 +1,6 @@
-export FABRIC_CFG_PATH=$(pwd)
+export FABRIC_CFG_PATH=$(pwd)/config
+
+set -x
 
 # If crypto-config directory exists, remove it
 if [ -d "crypto-config" ]; then
@@ -20,7 +22,9 @@ configtxgen -profile NaijaBanksOrdererGenesis -channelID retail-sys-channel -out
 configtxgen -profile RetailChannel -outputCreateChannelTx ./channel-artifacts/retailchannel/channel.tx -channelID retailchannel
 
 # Generate anchor peer update transactions for each organization
-configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/AccessBankMSPanchors.tx -channelID retailchannel -asOrg AccessBankOrg
-configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/GTBankMSPanchors.tx -channelID retailchannel -asOrg GTBankOrg
-configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/ZenithBankMSPanchors.tx -channelID retailchannel -asOrg ZenithBankOrg
-configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/FirstBankMSPanchors.tx -channelID retailchannel -asOrg FirstBankOrg
+configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/AccessBankMSPanchors.tx -channelID retailchannel -asOrg AccessBankMSP
+configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/GTBankMSPanchors.tx -channelID retailchannel -asOrg GTBankMSP
+configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/ZenithBankMSPanchors.tx -channelID retailchannel -asOrg ZenithBankMSP
+configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/FirstBankMSPanchors.tx -channelID retailchannel -asOrg FirstBankMSP
+
+set +x

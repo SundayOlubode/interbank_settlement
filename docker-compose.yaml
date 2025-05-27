@@ -1,6 +1,5 @@
 networks:
   naijachain_retail:
-    external: true 
 
 services:
   orderer.cbn.naijachain.org:
@@ -66,7 +65,8 @@ services:
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.accessbank.naijachain.org:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.accessbank.naijachain.org:7051
-      # - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false
+      - CORE_PEER_GOSSIP_ORGLEADER=true
       - CORE_PEER_LOCALMSPID=AccessBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
       - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/accessbank.naijachain.org/users/Admin@accessbank.naijachain.org/msp
@@ -125,7 +125,8 @@ services:
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.gtbank.naijachain.org:8051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.gtbank.naijachain.org:8051
-      # - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false
+      - CORE_PEER_GOSSIP_ORGLEADER=true
       - CORE_PEER_LOCALMSPID=GTBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
       - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/gtbank.naijachain.org/users/Admin@gtbank.naijachain.org/msp
@@ -184,7 +185,8 @@ services:
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.zenithbank.naijachain.org:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.zenithbank.naijachain.org:9051
-      # - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false
+      - CORE_PEER_GOSSIP_ORGLEADER=true
       - CORE_PEER_LOCALMSPID=ZenithBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
       - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/zenithbank.naijachain.org/users/Admin@zenithbank.naijachain.org/msp
@@ -243,7 +245,8 @@ services:
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.firstbank.naijachain.org:10051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.firstbank.naijachain.org:10051
-      # - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false
+      - CORE_PEER_GOSSIP_ORGLEADER=true
       - CORE_PEER_LOCALMSPID=FirstBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
       - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/firstbank.naijachain.org/users/Admin@firstbank.naijachain.org/msp

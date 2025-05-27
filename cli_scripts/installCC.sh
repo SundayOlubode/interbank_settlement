@@ -1,4 +1,6 @@
 # === Load version information ===
+set -x
+
 VERSION_FILE="/opt/gopath/src/github.com/hyperledger/fabric/peer/contracts/cc-version.txt"
 
 if [ ! -f "$VERSION_FILE" ]; then
@@ -36,3 +38,4 @@ echo "✅ Exported CC_PACKAGE_ID:"
 echo "$CC_PACKAGE_ID"
 
 
+set +x

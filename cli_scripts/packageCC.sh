@@ -1,5 +1,3 @@
-## Package and install chaincode
-
 BASE_PATH="/opt/gopath/src/github.com/hyperledger/fabric/peer"
 GO_VERSION="1.24.3"
 
@@ -71,11 +69,15 @@ PACKAGE_NAME="${NEW_LABEL}.tar.gz"
 
 echo "📦 Packaging chaincode as $PACKAGE_NAME (version $NEW_VERSION, sequence $NEW_SEQUENCE_NUM)..."
 
+set -x
+
 # === Package chaincode ===
 peer lifecycle chaincode package "$PACKAGE_DIR/$PACKAGE_NAME" \
   --path "$CHAINCODE_PATH" \
   --lang "$CHAINCODE_LANG" \
   --label "$NEW_LABEL"
+
+set +x
 
 # === Save new version and metadata ===
 {
@@ -87,3 +89,5 @@ peer lifecycle chaincode package "$PACKAGE_DIR/$PACKAGE_NAME" \
 } >"$VERSION_FILE"
 
 echo "✅ Chaincode packaged and metadata saved to $VERSION_FILE"
+
+
