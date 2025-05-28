@@ -13,14 +13,14 @@ setGlobalsForOrderer() {
 
 presetup() {
     echo Vendoring Go dependencies ...
-    # pushd ./artifacts/src/github.com/fabcar/go
     pushd ./contracts
+    rm -rf vendor
     GO111MODULE=on go mod vendor
     popd
     echo Finished vendoring Go dependencies
 }
 
-# presetup
+presetup
 
 CC_RUNTIME_LANGUAGE="golang"
 VERSION="1"
@@ -38,7 +38,7 @@ packageChaincode() {
     echo "===================== Chaincode is packaged on peer0.accessbank.naijachain.org ===================== "
 }
 
-# packageChaincode
+packageChaincode
 
 installChaincode() {
     setGlobalForPeer0AccessBank
@@ -58,7 +58,7 @@ installChaincode() {
     echo "===================== Chaincode is installed on peer0.firstbank ===================== "
 }
 
-# installChaincode
+installChaincode
 
 queryInstalled() {
     setGlobalForPeer0AccessBank
@@ -69,17 +69,17 @@ queryInstalled() {
     echo "===================== Query installed successful on peer0.accessbank on channel ===================== "
 }
 
-# queryInstalled
+queryInstalled
 
 approveForMyAccessBankOrg() {
     setGlobalForPeer0AccessBank
-    # set -x
-    peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org --tls \
+    set -x
+    peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org --tls --connTimeout 180s \
     --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID}
         
-    # set +x
+    set +x
 
-    echo "===================== chaincode approved from AccessBank ===================== "
+    echo "===================== chaincode approved from AccessBank Org ===================== "
 
 }
 
@@ -88,7 +88,7 @@ approveForMyGTBankOrg() {
     peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org --tls \
     --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID}
 
-    echo "===================== chaincode approved from GTBank ===================== "
+    echo "===================== chaincode approved from GTBank Org ===================== "
 }
 
 approveForMyZenithBankOrg() {
@@ -96,7 +96,7 @@ approveForMyZenithBankOrg() {
     peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org --tls \
     --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID}
 
-    echo "===================== chaincode approved from ZenithBank ===================== "
+    echo "===================== chaincode approved from ZenithBank Org ===================== "
 }
 
 approveForMyFirstBankOrg() {
@@ -104,8 +104,13 @@ approveForMyFirstBankOrg() {
     peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org --tls \
     --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID}
 
-    echo "===================== chaincode approved from FirstBank ===================== "
+    echo "===================== chaincode approved from FirstBank Org ===================== "
 }
+
+approveForMyAccessBankOrg
+approveForMyGTBankOrg
+approveForMyZenithBankOrg
+approveForMyFirstBankOrg
 
 checkCommitReadyness() {
     setGlobalForPeer0AccessBank
@@ -118,7 +123,23 @@ checkCommitReadyness() {
 
 checkCommitReadyness
 
-# approveForMyAccessBankOrg
-# approveForMyGTBankOrg
-# approveForMyZenithBankOrg
-# approveForMyFirstBankOrg
+commitChaincodeDefination() {
+    setGlobalForPeer0AccessBank
+    peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
+        --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA \
+        --channelID $CHANNEL_NAME --name ${CC_NAME} \
+        --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0ACCESSBANK_CA \
+        --peerAddresses localhost:8051 --tlsRootCertFiles $PEER0GTBANK_CA \
+        --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0ZENITHBANK_CA \
+        --version ${VERSION} --sequence ${VERSION}
+}
+
+commitChaincodeDefination
+
+queryCommitted() {
+    setGlobalForPeer0AccessBank
+    peer lifecycle chaincode querycommitted --channelID $CHANNEL_NAME --name ${CC_NAME}
+
+}
+
+queryCommitted

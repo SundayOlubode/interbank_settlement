@@ -4,6 +4,7 @@ export ORDERER_CA=${PWD}/crypto-config/ordererOrganizations/cbn.naijachain.org/o
 # export ORDERER_CA=${PWD}/crypto-config/ordererOrganizations/cbn.naijachain.org/tlsca/tlsca.cbn.naijachain.org-cert.pem
 export CHANNEL_NAME="retailchannel"
 export CORE_PEER_TLS_ENABLED=true
+CC_NAME="account"
 
 # Set the TLS root cert for peers on each bank
 export PEER0ACCESSBANK_CA=${PWD}/crypto-config/peerOrganizations/accessbank.naijachain.org/peers/peer0.accessbank.naijachain.org/tls/ca.crt
