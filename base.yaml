@@ -1,20 +1,25 @@
-version: "2"
 services:
   peer-base:
     image: hyperledger/fabric-peer:$IMAGE_TAG
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=retail
-      - CORE_LOGGING_LEVEL=INFO
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_retail
+      - FABRIC_LOGGING_SPEC=DEBUG
       - CORE_PEER_GOSSIP_USELEADERELECTION=false
       - CORE_PEER_GOSSIP_ORGLEADER=true
-      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/crypto/peer/msp
+      # - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
       - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/crypto/peer/tls/server.key
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/crypto/peer/tls/server.crt
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/peer/tls/ca.crt
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/ca.crt
+      - ORDERER_TLS_HOSTNAME_OVERRIDE=orderer.cbn.naijachain.org
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start
     volumes:
-      - /var/run/:/host/var/run/
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      # Scripts and Artifacts
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/
+      - ./cli_scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./contracts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/contracts/

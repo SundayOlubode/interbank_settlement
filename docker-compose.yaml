@@ -36,20 +36,11 @@ services:
 
   peer0.accessbank.naijachain.org:
     container_name: peer0.accessbank.naijachain.org
-    image: hyperledger/fabric-peer:$IMAGE_TAG
+    extends:
+      file: base.yaml
+      service: peer-base
     environment:
-      #Generic peer variables
-      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_retail
-      # - FABRIC_LOGGING_SPEC=INFO
-      - FABRIC_LOGGING_SPEC=DEBUG
-      - CORE_PEER_TLS_ENABLED=true
       # - CORE_PEER_PROFILE_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/ca.crt
-      # Orderer specific variabes
-      - ORDERER_TLS_HOSTNAME_OVERRIDE=orderer.cbn.naijachain.org
       # Peer specific variabes
       - CORE_PEER_ID=peer0.accessbank.naijachain.org
       - CORE_PEER_ADDRESS=peer0.accessbank.naijachain.org:7051
@@ -58,13 +49,8 @@ services:
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.accessbank.naijachain.org:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.accessbank.naijachain.org:7051
-      - CORE_PEER_GOSSIP_USELEADERELECTION=false
-      - CORE_PEER_GOSSIP_ORGLEADER=true
       - CORE_PEER_LOCALMSPID=AccessBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
-    command: peer node start
     ports:
       - 7051:7051
       - 7053:7053
@@ -73,11 +59,6 @@ services:
       - ./crypto-config/peerOrganizations/accessbank.naijachain.org/peers/peer0.accessbank.naijachain.org/msp:/etc/hyperledger/peer/msp
       - ./crypto-config/peerOrganizations/accessbank.naijachain.org/peers/peer0.accessbank.naijachain.org/tls/:/etc/hyperledger/peer/tls
       - peer0.accessbank.naijachain.org:/var/hyperledger/production
-      # Scripts and Artifacts
-      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/
-      - ./cli_scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
-      - ./contracts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/contracts/
     networks:
       retail:
         aliases:
@@ -87,20 +68,11 @@ services:
 
   peer0.gtbank.naijachain.org:
     container_name: peer0.gtbank.naijachain.org
-    image: hyperledger/fabric-peer:$IMAGE_TAG
+    extends:
+      file: base.yaml
+      service: peer-base
     environment:
-      #Generic peer variables
-      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_retail
-      # - FABRIC_LOGGING_SPEC=INFO
-      - FABRIC_LOGGING_SPEC=DEBUG
-      - CORE_PEER_TLS_ENABLED=true
       # - CORE_PEER_PROFILE_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/ca.crt
-      # Orderer specific variabes
-      - ORDERER_TLS_HOSTNAME_OVERRIDE=orderer.cbn.naijachain.org
       # Peer specific variabes
       - CORE_PEER_ID=peer0.gtbank.naijachain.org
       - CORE_PEER_ADDRESS=peer0.gtbank.naijachain.org:8051
@@ -109,13 +81,8 @@ services:
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.gtbank.naijachain.org:8051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.gtbank.naijachain.org:8051
-      - CORE_PEER_GOSSIP_USELEADERELECTION=false
-      - CORE_PEER_GOSSIP_ORGLEADER=true
       - CORE_PEER_LOCALMSPID=GTBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
-    command: peer node start
     ports:
       - 8051:8051
       - 8053:8053
@@ -124,11 +91,6 @@ services:
       - ./crypto-config/peerOrganizations/gtbank.naijachain.org/peers/peer0.gtbank.naijachain.org/msp:/etc/hyperledger/peer/msp
       - ./crypto-config/peerOrganizations/gtbank.naijachain.org/peers/peer0.gtbank.naijachain.org/tls/:/etc/hyperledger/peer/tls
       - peer0.gtbank.naijachain.org:/var/hyperledger/production
-      # Scripts and Artifacts
-      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/
-      - ./cli_scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
-      - ./contracts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/contracts/
     networks:
       retail:
         aliases:
@@ -138,20 +100,11 @@ services:
 
   peer0.zenithbank.naijachain.org:
     container_name: peer0.zenithbank.naijachain.org
-    image: hyperledger/fabric-peer:$IMAGE_TAG
+    extends:
+      file: base.yaml
+      service: peer-base
     environment:
-      #Generic peer variables
-      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_retail
-      # - FABRIC_LOGGING_SPEC=INFO
-      - FABRIC_LOGGING_SPEC=DEBUG
-      - CORE_PEER_TLS_ENABLED=true
       # - CORE_PEER_PROFILE_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/ca.crt
-      # Orderer specific variabes
-      - ORDERER_TLS_HOSTNAME_OVERRIDE=orderer.cbn.naijachain.org
       # Peer specific variabes
       - CORE_PEER_ID=peer0.zenithbank.naijachain.org
       - CORE_PEER_ADDRESS=peer0.zenithbank.naijachain.org:9051
@@ -160,13 +113,8 @@ services:
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.zenithbank.naijachain.org:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.zenithbank.naijachain.org:9051
-      - CORE_PEER_GOSSIP_USELEADERELECTION=false
-      - CORE_PEER_GOSSIP_ORGLEADER=true
       - CORE_PEER_LOCALMSPID=ZenithBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
-    command: peer node start
     ports:
       - 9051:9051
       - 9053:9053
@@ -175,11 +123,6 @@ services:
       - ./crypto-config/peerOrganizations/zenithbank.naijachain.org/peers/peer0.zenithbank.naijachain.org/msp:/etc/hyperledger/peer/msp
       - ./crypto-config/peerOrganizations/zenithbank.naijachain.org/peers/peer0.zenithbank.naijachain.org/tls/:/etc/hyperledger/peer/tls
       - peer0.zenithbank.naijachain.org:/var/hyperledger/production
-      # Scripts and Artifacts
-      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/
-      - ./cli_scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
-      - ./contracts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/contracts/
     networks:
       retail:
         aliases:
@@ -189,20 +132,11 @@ services:
 
   peer0.firstbank.naijachain.org:
     container_name: peer0.firstbank.naijachain.org
-    image: hyperledger/fabric-peer:$IMAGE_TAG
+    extends:
+      file: base.yaml
+      service: peer-base
     environment:
-      #Generic peer variables
-      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_retail
-      # - FABRIC_LOGGING_SPEC=INFO
-      - FABRIC_LOGGING_SPEC=DEBUG
-      - CORE_PEER_TLS_ENABLED=true
       # - CORE_PEER_PROFILE_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/ca.crt
-      # Orderer specific variabes
-      - ORDERER_TLS_HOSTNAME_OVERRIDE=orderer.cbn.naijachain.org
       # Peer specific variabes
       - CORE_PEER_ID=peer0.firstbank.naijachain.org
       - CORE_PEER_ADDRESS=peer0.firstbank.naijachain.org:10051
@@ -215,9 +149,6 @@ services:
       - CORE_PEER_GOSSIP_ORGLEADER=true
       - CORE_PEER_LOCALMSPID=FirstBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
-    command: peer node start
     ports:
       - 10051:10051
       - 10053:10053
@@ -226,11 +157,6 @@ services:
       - ./crypto-config/peerOrganizations/firstbank.naijachain.org/peers/peer0.firstbank.naijachain.org/msp:/etc/hyperledger/peer/msp
       - ./crypto-config/peerOrganizations/firstbank.naijachain.org/peers/peer0.firstbank.naijachain.org/tls/:/etc/hyperledger/peer/tls
       - peer0.firstbank.naijachain.org:/var/hyperledger/production
-      # Scripts and Artifacts
-      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/
-      - ./cli_scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
-      - ./contracts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/contracts/
     networks:
       retail:
         aliases:
