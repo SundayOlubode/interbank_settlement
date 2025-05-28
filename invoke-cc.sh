@@ -16,7 +16,9 @@ chaincodeCreateAccount(){
         -c '{"function": "CreateAccount", "Args":["500000"]}'
 }
 
-# chaincodeCreateAccount
+chaincodeCreateAccount
+
+sleep 2
 
 readAccountBalance(){
     setGlobalForPeer0AccessBank
