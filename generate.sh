@@ -1,4 +1,4 @@
-export FABRIC_CFG_PATH=$(pwd)/config
+export FABRIC_CFG_PATH=${PWD}
 
 set -x
 

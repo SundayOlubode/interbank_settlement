@@ -4,6 +4,10 @@ OrdererOrgs:
     EnableNodeOUs: true
     Specs:
       - Hostname: orderer
+        SANS:
+          - "localhost"
+          - "127.0.0.1"
+      
 
 PeerOrgs:
   - Name: AccessBankOrg
@@ -11,6 +15,8 @@ PeerOrgs:
     EnableNodeOUs: true
     Template:
       Count: 1
+      SANS:
+        - "localhost"
     Users:
       Count: 1
 
@@ -19,6 +25,8 @@ PeerOrgs:
     EnableNodeOUs: true
     Template:
       Count: 1
+      SANS:
+        - "localhost"
     Users:
       Count: 1
 
@@ -27,6 +35,8 @@ PeerOrgs:
     EnableNodeOUs: true
     Template:
       Count: 1
+      SANS:
+        - "localhost"
     Users:
       Count: 1
 
@@ -35,5 +45,7 @@ PeerOrgs:
     EnableNodeOUs: true
     Template:
       Count: 1
+      SANS:
+        - "localhost"
     Users:
       Count: 1
