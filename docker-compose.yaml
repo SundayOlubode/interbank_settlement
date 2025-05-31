@@ -34,6 +34,54 @@ services:
         aliases:
           - orderer.cbn.naijachain.org
 
+  couchdb0:
+    container_name: couchdb0
+    image: hyperledger/fabric-couchdb
+    platform: linux/amd64
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 5984:5984
+    networks:
+      - retail
+
+  couchdb1:
+    container_name: couchdb1
+    image: hyperledger/fabric-couchdb
+    platform: linux/amd64
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 6984:5984
+    networks:
+      - retail
+
+  couchdb2:
+    container_name: couchdb2
+    image: hyperledger/fabric-couchdb
+    platform: linux/amd64
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 7984:5984
+    networks:
+      - retail
+
+  couchdb3:
+    container_name: couchdb3
+    image: hyperledger/fabric-couchdb
+    platform: linux/amd64
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 8984:5984
+    networks:
+      - retail
+
   peer0.accessbank.naijachain.org:
     container_name: peer0.accessbank.naijachain.org
     extends:
@@ -51,6 +99,11 @@ services:
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.accessbank.naijachain.org:7051
       - CORE_PEER_LOCALMSPID=AccessBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
+      # State database
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     ports:
       - 7051:7051
       - 7053:7053
@@ -65,6 +118,7 @@ services:
           - peer0.accessbank.naijachain.org
     depends_on:
       - orderer.cbn.naijachain.org
+      - couchdb0
 
   peer0.gtbank.naijachain.org:
     container_name: peer0.gtbank.naijachain.org
@@ -83,6 +137,11 @@ services:
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.gtbank.naijachain.org:8051
       - CORE_PEER_LOCALMSPID=GTBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
+      # State database
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     ports:
       - 8051:8051
       - 8053:8053
@@ -97,6 +156,7 @@ services:
           - peer0.gtbank.naijachain.org
     depends_on:
       - peer0.accessbank.naijachain.org
+      - couchdb1
 
   peer0.zenithbank.naijachain.org:
     container_name: peer0.zenithbank.naijachain.org
@@ -115,6 +175,11 @@ services:
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.zenithbank.naijachain.org:9051
       - CORE_PEER_LOCALMSPID=ZenithBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
+      # State database
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb2:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     ports:
       - 9051:9051
       - 9053:9053
@@ -129,6 +194,7 @@ services:
           - peer0.zenithbank.naijachain.org
     depends_on:
       - peer0.gtbank.naijachain.org
+      - couchdb2
 
   peer0.firstbank.naijachain.org:
     container_name: peer0.firstbank.naijachain.org
@@ -149,6 +215,11 @@ services:
       - CORE_PEER_GOSSIP_ORGLEADER=true
       - CORE_PEER_LOCALMSPID=FirstBankMSP
       # - CORE_OPERATIONS_LISTENADDRESS=
+      # State database
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb3:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     ports:
       - 10051:10051
       - 10053:10053
@@ -163,6 +234,7 @@ services:
           - peer0.firstbank.naijachain.org
     depends_on:
       - peer0.zenithbank.naijachain.org
+      - couchdb3
 
 volumes:
   orderer.cbn.naijachain.org:
