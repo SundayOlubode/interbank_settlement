@@ -67,7 +67,6 @@ func (c *PaymentsContract) CreatePayment(ctx contractapi.TransactionContextInter
 		return err
 	}
 
-	// Basic sanity
 	if details.Amount <= 0 {
 		return fmt.Errorf("amount must be > 0")
 	}
