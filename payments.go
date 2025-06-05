@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
+	// "strings"
+
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
@@ -45,7 +47,7 @@ func collectionName(mspA, mspB string) string {
 // The private JSON is expected in transient map under key "payment".
 func (c *PaymentsContract) CreatePayment(ctx contractapi.TransactionContextInterface, paymentID string) error {
 	// 1. Pull MSP ID of invoker (payer)
-	_, err := ctx.GetClientIdentity().GetMSPID()
+	clientMSP, err := ctx.GetClientIdentity().GetMSPID()
 	if err != nil {
 		return err
 	}
@@ -79,27 +81,19 @@ func (c *PaymentsContract) CreatePayment(ctx contractapi.TransactionContextInter
 		return err
 	}
 
-	// 7. Write public stub
-	stub := PaymentStub{
+	// 7. Write public stub (hash is supplied by client to avoid re‑hash on chain, saving compute)
+	stubJSON, _ := json.Marshal(PaymentStub{
 		ID:        paymentID,
 		Hash:      details.Hash,
 		PayerMSP:  details.PayerMSP,
 		PayeeMSP:  details.PayeeMSP,
 		Status:    "PENDING",
 		Timestamp: details.Timestamp,
-	}
-	stubBytes, _ := json.Marshal(stub)
-	ctx.GetStub().PutState(paymentID, stubBytes)
+	})
 
-	// 8. Emit MINIMAL event — no amount, no account numbers
-	evt := struct {
-		ID       string `json:"id"`
-		PayeeMSP string `json:"payeeMSP"`
-	}{
-		ID:       paymentID,
-		PayeeMSP: details.PayeeMSP,
-	}
-	evtBytes, _ := json.Marshal(evt)
+	ctx.GetStub().PutState(paymentID, stubJSON)
+
+	evtBytes, _ := json.Marshal(stubJSON)
 	return ctx.GetStub().SetEvent("PaymentPending", evtBytes) // Event name + payload
 }
 
@@ -115,40 +109,6 @@ func (c *PaymentsContract) SettlePayment(ctx contractapi.TransactionContextInter
 	stub.Status = "SETTLED"
 	newBytes, _ := json.Marshal(stub)
 	return ctx.GetStub().PutState(paymentID, newBytes)
-}
-
-// GetPrivatePayment returns the full private-payload for a payment.
-// Access is automatically restricted to organisations that are
-// members of the bilateral collection (peers outside the policy
-// will receive a collection-access error).
-func (c *PaymentsContract) GetPrivatePayment(
-	ctx contractapi.TransactionContextInterface,
-	paymentID string) (string, error) { // Change []byte to string
-
-	// Step-1 Look up the public stub so we know payer/payee MSPs
-	stubBytes, err := ctx.GetStub().GetState(paymentID)
-	if err != nil || stubBytes == nil {
-		return "", fmt.Errorf("payment %s not found", paymentID)
-	}
-
-	var stub PaymentStub
-	if err := json.Unmarshal(stubBytes, &stub); err != nil {
-		return "", err
-	}
-
-	// Step-2 Derive the bilateral collection name
-	coll := collectionName(stub.PayerMSP, stub.PayeeMSP)
-
-	// Step-3 Fetch the private payload
-	payBytes, err := ctx.GetStub().GetPrivateData(coll, paymentID)
-	if err != nil {
-		return "", err
-	}
-	if payBytes == nil {
-		return "", fmt.Errorf("no private data in %s for %s", coll, paymentID)
-	}
-
-	return string(payBytes), nil // Convert to string
 }
 
 // ReadPayment returns the public stub.

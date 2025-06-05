@@ -5,6 +5,10 @@ source ./env-vars.sh
 
 export MSPCONFIGPATHCBN=${PWD}/crypto-config/ordererOrganizations/cbn.naijachain.org/users/Admin@cbn.naijachain.org/msp
 
+export PRIVATE_DATA_CONFIG=${PWD}/private-data/collections_config.json
+
+CC_POLICY="OutOf(2, 'AccessBankMSP.peer', 'GTBankMSP.peer', 'ZenithBankMSP.peer', 'FirstBankMSP.peer')"
+
 setGlobalsForOrderer() {
   export CORE_PEER_LOCALMSPID="CentralBankMSP"
   export CORE_PEER_TLS_ROOTCERT_FILE=$ORDERER_CA
@@ -56,6 +60,8 @@ installChaincode() {
     setGlobalForPeerFirstBank
     peer lifecycle chaincode install ${CC_NAME}.tar.gz
     echo "===================== Chaincode is installed on peer0.firstbank ===================== "
+
+    echo -e "\n\n"
 }
 
 installChaincode
@@ -67,6 +73,8 @@ queryInstalled() {
     PACKAGE_ID=$(sed -n "/${CC_NAME}_${VERSION}/{s/^Package ID: //; s/, Label:.*$//; p;}" log.txt)
     echo PackageID is ${PACKAGE_ID}
     echo "===================== Query installed successful on peer0.accessbank on channel ===================== "
+
+    echo -e "\n\n"
 }
 
 queryInstalled
@@ -74,37 +82,57 @@ queryInstalled
 approveForMyAccessBankOrg() {
     setGlobalForPeer0AccessBank
     set -x
-    peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org --tls --connTimeout 180s \
-    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID}
+    peer lifecycle chaincode approveformyorg -o localhost:7050 \
+    --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
+    --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
+    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
+    --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
+    --signature-policy "$CC_POLICY"
         
     set +x
 
     echo "===================== chaincode approved from AccessBank Org ===================== "
 
+    echo -e "\n\n"
 }
 
 approveForMyGTBankOrg() {
     setGlobalForPeer0GTBank
-    peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org --tls \
-    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID}
+    peer lifecycle chaincode approveformyorg -o localhost:7050 \
+    --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
+    --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
+    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
+    --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
+    --signature-policy "$CC_POLICY"
 
     echo "===================== chaincode approved from GTBank Org ===================== "
+    echo -e "\n\n"
 }
 
 approveForMyZenithBankOrg() {
     setGlobalForPeer0ZenithBank
-    peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org --tls \
-    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID}
+    peer lifecycle chaincode approveformyorg -o localhost:7050 \
+    --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
+    --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
+    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
+    --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
+    --signature-policy "$CC_POLICY"
 
     echo "===================== chaincode approved from ZenithBank Org ===================== "
+    echo -e "\n\n"
 }
 
 approveForMyFirstBankOrg() {
     setGlobalForPeerFirstBank
-    peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org --tls \
-    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID}
+    peer lifecycle chaincode approveformyorg -o localhost:7050 \
+    --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
+    --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
+    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
+    --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
+    --signature-policy "$CC_POLICY"
 
     echo "===================== chaincode approved from FirstBank Org ===================== "
+    echo -e "\n\n"
 }
 
 approveForMyAccessBankOrg
@@ -116,9 +144,11 @@ checkCommitReadyness() {
     setGlobalForPeer0AccessBank
 
     peer lifecycle chaincode checkcommitreadiness \
+        --collections-config $PRIVATE_DATA_CONFIG \
         --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} \
         --sequence ${VERSION} --output json
     echo "===================== checking commit readyness from access ===================== "
+    echo -e "\n\n"
 }
 
 checkCommitReadyness
@@ -128,10 +158,14 @@ commitChaincodeDefination() {
     peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
         --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA \
         --channelID $CHANNEL_NAME --name ${CC_NAME} \
+        --collections-config $PRIVATE_DATA_CONFIG \
         --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0ACCESSBANK_CA \
         --peerAddresses localhost:8051 --tlsRootCertFiles $PEER0GTBANK_CA \
         --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0ZENITHBANK_CA \
-        --version ${VERSION} --sequence ${VERSION}
+        --version ${VERSION} --sequence ${VERSION} \
+        --signature-policy "$CC_POLICY"
+
+    echo -e "\n\n"
 }
 
 commitChaincodeDefination
@@ -140,6 +174,7 @@ queryCommitted() {
     setGlobalForPeer0AccessBank
     peer lifecycle chaincode querycommitted --channelID $CHANNEL_NAME --name ${CC_NAME}
 
+    echo "\n\n"
 }
 
 queryCommitted

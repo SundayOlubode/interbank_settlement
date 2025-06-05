@@ -2,6 +2,16 @@ set -e
 
 source ./env-vars.sh
 
+#if peer docker containers are running, start docker containers with docker-compose up -d
+if [ "$(docker ps -q -f name=peer0.accessbank.naijachain.org)" ]; then
+	echo "Peer containers are already running."
+else
+	echo "Starting peer containers..."
+	docker-compose -f docker-compose.yaml up -d
+fi
+
+sleep 3
+
 echo $FABRIC_CFG_PATH
 
 # Create the channel

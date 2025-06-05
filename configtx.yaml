@@ -150,7 +150,7 @@ Orderer: &OrdererDefaults
   Addresses:
     - orderer.cbn.naijachain.org:7050
 
-  BatchTimeout: 2s
+  BatchTimeout: 1s
 
   BatchSize:
     MaxMessageCount: 10
