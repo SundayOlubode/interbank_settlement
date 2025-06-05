@@ -18,6 +18,17 @@ dotenv.config();
 
 const utf8Decoder = new TextDecoder();
 
+const userAccounts = {
+  "3331144777": {
+    name: "Pius Ezekiel",
+    balance: 20000,
+  },
+  "3331144666": {
+    name: "Joshua Malong",
+    balance: 45000,
+  },
+}
+
 /* ---------- env / constants ------------------------------------------------ */
 const MSP_ID = process.env.GTBANK_MSP_ID ?? "GTBankMSP";
 const PEER_ENDPOINT = process.env.GTBANK_PEER_ENDPOINT ?? "localhost:8051";
@@ -63,11 +74,19 @@ async function processPaymentEvent(evt, contract, cp) {
   // Remove the Buffer conversion since it's now a string
   const payBytes = await contract.evaluateTransaction("GetPrivatePayment", id);
   const pay = JSON.parse(Buffer.from(payBytes).toString("utf8"));
-  console.log(`Payment details:`, pay);
 
-  // now you have pay.amount, pay.payeeAcct, etc.
   // await creditCoreLedger(pay.payeeAcct, pay.amount);
-  console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);
+  if (!userAccounts[pay.payeeAcct]) {
+    console.error(`Account ${pay.payeeAcct} not found`);
+    return;
+  }
+
+  userAccounts[pay.payeeAcct].balance += pay.amount;
+  console.log(
+    `Credited account ${pay.payeeAcct} (${userAccounts[pay.payeeAcct].name}) with ₦${pay.amount}. New balance: ₦${userAccounts[pay.payeeAcct].balance}`
+  );
+
+  // console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);
 
   await contract.submitTransaction("SettlePayment", id);
   console.log(`Payment ${id} marked as SETTLED`);

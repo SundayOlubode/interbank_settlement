@@ -16,8 +16,21 @@ import * as grpc from "@grpc/grpc-js";
 import * as dotenv from "dotenv";
 dotenv.config();
 import { buildQsccHelpers } from "./helper/qcss.js";
+import { extractSimpleBlockData } from "./helper/extract-block-data.js";
+import pkg from "@hyperledger/fabric-protos";
 
 const utf8Decoder = new TextDecoder();
+
+const userAccounts = {
+  "0506886519": {
+    name: "Jubril Alan",
+    balance: 20000,
+  },
+  "0506886390": {
+    name: "Sinmi Tanson",
+    balance: 45000,
+  },
+}
 
 /* ---------- env / constants ------------------------------------------------ */
 const MSP_ID = process.env.ACCESSBANK_MSP_ID ?? "AccessBankMSP";
@@ -79,18 +92,6 @@ async function processPaymentEvent(evt, contract, cp) {
   console.log(`Payment ${id} marked as SETTLED`);
 
   await cp.checkpointChaincodeEvent(evt);
-
-  // // 1. credit core ledger (placeholder)
-  // console.log(`Crediting ${payload.payeeAcct} with ₦${payload.amount}`);
-
-  // // 2. mark SETTLED on‑chain (idempotent)
-  // await contract.submitTransaction("SettlePayment", payload.id);
-
-  // // 3. push mobile notification (placeholder)
-  // console.log(`Push notification → acct ${payload.payeeAcct}`);
-
-  // // 4. checkpoint last processed event
-  // await cp.checkpointChaincodeEvent(evt);
 }
 
 async function startListener(gateway) {
@@ -130,6 +131,30 @@ app.post("/payments", async (req, res) => {
     const contract = network.getContract(CHAINCODE);
 
     const { payerAcct, payeeMSP, payeeAcct, amount } = req.body;
+
+    if(!userAccounts[payerAcct]) {
+      return res.status(400).json({
+        error: "Invalid payer account",
+        message: `Account ${payerAcct} does not exist`,
+      });
+    }
+
+    const payerBalance = userAccounts[payerAcct].balance;
+
+    if (payerBalance < amount) {
+      return res.status(400).json({
+        error: "Insufficient funds",
+        message: `Account ${payerAcct} has insufficient funds (₦${payerBalance}) for this transaction (₦${amount})`,
+      });
+    }
+    
+    // Deduct amount from payer's account
+    userAccounts[payerAcct].balance -= amount;
+    console.log(
+      `Debited account ${payerAcct} (${userAccounts[payerAcct].name}) with ₦${amount}. New balance: ₦${userAccounts[payerAcct].balance}`
+    );
+
+    // console.log(`Debiting ${payerAcct} with ₦${amount}`);
     const paymentID = crypto.randomUUID().toString();
 
     const payJson = JSON.stringify({
@@ -171,34 +196,172 @@ app.post("/payments/:id/settle", async (req, res) => {
   }
 });
 
-// GET /blocks  → return *all* blocks (simple demo; streams JSON array)
-app.get('/blocks', async (_req, res) => {
+// API endpoint to get ALL data in a private collection
+app.get("/private-data/:collection/all", async (req, res) => {
+  const { collection } = req.params;
+
+  try {
+    const network = gatewayGlobal.getNetwork(CHANNEL);
+    const contract = network.getContract(CHAINCODE);
+
+    // Call chaincode function to get ALL private data (no range specified)
+    const result = await contract.evaluateTransaction(
+      "GetAllPrivateData",
+      collection
+    );
+
+    const privateDataList = JSON.parse(Buffer.from(result).toString("utf8"));
+
+    res.json({
+      collection: collection,
+      totalRecords: privateDataList.length,
+      data: privateDataList,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("Error getting all private data:", error);
+    res.status(500).json({
+      error: "Could not retrieve all private data",
+      message: error.message,
+      collection: collection,
+    });
+  }
+});
+
+// Complete /blocks route implementation
+app.get("/blocks", async (req, res) => {
+  const {
+    businessOnly = false,
+    chaincodeName = null,
+    txType = null,
+    startBlock = null,
+    endBlock = null,
+  } = req.query;
+
+  let height;
   try {
     const chainInfo = await qscc.getChainInfo();
-    const height = chainInfo.getHeight();
-
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write('['); // start array
-    for await (const blk of qscc.iterateBlocks()) {
-      const num = blk.getHeader()?.getNumber();
-      const txCount = blk.getData()?.getDataList().length ?? 0;
-      res.write(JSON.stringify({ number: num, txCount }));
-      if (num < height - 1n) res.write(',');
-    }
-    res.end(']');
+    height = chainInfo.getHeight();
+    height = typeof height === "bigint" ? Number(height) : height;
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Could not fetch blocks' });
+    console.error("Error fetching chain info:", err);
+    return res.status(500).json({ error: "Could not fetch chain info" });
+  }
+
+  console.log(`Streaming ${height} blocks with transaction data...`);
+  console.log("Filters:", {
+    businessOnly,
+    chaincodeName,
+    txType,
+    startBlock,
+    endBlock,
+  });
+
+  // Set response headers for streaming JSON
+  res.writeHead(200, {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET",
+    "Access-Control-Allow-Headers": "Content-Type",
+  });
+  res.write("[");
+
+  let isFirstBlock = true;
+  let processedBlocks = 0;
+
+  try {
+    for await (const block of qscc.iterateBlocks()) {
+      const blockData = extractSimpleBlockData(block);
+
+      // Apply block range filter
+      if (startBlock && blockData.blockNumber < parseInt(startBlock)) {
+        continue;
+      }
+      if (endBlock && blockData.blockNumber > parseInt(endBlock)) {
+        break;
+      }
+
+      // Filter transactions if requested
+      if (businessOnly || chaincodeName || txType) {
+        const originalTxCount = blockData.transactions.length;
+
+        blockData.transactions = blockData.transactions.filter((tx) => {
+          // Filter by transaction type
+          if (txType && tx.typeDescription !== txType) {
+            return false;
+          }
+
+          // For chaincode-related filters
+          if (businessOnly || chaincodeName) {
+            // Skip non-chaincode transactions
+            if (!tx.chaincodeData || tx.chaincodeData.length === 0) {
+              return !businessOnly;
+            }
+
+            return tx.chaincodeData.some((cc) => {
+              // Filter out lifecycle transactions if businessOnly is true
+              if (businessOnly && cc.isLifecycleTransaction) {
+                return false;
+              }
+
+              // Filter by chaincode name if specified
+              if (chaincodeName && cc.chaincodeName !== chaincodeName) {
+                return false;
+              }
+
+              return true;
+            });
+          }
+
+          return true;
+        });
+
+        // Add filter info to block data
+        blockData.filterInfo = {
+          originalTxCount: originalTxCount,
+          filteredTxCount: blockData.transactions.length,
+          filtersApplied: { businessOnly, chaincodeName, txType },
+        };
+      }
+
+      // Only include blocks that have transactions after filtering (or if no filters applied)
+      const shouldIncludeBlock =
+        (!businessOnly && !chaincodeName && !txType) ||
+        blockData.transactions.length > 0;
+
+      if (shouldIncludeBlock) {
+        if (!isFirstBlock) {
+          res.write(",");
+        }
+
+        res.write(JSON.stringify(blockData, null, 2));
+        isFirstBlock = false;
+        processedBlocks++;
+      }
+
+      // Optional: Add a limit to prevent overwhelming responses
+      if (processedBlocks >= 100) {
+        console.log("Reached maximum block limit (100), stopping...");
+        break;
+      }
+    }
+
+    res.end("]");
+    console.log(`Successfully streamed ${processedBlocks} blocks`);
+  } catch (loopErr) {
+    console.error("Error while streaming blocks:", loopErr);
+    // Close the JSON array so the client does not hang
+    res.end("]");
   }
 });
 
 // (optional) GET /blocks/:num  for single‑block detail
-app.get('/blocks/:num', async (req, res) => {
+app.get("/blocks/:num", async (req, res) => {
   try {
     const blk = await qscc.getBlockByNumber(req.params.num);
     res.json(blk.toJSON());
   } catch (err) {
-    res.status(404).json({ error: 'Block not found' });
+    res.status(404).json({ error: "Block not found" });
   }
 });
 
