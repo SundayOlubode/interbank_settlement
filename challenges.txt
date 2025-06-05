@@ -4,19 +4,6 @@
 
 
 
-on a side note, 
-
-2025-05-16 12:30:54.106 UTC 001a DEBU [msp] setupSigningIdentity -> Signing identity expires at 2035-05-14 12:26:00 +0000 UTC
-2025-05-16 12:30:54.106 UTC 001b INFO [nodeCmd] serve -> Starting peer:
- Version: v2.5.12
- Commit SHA: af0b647
- Go version: go1.23.5
- OS/Arch: linux/arm64
- Chaincode:
-  Base Docker Label: org.hyperledger.fabric
-  Docker Namespace: hyperledger
-
-this is a log from my peer, while the PLATFORM variable on my .env is:
-PLATFORM=darwin/arm64             # Ensures compatibility with your system architecture
-
-could this mismatch in  OS/Arch: linux/arm64 and $PLATFORM in the peer docker service be an issue?
+1. msp config path misconfiguration
+2. How to handle switching and bank users identification. How does it sync to the recipient user?
+3. Hyperledger-fabric gateway client

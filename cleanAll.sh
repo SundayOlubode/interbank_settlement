@@ -5,7 +5,11 @@ docker rm -f \
   peer0.zenithbank.naijachain.org \
   peer0.gtbank.naijachain.org \
   peer0.accessbank.naijachain.org \
-  orderer.cbn.naijachain.org
+  orderer.cbn.naijachain.org \
+  couchdb0 \
+  couchdb1 \
+  couchdb2 \
+  couchdb3 \
 
 docker volume rm $(docker volume ls -q | grep -i 'naijachain')
 docker volume prune
