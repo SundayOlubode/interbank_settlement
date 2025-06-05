@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
@@ -44,13 +45,13 @@ func collectionName(mspA, mspB string) string {
 // CreatePayment ‑ invoked by the payer bank.
 // The private JSON is expected in transient map under key "payment".
 func (c *PaymentsContract) CreatePayment(ctx contractapi.TransactionContextInterface, paymentID string) error {
-	// 1. Pull MSP ID of invoker (payer)
+	// Pull MSP ID of invoker (payer)
 	_, err := ctx.GetClientIdentity().GetMSPID()
 	if err != nil {
 		return err
 	}
 
-	// 2. Fetch transient map (private payload)
+	// Fetch transient map (private payload)
 	transient, err := ctx.GetStub().GetTransient()
 	if err != nil {
 		return err
@@ -60,26 +61,26 @@ func (c *PaymentsContract) CreatePayment(ctx contractapi.TransactionContextInter
 		return fmt.Errorf("missing payment transient field")
 	}
 
-	// 3. Unmarshal
+	// Unmarshal
 	var details PaymentDetails
 	if err := json.Unmarshal(dataBytes, &details); err != nil {
 		return err
 	}
 
-	// 4. Basic sanity
+	// Basic sanity
 	if details.Amount <= 0 {
 		return fmt.Errorf("amount must be > 0")
 	}
 
-	// 5. Determine bilateral collection
+	// Determine bilateral collection
 	coll := collectionName(details.PayerMSP, details.PayeeMSP)
 
-	// 6. Write private data
+	// Write private data
 	if err := ctx.GetStub().PutPrivateData(coll, paymentID, dataBytes); err != nil {
 		return err
 	}
 
-	// 7. Write public stub
+	// Write public stub
 	stub := PaymentStub{
 		ID:        paymentID,
 		Hash:      details.Hash,
@@ -91,7 +92,7 @@ func (c *PaymentsContract) CreatePayment(ctx contractapi.TransactionContextInter
 	stubBytes, _ := json.Marshal(stub)
 	ctx.GetStub().PutState(paymentID, stubBytes)
 
-	// 8. Emit MINIMAL event — no amount, no account numbers
+	// MINIMAL event
 	evt := struct {
 		ID       string `json:"id"`
 		PayeeMSP string `json:"payeeMSP"`
@@ -125,7 +126,7 @@ func (c *PaymentsContract) GetPrivatePayment(
 	ctx contractapi.TransactionContextInterface,
 	paymentID string) (string, error) { // Change []byte to string
 
-	// Step-1 Look up the public stub so we know payer/payee MSPs
+	// Look up the public stub so we know payer/payee MSPs
 	stubBytes, err := ctx.GetStub().GetState(paymentID)
 	if err != nil || stubBytes == nil {
 		return "", fmt.Errorf("payment %s not found", paymentID)
@@ -136,10 +137,10 @@ func (c *PaymentsContract) GetPrivatePayment(
 		return "", err
 	}
 
-	// Step-2 Derive the bilateral collection name
+	// Derive the bilateral collection name
 	coll := collectionName(stub.PayerMSP, stub.PayeeMSP)
 
-	// Step-3 Fetch the private payload
+	// Fetch the private payload
 	payBytes, err := ctx.GetStub().GetPrivateData(coll, paymentID)
 	if err != nil {
 		return "", err
@@ -149,6 +150,31 @@ func (c *PaymentsContract) GetPrivatePayment(
 	}
 
 	return string(payBytes), nil // Convert to string
+}
+
+// GetAllPrivateData returns all private data in a given collection.
+func (c *PaymentsContract) GetAllPrivateData(ctx contractapi.TransactionContextInterface, collection string) (string, error) {
+	// Simple range query with empty start/end keys
+	resultsIterator, err := ctx.GetStub().GetPrivateDataByRange(collection, "", "")
+	if err != nil {
+		return "", err
+	}
+	defer resultsIterator.Close()
+
+	var results []string
+
+	for resultsIterator.HasNext() {
+		queryResult, err := resultsIterator.Next()
+		if err != nil {
+			return "", err
+		}
+
+		record := fmt.Sprintf(`{"key":"%s","value":%s}`, queryResult.Key, string(queryResult.Value))
+		results = append(results, record)
+	}
+
+	// Return JSON array
+	return fmt.Sprintf("[%s]", strings.Join(results, ",")), nil
 }
 
 // ReadPayment returns the public stub.

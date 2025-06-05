@@ -17,9 +17,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import { buildQsccHelpers } from "./helper/qcss.js";
 import { extractSimpleBlockData } from "./helper/extract-block-data.js";
-import pkg from "@hyperledger/fabric-protos";
-
-const utf8Decoder = new TextDecoder();
 
 const userAccounts = {
   "0506886519": {
@@ -147,7 +144,7 @@ app.post("/payments", async (req, res) => {
         message: `Account ${payerAcct} has insufficient funds (₦${payerBalance}) for this transaction (₦${amount})`,
       });
     }
-    
+
     // Deduct amount from payer's account
     userAccounts[payerAcct].balance -= amount;
     console.log(

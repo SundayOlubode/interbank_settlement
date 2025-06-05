@@ -6,3 +6,4 @@
 
 1. msp config path misconfiguration
 2. How to handle switching and bank users identification. How does it sync to the recipient user?
+3. Hyperledger-fabric gateway client
