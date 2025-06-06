@@ -10,9 +10,9 @@ export PRIVATE_DATA_CONFIG=${PWD}/private-data/collections_config.json
 CC_POLICY="OutOf(2, 'AccessBankMSP.peer', 'GTBankMSP.peer', 'ZenithBankMSP.peer', 'FirstBankMSP.peer')"
 
 setGlobalsForOrderer() {
-  export CORE_PEER_LOCALMSPID="CentralBankMSP"
-  export CORE_PEER_TLS_ROOTCERT_FILE=$ORDERER_CA
-  export CORE_PEER_MSPCONFIGPATH=$MSPCONFIGPATHCBN
+    export CORE_PEER_LOCALMSPID="CentralBankMSP"
+    export CORE_PEER_TLS_ROOTCERT_FILE=$ORDERER_CA
+    export CORE_PEER_MSPCONFIGPATH=$MSPCONFIGPATHCBN
 }
 
 presetup() {
@@ -83,12 +83,12 @@ approveForMyAccessBankOrg() {
     setGlobalForPeer0AccessBank
     set -x
     peer lifecycle chaincode approveformyorg -o localhost:7050 \
-    --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
-    --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
-    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
-    --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
-    --signature-policy "$CC_POLICY"
-        
+        --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
+        --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
+        --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
+        --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
+        --signature-policy "$CC_POLICY"
+
     set +x
 
     echo "===================== chaincode approved from AccessBank Org ===================== "
@@ -99,11 +99,11 @@ approveForMyAccessBankOrg() {
 approveForMyGTBankOrg() {
     setGlobalForPeer0GTBank
     peer lifecycle chaincode approveformyorg -o localhost:7050 \
-    --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
-    --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
-    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
-    --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
-    --signature-policy "$CC_POLICY"
+        --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
+        --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
+        --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
+        --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
+        --signature-policy "$CC_POLICY"
 
     echo "===================== chaincode approved from GTBank Org ===================== "
     echo -e "\n\n"
@@ -112,11 +112,11 @@ approveForMyGTBankOrg() {
 approveForMyZenithBankOrg() {
     setGlobalForPeer0ZenithBank
     peer lifecycle chaincode approveformyorg -o localhost:7050 \
-    --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
-    --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
-    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
-    --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
-    --signature-policy "$CC_POLICY"
+        --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
+        --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
+        --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
+        --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
+        --signature-policy "$CC_POLICY"
 
     echo "===================== chaincode approved from ZenithBank Org ===================== "
     echo -e "\n\n"
@@ -125,11 +125,11 @@ approveForMyZenithBankOrg() {
 approveForMyFirstBankOrg() {
     setGlobalForPeerFirstBank
     peer lifecycle chaincode approveformyorg -o localhost:7050 \
-    --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
-    --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
-    --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
-    --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
-    --signature-policy "$CC_POLICY"
+        --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
+        --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
+        --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
+        --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
+        --signature-policy "$CC_POLICY"
 
     echo "===================== chaincode approved from FirstBank Org ===================== "
     echo -e "\n\n"
@@ -146,12 +146,14 @@ checkCommitReadyness() {
     peer lifecycle chaincode checkcommitreadiness \
         --collections-config $PRIVATE_DATA_CONFIG \
         --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} \
+        --collections-config $PRIVATE_DATA_CONFIG \
         --sequence ${VERSION} --output json
+
     echo "===================== checking commit readyness from access ===================== "
     echo -e "\n\n"
 }
 
-checkCommitReadyness
+# checkCommitReadyness
 
 commitChaincodeDefination() {
     setGlobalForPeer0AccessBank
