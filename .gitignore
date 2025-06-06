@@ -2,3 +2,4 @@ crypto-config/
 .env
 channel-artifacts/
 contracts/vendor/
+cli_scripts/
