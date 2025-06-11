@@ -20,14 +20,25 @@ const utf8Decoder = new TextDecoder();
 
 const userAccounts = {
   "3331144777": {
-    name: "Pius Ezekiel",
+    firstname: "Chiamaka",
+    lastname: "Nwankwo",
+    middlename: "Amarachi",
+    gender: "Female",
+    birthdate: "28-09-1993",
+    bvn: "24566788901",
     balance: 20000,
   },
   "3331144666": {
-    name: "Joshua Malong",
+    firstname: "Ibrahim",
+    lastname: "Muhammad",
+    middlename: "Abdulrahman",
+    gender: "Male",
+    phone: "08156789023",
+    birthdate: "10-01-1988",
+    bvn: "25677899012",
     balance: 45000,
   },
-}
+};
 
 /* ---------- env / constants ------------------------------------------------ */
 const MSP_ID = process.env.GTBANK_MSP_ID ?? "GTBankMSP";
@@ -83,7 +94,11 @@ async function processPaymentEvent(evt, contract, cp) {
 
   userAccounts[pay.payeeAcct].balance += pay.amount;
   console.log(
-    `Credited account ${pay.payeeAcct} (${userAccounts[pay.payeeAcct].name}) with ₦${pay.amount}. New balance: ₦${userAccounts[pay.payeeAcct].balance}`
+    `Credited account ${pay.payeeAcct} (${
+      userAccounts[pay.payeeAcct].name
+    }) with ₦${pay.amount}. New balance: ₦${
+      userAccounts[pay.payeeAcct].balance
+    }`
   );
 
   // console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);

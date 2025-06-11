@@ -1,5 +1,17 @@
 [
   {
+    "name": "col-BVN",
+    "policy": "OR('AccessBankMSP.member','GTBankMSP.member','ZenithBankMSP.member','FirstBankMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 4,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member', 'GTBankMSP.member', 'ZenithBankMSP.member', 'FirstBankMSP.member')"
+    }
+  },
+  {
     "name": "col-AccessBankMSP-GTBankMSP",
     "policy": "OR('AccessBankMSP.member','GTBankMSP.member')",
     "memberOnlyRead": true,

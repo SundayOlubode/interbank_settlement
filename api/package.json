@@ -4,8 +4,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-access": "nodemon accessapi.js",
-    "start-gtbank": "nodemon gtbankapi.js"
+    "access": "nodemon accessapi.js",
+    "gtbank": "nodemon gtbankapi.js"
   },
   "type": "module",
   "keywords": [],

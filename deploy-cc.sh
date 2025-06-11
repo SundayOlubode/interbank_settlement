@@ -17,7 +17,7 @@ setGlobalsForOrderer() {
 
 presetup() {
     echo Vendoring Go dependencies ...
-    pushd ./contracts
+    pushd ./chaincode
     rm -rf vendor
     GO111MODULE=on go mod vendor
     popd
@@ -28,7 +28,7 @@ presetup
 
 CC_RUNTIME_LANGUAGE="golang"
 VERSION="1"
-CC_SRC_PATH="./contracts"
+CC_SRC_PATH="./chaincode"
 CC_NAME="account"
 
 packageChaincode() {
@@ -46,19 +46,27 @@ packageChaincode
 
 installChaincode() {
     setGlobalForPeer0AccessBank
+    set -x
     peer lifecycle chaincode install ${CC_NAME}.tar.gz
+    set +x
     echo "===================== Chaincode is installed on peer0.accesbank ===================== "
 
     setGlobalForPeer0GTBank
+    set -x
     peer lifecycle chaincode install ${CC_NAME}.tar.gz
+    set +x
     echo "===================== Chaincode is installed on peer0.gtbank ===================== "
 
     setGlobalForPeer0ZenithBank
+    set -x
     peer lifecycle chaincode install ${CC_NAME}.tar.gz
+    set +x
     echo "===================== Chaincode is installed on peer0.zenithbank ===================== "
 
     setGlobalForPeerFirstBank
+    set -x
     peer lifecycle chaincode install ${CC_NAME}.tar.gz
+    set +x
     echo "===================== Chaincode is installed on peer0.firstbank ===================== "
 
     echo -e "\n\n"
@@ -87,7 +95,7 @@ approveForMyAccessBankOrg() {
         --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
         --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
         --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
-        --signature-policy "$CC_POLICY"
+        --init-required --signature-policy "$CC_POLICY"
 
     set +x
 
@@ -103,7 +111,7 @@ approveForMyGTBankOrg() {
         --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
         --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
         --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
-        --signature-policy "$CC_POLICY"
+        --init-required --signature-policy "$CC_POLICY"
 
     echo "===================== chaincode approved from GTBank Org ===================== "
     echo -e "\n\n"
@@ -116,7 +124,7 @@ approveForMyZenithBankOrg() {
         --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
         --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
         --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
-        --signature-policy "$CC_POLICY"
+        --init-required --signature-policy "$CC_POLICY"
 
     echo "===================== chaincode approved from ZenithBank Org ===================== "
     echo -e "\n\n"
@@ -129,7 +137,7 @@ approveForMyFirstBankOrg() {
         --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
         --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
         --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
-        --signature-policy "$CC_POLICY"
+        --init-required --signature-policy "$CC_POLICY"
 
     echo "===================== chaincode approved from FirstBank Org ===================== "
     echo -e "\n\n"
@@ -147,13 +155,13 @@ checkCommitReadyness() {
         --collections-config $PRIVATE_DATA_CONFIG \
         --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} \
         --collections-config $PRIVATE_DATA_CONFIG \
-        --sequence ${VERSION} --output json
+        --sequence ${VERSION} --init-required --output json
 
     echo "===================== checking commit readyness from access ===================== "
     echo -e "\n\n"
 }
 
-# checkCommitReadyness
+checkCommitReadyness
 
 commitChaincodeDefination() {
     setGlobalForPeer0AccessBank
@@ -165,7 +173,7 @@ commitChaincodeDefination() {
         --peerAddresses localhost:8051 --tlsRootCertFiles $PEER0GTBANK_CA \
         --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0ZENITHBANK_CA \
         --version ${VERSION} --sequence ${VERSION} \
-        --signature-policy "$CC_POLICY"
+        --init-required --signature-policy "$CC_POLICY"
 
     echo -e "\n\n"
 }
@@ -174,7 +182,9 @@ commitChaincodeDefination
 
 queryCommitted() {
     setGlobalForPeer0AccessBank
+    set -x
     peer lifecycle chaincode querycommitted --channelID $CHANNEL_NAME --name ${CC_NAME}
+    set +x
 
     echo "\n\n"
 }
