@@ -7,9 +7,18 @@ OrdererOrgs:
         SANS:
           - "localhost"
           - "127.0.0.1"
-      
 
 PeerOrgs:
+  - Name: CentralBankOrg # logical peer org name
+    Domain: cbn.naijachain.org # shares the same domain
+    EnableNodeOUs: true
+    Template:
+      Count: 1 # peer0.cbn.naijachain.org
+      SANS:
+        - "localhost"
+    Users:
+      Count: 1 # admin / user1 certificates
+
   - Name: AccessBankOrg
     Domain: accessbank.naijachain.org
     EnableNodeOUs: true

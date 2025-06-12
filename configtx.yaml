@@ -15,9 +15,16 @@ Organizations:
       Admins:
         Type: Signature
         Rule: "OR('CentralBankMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('CentralBankMSP.peer')"
 
     OrdererEndpoints:
       - orderer.cbn.naijachain.org:7050
+
+    AnchorPeers:
+      - Host: peer0.cbn.naijachain.org
+        Port: 11051
 
   - &AccessBankOrg
     Name: AccessBankMSP
@@ -216,6 +223,7 @@ Profiles:
           - *GTBankOrg
           - *ZenithBankOrg
           - *FirstBankOrg
+          - *CentralBankOrg
 
   RetailChannel:
     Consortium: RetailConsortium
@@ -227,5 +235,6 @@ Profiles:
         - *GTBankOrg
         - *ZenithBankOrg
         - *FirstBankOrg
+        - *CentralBankOrg
       Capabilities:
         <<: *ApplicationCapabilities

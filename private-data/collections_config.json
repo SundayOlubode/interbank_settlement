@@ -1,86 +1,134 @@
 [
   {
     "name": "col-BVN",
-    "policy": "OR('AccessBankMSP.member','GTBankMSP.member','ZenithBankMSP.member','FirstBankMSP.member')",
+    "policy": "OR('AccessBankMSP.member','GTBankMSP.member','ZenithBankMSP.member','FirstBankMSP.member','CentralBankMSP.member')",
     "memberOnlyRead": true,
     "memberOnlyWrite": true,
     "requiredPeerCount": 1,
-    "maxPeerCount": 4,
+    "maxPeerCount": 5,
     "blockToLive": 0,
     "endorsementPolicy": {
-      "signaturePolicy": "OR('AccessBankMSP.member', 'GTBankMSP.member', 'ZenithBankMSP.member', 'FirstBankMSP.member')"
+      "signaturePolicy": "OR('AccessBankMSP.member','GTBankMSP.member','ZenithBankMSP.member','FirstBankMSP.member','CentralBankMSP.member')"
     }
   },
   {
     "name": "col-AccessBankMSP-GTBankMSP",
-    "policy": "OR('AccessBankMSP.member','GTBankMSP.member')",
+    "policy": "OR('AccessBankMSP.member','GTBankMSP.member','CentralBankMSP.member')",
     "memberOnlyRead": true,
     "memberOnlyWrite": true,
     "requiredPeerCount": 1,
-    "maxPeerCount": 2,
+    "maxPeerCount": 3,
     "blockToLive": 0,
     "endorsementPolicy": {
-      "signaturePolicy": "OR('AccessBankMSP.member', 'GTBankMSP.member')"
+      "signaturePolicy": "AND('AccessBankMSP.member','GTBankMSP.member')"
     }
   },
   {
     "name": "col-AccessBankMSP-ZenithBankMSP",
-    "policy": "OR('AccessBankMSP.member','ZenithBankMSP.member')",
+    "policy": "OR('AccessBankMSP.member','ZenithBankMSP.member','CentralBankMSP.member')",
     "memberOnlyRead": true,
     "memberOnlyWrite": true,
     "requiredPeerCount": 1,
-    "maxPeerCount": 2,
+    "maxPeerCount": 3,
     "blockToLive": 0,
     "endorsementPolicy": {
-      "signaturePolicy": "OR('AccessBankMSP.member', 'ZenithBankMSP.member')"
+      "signaturePolicy": "AND('AccessBankMSP.member','ZenithBankMSP.member')"
     }
   },
   {
     "name": "col-AccessBankMSP-FirstBankMSP",
-    "policy": "OR('AccessBankMSP.member','FirstBankMSP.member')",
+    "policy": "OR('AccessBankMSP.member','FirstBankMSP.member','CentralBankMSP.member')",
     "memberOnlyRead": true,
     "memberOnlyWrite": true,
     "requiredPeerCount": 1,
-    "maxPeerCount": 2,
+    "maxPeerCount": 3,
     "blockToLive": 0,
     "endorsementPolicy": {
-      "signaturePolicy": "OR('AccessBankMSP.member', 'FirstBankMSP.member')"
+      "signaturePolicy": "AND('AccessBankMSP.member','FirstBankMSP.member')"
     }
   },
   {
     "name": "col-GTBankMSP-ZenithBankMSP",
-    "policy": "OR('GTBankMSP.member','ZenithBankMSP.member')",
+    "policy": "OR('GTBankMSP.member','ZenithBankMSP.member','CentralBankMSP.member')",
     "memberOnlyRead": true,
     "memberOnlyWrite": true,
     "requiredPeerCount": 1,
-    "maxPeerCount": 2,
+    "maxPeerCount": 3,
     "blockToLive": 0,
     "endorsementPolicy": {
-      "signaturePolicy": "OR('GTBankMSP.member', 'ZenithBankMSP.member')"
+      "signaturePolicy": "AND('GTBankMSP.member','ZenithBankMSP.member')"
     }
   },
   {
     "name": "col-GTBankMSP-FirstBankMSP",
-    "policy": "OR('GTBankMSP.member','FirstBankMSP.member')",
+    "policy": "OR('GTBankMSP.member','FirstBankMSP.member','CentralBankMSP.member')",
     "memberOnlyRead": true,
     "memberOnlyWrite": true,
     "requiredPeerCount": 1,
-    "maxPeerCount": 2,
+    "maxPeerCount": 3,
     "blockToLive": 0,
     "endorsementPolicy": {
-      "signaturePolicy": "OR('GTBankMSP.member', 'FirstBankMSP.member')"
+      "signaturePolicy": "AND('GTBankMSP.member','FirstBankMSP.member')"
     }
   },
   {
     "name": "col-ZenithBankMSP-FirstBankMSP",
-    "policy": "OR('ZenithBankMSP.member','FirstBankMSP.member')",
+    "policy": "OR('ZenithBankMSP.member','FirstBankMSP.member','CentralBankMSP.member')",
     "memberOnlyRead": true,
     "memberOnlyWrite": true,
     "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "AND('ZenithBankMSP.member','FirstBankMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-AccessBankMSP",
+    "policy": "OR('AccessBankMSP.member','CentralBankMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 0,
     "maxPeerCount": 2,
     "blockToLive": 0,
     "endorsementPolicy": {
-      "signaturePolicy": "OR('ZenithBankMSP.member', 'FirstBankMSP.member')"
+      "signaturePolicy": "OR('AccessBankMSP.member','CentralBankMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-GTBankMSP",
+    "policy": "OR('GTBankMSP.member','CentralBankMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 0,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','CentralBankMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-ZenithBankMSP",
+    "policy": "OR('ZenithBankMSP.member','CentralBankMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 0,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','CentralBankMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-FirstBankMSP",
+    "policy": "OR('FirstBankMSP.member','CentralBankMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 0,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','CentralBankMSP.member')"
     }
   }
 ]

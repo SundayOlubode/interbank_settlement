@@ -26,5 +26,6 @@ configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/
 configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/GTBankMSPanchors.tx -channelID retailchannel -asOrg GTBankMSP
 configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/ZenithBankMSPanchors.tx -channelID retailchannel -asOrg ZenithBankMSP
 configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/FirstBankMSPanchors.tx -channelID retailchannel -asOrg FirstBankMSP
+configtxgen -profile RetailChannel -outputAnchorPeersUpdate ./channel-artifacts/retailchannel/CentralBankMSPanchors.tx -channelID retailchannel -asOrg CentralBankMSP
 
 set +x
