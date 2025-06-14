@@ -82,6 +82,56 @@ services:
     networks:
       - retail
 
+  couchdb4:
+    container_name: couchdb4
+    image: hyperledger/fabric-couchdb
+    platform: linux/amd64
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 9984:5984
+    networks:
+      - retail
+
+  peer0.cbn.naijachain.org:
+    container_name: peer0.cbn.naijachain.org
+    extends:
+      file: base.yaml
+      service: peer-base
+    environment:
+      # - CORE_PEER_PROFILE_ENABLED=true
+      # Peer specific variabes
+      - CORE_PEER_ID=peer0.cbn.naijachain.org
+      - CORE_PEER_ADDRESS=peer0.cbn.naijachain.org:11051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.cbn.naijachain.org:11052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.cbn.naijachain.org:11051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.cbn.naijachain.org:11051
+      - CORE_PEER_LOCALMSPID=CentralBankPeerMSP
+      # - CORE_OPERATIONS_LISTENADDRESS=
+      # State database
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    ports:
+      - 11051:11051
+      - 11053:11053
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - ./crypto-config/peerOrganizations/cbn.naijachain.org/peers/peer0.cbn.naijachain.org/msp:/etc/hyperledger/peer/msp
+      - ./crypto-config/peerOrganizations/cbn.naijachain.org/peers/peer0.cbn.naijachain.org/tls/:/etc/hyperledger/peer/tls
+      - peer0.cbn.naijachain.org:/var/hyperledger/production
+    networks:
+      retail:
+        aliases:
+          - peer0.cbn.naijachain.org
+    depends_on:
+      - orderer.cbn.naijachain.org
+      - couchdb4
+
   peer0.accessbank.naijachain.org:
     container_name: peer0.accessbank.naijachain.org
     extends:
@@ -117,7 +167,7 @@ services:
         aliases:
           - peer0.accessbank.naijachain.org
     depends_on:
-      - orderer.cbn.naijachain.org
+      - peer0.cbn.naijachain.org
       - couchdb0
 
   peer0.gtbank.naijachain.org:
@@ -242,3 +292,4 @@ volumes:
   peer0.gtbank.naijachain.org:
   peer0.zenithbank.naijachain.org:
   peer0.firstbank.naijachain.org:
+  peer0.cbn.naijachain.org:

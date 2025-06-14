@@ -3,13 +3,12 @@ set -e
 # Import the environment variables
 source ./env-vars.sh
 
-export MSPCONFIGPATHCBN=${PWD}/crypto-config/ordererOrganizations/cbn.naijachain.org/users/Admin@cbn.naijachain.org/msp
-
 export PRIVATE_DATA_CONFIG=${PWD}/private-data/collections_config.json
 
-CC_POLICY="OutOf(2, 'AccessBankMSP.peer', 'GTBankMSP.peer', 'ZenithBankMSP.peer', 'FirstBankMSP.peer')"
+CC_POLICY="OutOf(2, 'AccessBankMSP.peer', 'GTBankMSP.peer', 'ZenithBankMSP.peer', 'FirstBankMSP.peer', 'CentralBankPeerMSP.peer')"
 
 setGlobalsForOrderer() {
+    export MSPCONFIGPATHCBN=${PWD}/crypto-config/ordererOrganizations/cbn.naijachain.org/users/Admin@cbn.naijachain.org/msp
     export CORE_PEER_LOCALMSPID="CentralBankMSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$ORDERER_CA
     export CORE_PEER_MSPCONFIGPATH=$MSPCONFIGPATHCBN
@@ -45,6 +44,12 @@ packageChaincode() {
 packageChaincode
 
 installChaincode() {
+    setGlobalForPeer0CBN
+    set -x
+    peer lifecycle chaincode install ${CC_NAME}.tar.gz
+    set +x
+    echo "===================== Chaincode is installed on peer0.cbn ===================== "
+
     setGlobalForPeer0AccessBank
     set -x
     peer lifecycle chaincode install ${CC_NAME}.tar.gz
@@ -86,6 +91,23 @@ queryInstalled() {
 }
 
 queryInstalled
+
+approveForMyCBNOrg(){
+    setGlobalForPeer0CBN
+    set -x
+    peer lifecycle chaincode approveformyorg -o localhost:7050 \
+        --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
+        --tls --connTimeout 180s --collections-config $PRIVATE_DATA_CONFIG \
+        --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
+        --version ${VERSION} --sequence ${VERSION} --package-id ${PACKAGE_ID} \
+        --init-required --signature-policy "$CC_POLICY"
+
+    set +x
+
+    echo "===================== chaincode approved from CBN Org ===================== "
+
+    echo -e "\n\n"
+}
 
 approveForMyAccessBankOrg() {
     setGlobalForPeer0AccessBank
@@ -143,6 +165,7 @@ approveForMyFirstBankOrg() {
     echo -e "\n\n"
 }
 
+approveForMyCBNOrg
 approveForMyAccessBankOrg
 approveForMyGTBankOrg
 approveForMyZenithBankOrg

@@ -5,7 +5,6 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"time"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
@@ -15,17 +14,34 @@ type SmartContract struct {
 	contractapi.Contract
 }
 
+type BankUser struct {
+	BVN       string `json:"bvn"`
+	Firstname string `json:"firstname"`
+	Lastname  string `json:"lastname"`
+	Birthdate string `json:"birthdate"` // DD-MM-YYYY
+	Gender    string `json:"gender"`
+}
+
 // PaymentDetails holds sensitive payment fields (in Naira, decimals for kobo)
 type PaymentDetails struct {
-	ID        string  `json:"id"`
-	PayerAcct string  `json:"payerAcct"`
-	PayeeAcct string  `json:"payeeAcct"`
-	Amount    float64 `json:"amount"`   // eNaira, e.g. 1234.56
-	Currency  string  `json:"currency"` // "eNaira"
-	BVN       string  `json:"bvn"`      // customer BVN
-	PayerMSP  string  `json:"payerMSP"`
-	PayeeMSP  string  `json:"payeeMSP"`
-	Timestamp int64   `json:"timestamp"`
+	ID        string   `json:"id"`
+	PayerAcct string   `json:"payerAcct"`
+	PayeeAcct string   `json:"payeeAcct"`
+	Amount    float64  `json:"amount"`   // eNaira, e.g. 1234.56
+	Currency  string   `json:"currency"` // "eNaira"
+	BVN       string   `json:"bvn"`      // customer BVN
+	PayerMSP  string   `json:"payerMSP"`
+	PayeeMSP  string   `json:"payeeMSP"`
+	Status    string   `json:"status"` // PENDING, SETTLED, QUEUED
+	Timestamp int64    `json:"timestamp"`
+	User      BankUser `json:"user"` // optional, can be used to store user details
+}
+
+// Payment Event Details
+type PaymentEventDetails struct {
+	ID       string `json:"id"`
+	PayeeMSP string `json:"payeeMSP"`
+	PayerMSP string `json:"payerMSP"`
 }
 
 // PaymentStub is the public view of a payment
@@ -34,7 +50,7 @@ type PaymentStub struct {
 	Hash      string `json:"hash"`
 	PayerMSP  string `json:"payerMSP"`
 	PayeeMSP  string `json:"payeeMSP"`
-	Status    string `json:"status"` // PENDING, SETTLED
+	Status    string `json:"status"` // PENDING, SETTLED, QUEUED
 	Timestamp int64  `json:"timestamp"`
 }
 
@@ -86,7 +102,7 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 	if err != nil {
 		return fmt.Errorf("marshal init account for %s: %v", clientMSP, err)
 	}
-	acctColl := fmt.Sprintf("_implicit_org_%s", clientMSP)
+	acctColl := fmt.Sprintf("col-settlement-%s", clientMSP)
 	if err := ctx.GetStub().PutPrivateData(acctColl, clientMSP, acctBytes); err != nil {
 		return fmt.Errorf("init account for %s: %v", clientMSP, err)
 	}
@@ -171,9 +187,23 @@ func (s *SmartContract) CreatePayment(ctx contractapi.TransactionContextInterfac
 	}
 
 	// verify BVN in central PDC
-	bvnBytes, err := ctx.GetStub().GetPrivateData("col-BVN", details.BVN)
+	bvnBytes, err := ctx.GetStub().GetPrivateData("col-BVN", details.User.BVN)
 	if err != nil || bvnBytes == nil {
 		return fmt.Errorf("BVN %s not registered", details.BVN)
+	}
+
+	// Verify that payer and payee BVNs match their accounts
+	var bvnRecord BVNRecord
+	if err := json.Unmarshal(bvnBytes, &bvnRecord); err != nil {
+		return fmt.Errorf("failed to unmarshal BVN record: %v", err)
+	}
+
+	// if bvn Lastname, Firstname, Gender and Birthdate do not match user's, return error
+	if bvnRecord.Lastname != details.User.Lastname ||
+		bvnRecord.Firstname != details.User.Firstname ||
+		bvnRecord.Birthdate != details.User.Birthdate ||
+		bvnRecord.Gender != details.User.Gender {
+		return fmt.Errorf("BVN details do not match user's details")
 	}
 
 	// store full details in bilateral collection
@@ -182,17 +212,14 @@ func (s *SmartContract) CreatePayment(ctx contractapi.TransactionContextInterfac
 		return fmt.Errorf("failed to put private payment data: %v", err)
 	}
 
-	// transfer tokens from payer to payee
-	if err := s.TransferTokens(ctx, details.PayerMSP, details.PayeeMSP, details.Amount); err != nil {
-		return err
-	}
-
 	// create and store public stub
 	hash := computeHash(paymentJSON)
-	stub := PaymentStub{ID: details.ID,
-		Hash:      hash,
-		PayerMSP:  details.PayerMSP,
-		PayeeMSP:  details.PayeeMSP,
+	stub := PaymentStub{
+		ID:       details.ID,
+		Hash:     hash,
+		PayerMSP: details.PayerMSP,
+		PayeeMSP: details.PayeeMSP,
+		// Status:    details.Status,
 		Status:    "PENDING",
 		Timestamp: details.Timestamp,
 	}
@@ -206,7 +233,15 @@ func (s *SmartContract) CreatePayment(ctx contractapi.TransactionContextInterfac
 	}
 
 	// emit event
-	if err := ctx.GetStub().SetEvent("PaymentPending", []byte(details.ID)); err != nil {
+	// MINIMAL event
+	evt := PaymentEventDetails{
+		ID:       details.ID,
+		PayeeMSP: details.PayeeMSP,
+		PayerMSP: details.PayerMSP,
+	}
+	evtBytes, _ := json.Marshal(evt)
+
+	if err := ctx.GetStub().SetEvent("PaymentPending", evtBytes); err != nil {
 		return fmt.Errorf("failed to set PaymentPending event: %v", err)
 	}
 
@@ -233,73 +268,163 @@ func (s *SmartContract) GetPrivatePayment(ctx contractapi.TransactionContextInte
 	if err := json.Unmarshal(privBytes, &details); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal private payment: %v", err)
 	}
+
+	// MINIMAL event
+	evt := PaymentEventDetails{
+		ID:       details.ID,
+		PayeeMSP: details.PayeeMSP,
+		PayerMSP: details.PayerMSP,
+	}
+	evtBytes, _ := json.Marshal(evt)
+
+	if err := ctx.GetStub().SetEvent("PaymentCompleted", evtBytes); err != nil {
+		return nil, fmt.Errorf("failed to set PaymentCompleted event: %v", err)
+	}
+
 	return &details, nil
 }
 
 // TransferTokens debits fromMSP and credits toMSP an amount in their implicit collections
-func (s *SmartContract) TransferTokens(ctx contractapi.TransactionContextInterface, fromMSP, toMSP string, amount float64) error {
+func (s *SmartContract) TransferTokens(ctx contractapi.TransactionContextInterface, fromMSP, toMSP string, amount float64) (string, error) {
 	// debit payer
-	fromColl := fmt.Sprintf("_implicit_org_%s", fromMSP)
+	fromColl := fmt.Sprintf("col-settlement-%s", fromMSP)
 	fromBytes, err := ctx.GetStub().GetPrivateData(fromColl, fromMSP)
 	if err != nil {
-		return fmt.Errorf("failed to read payer account: %v", err)
+		return "", fmt.Errorf("failed to read payer account: %v", err)
 	}
-	var fromAcct BankAccount
 
+	var fromAcct BankAccount
 	if err := json.Unmarshal(fromBytes, &fromAcct); err != nil {
-		return fmt.Errorf("failed to unmarshal payer account: %v", err)
+		return "", fmt.Errorf("failed to unmarshal payer account: %v", err)
 	}
 
 	if fromAcct.Balance < amount {
-		return fmt.Errorf("insufficient funds: available %.2f, required %.2f", fromAcct.Balance, amount)
+		status := "QUEUED"
+		// Update Bilateral PDC
+		paymentColl := getCollectionName(fromMSP, toMSP)
+		paymentBytes, err := ctx.GetStub().GetPrivateData(paymentColl, fromAcct.MSP)
+		if err != nil || paymentBytes == nil {
+			return "", fmt.Errorf("payment not found for %s in collection %s", fromMSP, paymentColl)
+		}
+		var paymentDetails PaymentDetails
+		if err := json.Unmarshal(paymentBytes, &paymentDetails); err != nil {
+			return "", fmt.Errorf("failed to unmarshal payment details: %v", err)
+		}
+		paymentDetails.Status = status
+		updatedPaymentBytes, _ := json.Marshal(paymentDetails)
+		if err := ctx.GetStub().PutPrivateData(paymentColl, fromMSP, updatedPaymentBytes); err != nil {
+			return "", fmt.Errorf("failed to update payment status to QUEUED: %v", err)
+		}
+
+		// Update Public State
+		stubBytes, err := ctx.GetStub().GetState(paymentDetails.ID)
+		if err != nil || stubBytes == nil {
+			return "", fmt.Errorf("payment stub %s not found", paymentDetails.ID)
+		}
+		var stub PaymentStub
+		if err := json.Unmarshal(stubBytes, &stub); err != nil {
+			return "", fmt.Errorf("failed to unmarshal payment stub: %v", err)
+		}
+		stub.Status = status
+		updatedStubBytes, _ := json.Marshal(stub)
+		if err := ctx.GetStub().PutState(paymentDetails.ID, updatedStubBytes); err != nil {
+			return "", fmt.Errorf("failed to update payment stub status to QUEUED: %v", err)
+		}
+
+		return status, nil
 	}
+
 	fromAcct.Balance -= amount
 	updated, _ := json.Marshal(fromAcct)
 	if err := ctx.GetStub().PutPrivateData(fromColl, fromMSP, updated); err != nil {
-		return fmt.Errorf("failed to update payer account: %v", err)
+		return "", fmt.Errorf("failed to update payer account: %v", err)
 	}
 
 	// credit payee
-	toColl := fmt.Sprintf("_implicit_org_%s", toMSP)
+	toColl := fmt.Sprintf("col-settlement-%s", toMSP)
 	toBytes, err := ctx.GetStub().GetPrivateData(toColl, toMSP)
 	var toAcct BankAccount
 	if err != nil {
-		return fmt.Errorf("failed to read payee account: %v", err)
+		return "", fmt.Errorf("failed to read payee account: %v", err)
 	}
 
 	if err := json.Unmarshal(toBytes, &toAcct); err != nil {
-		return fmt.Errorf("failed to unmarshal payee account: %v", err)
+		return "", fmt.Errorf("failed to unmarshal payee account: %v", err)
 	}
 
 	toAcct.Balance += amount
 	cred, _ := json.Marshal(toAcct)
 	if err := ctx.GetStub().PutPrivateData(toColl, toMSP, cred); err != nil {
-		return fmt.Errorf("failed to update payee account: %v", err)
+		return "", fmt.Errorf("failed to update payee account: %v", err)
 	}
 
-	return nil
+	return "SETTLED", nil
 }
 
 // SettlePayment marks a payment stub as SETTLED and emits a settlement event
-func (s *SmartContract) SettlePayment(ctx contractapi.TransactionContextInterface, id string) error {
+func (s *SmartContract) SettlePayment(ctx contractapi.TransactionContextInterface, paymentDetails PaymentEventDetails) (string, error) {
+	id := paymentDetails.ID
+	if id == "" {
+		return "", fmt.Errorf("payment ID must be provided")
+	}
+
+	// Look up the payment in Bilateral PDC
+	paymentColl := getCollectionName(paymentDetails.PayerMSP, paymentDetails.PayeeMSP)
+	paymentBytes, err := ctx.GetStub().GetPrivateData(paymentColl, id)
+	if err != nil || paymentBytes == nil {
+		return "", fmt.Errorf("payment %s not found in collection %s", id, paymentColl)
+	}
+
+	// Confirm details on paymentDetails and paymentBytes match
+	var paymentInPDC PaymentDetails
+	if err := json.Unmarshal(paymentBytes, &paymentInPDC); err != nil {
+		return "", fmt.Errorf("failed to unmarshal payment details: %v", err)
+	}
+	if paymentInPDC.PayerMSP != paymentDetails.PayerMSP || paymentInPDC.PayeeMSP != paymentDetails.PayeeMSP {
+		return "", fmt.Errorf("payment details do not match")
+	}
+
+	// Fetch the payment stub from public state
 	stubBytes, err := ctx.GetStub().GetState(id)
 	if err != nil || stubBytes == nil {
-		return fmt.Errorf("payment stub %s not found", id)
+		return "", fmt.Errorf("payment stub %s not found", id)
 	}
 	var stub PaymentStub
 	if err := json.Unmarshal(stubBytes, &stub); err != nil {
-		return fmt.Errorf("failed to unmarshal stub: %v", err)
+		return "", fmt.Errorf("failed to unmarshal stub: %v", err)
 	}
+
+	// Compute and Verify payment hash
+	// hash := computeHash(paymentBytes)
+	// if hash != stub.Hash {
+	// 	return fmt.Sprintf("%s hash vs %s stub hash", hash, stub.Hash), fmt.Errorf("payment hash mismatch: %s != %s", hash, stub.Hash)
+	// }
+
+	// Transfer tokens if status is PENDING
+	if stub.Status == "PENDING" {
+		result, err := s.TransferTokens(ctx, paymentDetails.PayerMSP, paymentDetails.PayeeMSP, paymentInPDC.Amount)
+		if err != nil {
+			return "", fmt.Errorf("failed to transfer tokens: %v", err)
+		}
+		if result != "" && result != "QUEUED" {
+			return result, nil
+		}
+	}
+
+	// Update stub status to SETTLED
 	stub.Status = "SETTLED"
-	stub.Timestamp = time.Now().UnixMilli()
 	updated, _ := json.Marshal(stub)
 	if err := ctx.GetStub().PutState(id, updated); err != nil {
-		return fmt.Errorf("failed to update stub status: %v", err)
+		return "", fmt.Errorf("failed to update stub status: %v", err)
 	}
-	if err := ctx.GetStub().SetEvent("PaymentSettled", []byte(id)); err != nil {
-		return fmt.Errorf("failed to set PaymentSettled event: %v", err)
+
+	// MINIMAL event
+	evtBytes, _ := json.Marshal(paymentDetails)
+
+	if err := ctx.GetStub().SetEvent("PaymentSettled", evtBytes); err != nil {
+		return "", fmt.Errorf("failed to set PaymentSettled event: %v", err)
 	}
-	return nil
+	return "", nil
 }
 
 // ProcessLSM settles all pending payments; can be extended with netting logic
@@ -319,7 +444,7 @@ func (s *SmartContract) SettlePayment(ctx contractapi.TransactionContextInterfac
 // 		if err := json.Unmarshal(res.Value, &stub); err != nil {
 // 			continue
 // 		}
-// 		if stub.Status == "PENDING" {
+// 		if stub.Status == "QUEUED" {
 // 			if err := s.SettlePayment(ctx, stub.ID); err != nil {
 // 				return err
 // 			}
@@ -336,10 +461,23 @@ func getCollectionName(a, b string) string {
 	return fmt.Sprintf("col-%s-%s", a, b)
 }
 
+// getPayerBankAccountPDC returns the private data collection name for a payer's bank account
+func getPayerBankAccountPDC(payerMSP string) string {
+	return fmt.Sprintf("col-settlement-%s", payerMSP)
+}
+
 // computeHash returns a SHA256 hash of the input data
 func computeHash(data []byte) string {
 	h := sha256.Sum256(data)
 	return hex.EncodeToString(h[:])
+}
+
+// send Event emits a Fabric event with the given name and payload
+func sendEvent(ctx contractapi.TransactionContextInterface, name string, payload []byte) error {
+	if err := ctx.GetStub().SetEvent(name, payload); err != nil {
+		return fmt.Errorf("failed to set event %s: %v", name, err)
+	}
+	return nil
 }
 
 func main() {

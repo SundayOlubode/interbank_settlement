@@ -114,6 +114,8 @@ async function startListener(gateway) {
 
     try {
       for await (const evt of stream) {
+        console.log(`Received event: ${evt.eventName}`);
+
         if (evt.eventName !== "PaymentPending") continue;
         await processPaymentEvent(evt, contract, cp);
       }
@@ -140,14 +142,25 @@ app.post("/payments", async (req, res) => {
 
     const { payerAcct, payeeMSP, payeeAcct, amount } = req.body;
 
-    if (!userAccounts[payerAcct]) {
+    const user = userAccounts[payerAcct];
+    if (!user) {
       return res.status(400).json({
         error: "Invalid payer account",
         message: `Account ${payerAcct} does not exist`,
       });
     }
 
-    const payerBalance = userAccounts[payerAcct].balance;
+    // Check if recipient is not same account as payer
+    if (payerAcct === payeeAcct) {
+      return res.status(400).json({
+        error: "Invalid transaction",
+        message: `Payer account ${payerAcct} cannot be the same as payee account ${payeeAcct}`,
+      });
+    }
+
+    console.log("User accounts:", user);
+
+    const payerBalance = user.balance;
 
     if (payerBalance < amount) {
       return res.status(400).json({
@@ -157,14 +170,14 @@ app.post("/payments", async (req, res) => {
     }
 
     // Deduct amount from payer's account
-    userAccounts[payerAcct].balance -= amount;
+    user.balance -= amount;
     console.log(
-      `Debited account ${payerAcct} (${userAccounts[payerAcct].name}) with ₦${amount}. New balance: ₦${userAccounts[payerAcct].balance}`
+      `Debited account ${payerAcct} (${user.firstname}) with ₦${amount}. New balance: ₦${user.balance}`
     );
 
     // console.log(`Debiting ${payerAcct} with ₦${amount}`);
     const paymentID = crypto.randomUUID().toString();
-    const bvn = userAccounts[payerAcct].bvn;
+    const bvn = user.bvn;
 
     if (!bvn) {
       return res.status(400).json({
@@ -177,11 +190,17 @@ app.post("/payments", async (req, res) => {
     const payJson = JSON.stringify({
       id: paymentID,
       payerMSP: MSP_ID,
-      bvn,
       payerAcct,
       payeeMSP,
       payeeAcct,
       amount,
+      user: {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        gender: user.gender,
+        birthdate: user.birthdate,
+        bvn: user.bvn,
+      },
     });
 
     await contract.submit("CreatePayment", {

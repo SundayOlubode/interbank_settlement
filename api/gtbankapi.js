@@ -19,7 +19,7 @@ dotenv.config();
 const utf8Decoder = new TextDecoder();
 
 const userAccounts = {
-  "3331144777": {
+  3331144777: {
     firstname: "Chiamaka",
     lastname: "Nwankwo",
     middlename: "Amarachi",
@@ -28,7 +28,7 @@ const userAccounts = {
     bvn: "24566788901",
     balance: 20000,
   },
-  "3331144666": {
+  3331144666: {
     firstname: "Ibrahim",
     lastname: "Muhammad",
     middlename: "Abdulrahman",
@@ -83,7 +83,9 @@ async function processPaymentEvent(evt, contract, cp) {
   }
 
   // Remove the Buffer conversion since it's now a string
-  const payBytes = await contract.evaluateTransaction("GetPrivatePayment", id);
+  const payBytes = await contract.submit("GetPrivatePayment", {
+    arguments: [id],
+  });
   const pay = JSON.parse(Buffer.from(payBytes).toString("utf8"));
 
   // await creditCoreLedger(pay.payeeAcct, pay.amount);
@@ -95,15 +97,15 @@ async function processPaymentEvent(evt, contract, cp) {
   userAccounts[pay.payeeAcct].balance += pay.amount;
   console.log(
     `Credited account ${pay.payeeAcct} (${
-      userAccounts[pay.payeeAcct].name
+      userAccounts[pay.payeeAcct].firstname
     }) with ₦${pay.amount}. New balance: ₦${
       userAccounts[pay.payeeAcct].balance
     }`
   );
 
-  // console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);
+  console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);
 
-  await contract.submitTransaction("SettlePayment", id);
+  // await contract.submitTransaction("SettlePayment", id);
   console.log(`Payment ${id} marked as SETTLED`);
 
   await cp.checkpointChaincodeEvent(evt);
@@ -121,6 +123,7 @@ async function startListener(gateway) {
 
     try {
       for await (const evt of stream) {
+        console.log(`Received event: ${evt.eventName}`);
         if (evt.eventName !== "PaymentPending") continue;
         await processPaymentEvent(evt, contract, cp);
       }

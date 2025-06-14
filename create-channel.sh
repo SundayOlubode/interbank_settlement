@@ -17,7 +17,7 @@ echo $FABRIC_CFG_PATH
 # Create the channel
 createChannel(){
 	set -x
-	setGlobalForPeer0AccessBank
+	setGlobalForPeer0CBN
 
   echo ">>> Creating channel: $CHANNEL_NAME"
   # echo ">>> Using orderer at: orderer.cbn.naijachain.org:7050"
@@ -38,6 +38,10 @@ createChannel(){
 
 joinChannel(){
 	set -x
+
+	setGlobalForPeer0CBN
+	peer channel join -b ./channel-artifacts/${CHANNEL_NAME}/${CHANNEL_NAME}.block
+
 	setGlobalForPeer0AccessBank
 	peer channel join -b ./channel-artifacts/${CHANNEL_NAME}/${CHANNEL_NAME}.block
 	
@@ -55,6 +59,9 @@ joinChannel(){
 
 updateAnchorPeers(){
 	set -x
+
+	setGlobalForPeer0CBN
+	peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org -c $CHANNEL_NAME -f ./channel-artifacts/retailchannel/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
 
 	setGlobalForPeer0AccessBank
 	peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer.cbn.naijachain.org -c $CHANNEL_NAME -f ./channel-artifacts/retailchannel/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA

@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "access": "nodemon accessapi.js",
-    "gtbank": "nodemon gtbankapi.js"
+    "gtbank": "nodemon gtbankapi.js",
+    "cbn": "nodemon cbnapi.js"
   },
   "type": "module",
   "keywords": [],

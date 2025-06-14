@@ -18,8 +18,7 @@ export MSPCONFIGPATHACCESSBANK=${PWD}/crypto-config/peerOrganizations/accessbank
 export MSPCONFIGPATHGTBANK=${PWD}/crypto-config/peerOrganizations/gtbank.naijachain.org/users/Admin@gtbank.naijachain.org/msp
 export MSPCONFIGPATHZENITHBANK=${PWD}/crypto-config/peerOrganizations/zenithbank.naijachain.org/users/Admin@zenithbank.naijachain.org/msp
 export MSPCONFIGPATHFIRSTBANK=${PWD}/crypto-config/peerOrganizations/firstbank.naijachain.org/users/Admin@firstbank.naijachain.org/msp
-export MSPCONFIGPATHCBN=${PWD}/crypto-config/peerOrganizations/cbn.naijachain.org/users/Admin@cbn.naijachain.org/msp
-
+export MSPCONFIGPATHCBNPEER=${PWD}/crypto-config/peerOrganizations/cbn.naijachain.org/users/Admin@cbn.naijachain.org/msp
 
 setGlobalForPeer0AccessBank() {
   export CORE_PEER_LOCALMSPID="AccessBankMSP"
@@ -54,9 +53,9 @@ setGlobalForPeerFirstBank() {
 }
 
 setGlobalForPeer0CBN() {
-	export CORE_PEER_LOCALMSPID="CentralBankMSP"
+	export CORE_PEER_LOCALMSPID="CentralBankPeerMSP"
 	# export CORE_PEER_ADDRESS="peer0.cbn.naijachain.org:11051"
 	export CORE_PEER_ADDRESS="localhost:11051"
 	export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0CBN_CA
-	export CORE_PEER_MSPCONFIGPATH=$MSPCONFIGPATHCBN
+	export CORE_PEER_MSPCONFIGPATH=$MSPCONFIGPATHCBNPEER
 }

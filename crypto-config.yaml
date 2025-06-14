@@ -9,7 +9,7 @@ OrdererOrgs:
           - "127.0.0.1"
 
 PeerOrgs:
-  - Name: CentralBankOrg # logical peer org name
+  - Name: CentralBankPeerOrg
     Domain: cbn.naijachain.org # shares the same domain
     EnableNodeOUs: true
     Template:
