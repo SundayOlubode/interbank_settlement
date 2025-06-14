@@ -20,14 +20,25 @@ import { extractSimpleBlockData } from "./helper/extract-block-data.js";
 
 const userAccounts = {
   "0506886519": {
-    name: "Jubril Alan",
+    firstname: "Oluwaseun",
+    lastname: "Adebanjo",
+    middlename: "Temitope",
+    bvn: "22133455678",
+    gender: "Female",
     balance: 20000,
+    birthdate: "15-04-1990",
   },
   "0506886390": {
-    name: "Sinmi Tanson",
+    firstname: "Emeka",
+    lastname: "Okafor",
+    middlename: "Chukwuemeka",
+    gender: "Male",
+    phone: "08134567890",
+    birthdate: "02-11-1985",
+    bvn: "23455677890",
     balance: 45000,
   },
-}
+};
 
 /* ---------- env / constants ------------------------------------------------ */
 const MSP_ID = process.env.ACCESSBANK_MSP_ID ?? "AccessBankMSP";
@@ -103,6 +114,8 @@ async function startListener(gateway) {
 
     try {
       for await (const evt of stream) {
+        console.log(`Received event: ${evt.eventName}`);
+
         if (evt.eventName !== "PaymentPending") continue;
         await processPaymentEvent(evt, contract, cp);
       }
@@ -129,14 +142,25 @@ app.post("/payments", async (req, res) => {
 
     const { payerAcct, payeeMSP, payeeAcct, amount } = req.body;
 
-    if(!userAccounts[payerAcct]) {
+    const user = userAccounts[payerAcct];
+    if (!user) {
       return res.status(400).json({
         error: "Invalid payer account",
         message: `Account ${payerAcct} does not exist`,
       });
     }
 
-    const payerBalance = userAccounts[payerAcct].balance;
+    // Check if recipient is not same account as payer
+    if (payerAcct === payeeAcct) {
+      return res.status(400).json({
+        error: "Invalid transaction",
+        message: `Payer account ${payerAcct} cannot be the same as payee account ${payeeAcct}`,
+      });
+    }
+
+    console.log("User accounts:", user);
+
+    const payerBalance = user.balance;
 
     if (payerBalance < amount) {
       return res.status(400).json({
@@ -146,27 +170,44 @@ app.post("/payments", async (req, res) => {
     }
 
     // Deduct amount from payer's account
-    userAccounts[payerAcct].balance -= amount;
+    user.balance -= amount;
     console.log(
-      `Debited account ${payerAcct} (${userAccounts[payerAcct].name}) with ₦${amount}. New balance: ₦${userAccounts[payerAcct].balance}`
+      `Debited account ${payerAcct} (${user.firstname}) with ₦${amount}. New balance: ₦${user.balance}`
     );
 
     // console.log(`Debiting ${payerAcct} with ₦${amount}`);
     const paymentID = crypto.randomUUID().toString();
+    const bvn = user.bvn;
 
+    if (!bvn) {
+      return res.status(400).json({
+        error: "Missing BVN",
+        message: `Account ${payerAcct} does not have a valid BVN`,
+      });
+    }
+
+    // add bvn
     const payJson = JSON.stringify({
+      id: paymentID,
       payerMSP: MSP_ID,
       payerAcct,
       payeeMSP,
       payeeAcct,
       amount,
+      user: {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        gender: user.gender,
+        birthdate: user.birthdate,
+        bvn: user.bvn,
+      },
     });
 
     await contract.submit("CreatePayment", {
       transientData: {
         payment: Buffer.from(payJson), // <-- value must be bytes
       },
-      arguments: [paymentID],
+      // arguments: [paymentID],
       endorsingOrganizations: [MSP_ID, payeeMSP],
     });
 

@@ -11,13 +11,14 @@ export PEER0ACCESSBANK_CA=${PWD}/crypto-config/peerOrganizations/accessbank.naij
 export PEER0GTBANK_CA=${PWD}/crypto-config/peerOrganizations/gtbank.naijachain.org/peers/peer0.gtbank.naijachain.org/tls/ca.crt
 export PEER0ZENITHBANK_CA=${PWD}/crypto-config/peerOrganizations/zenithbank.naijachain.org/peers/peer0.zenithbank.naijachain.org/tls/ca.crt
 export PEER0FIRSTBANK_CA=${PWD}/crypto-config/peerOrganizations/firstbank.naijachain.org/peers/peer0.firstbank.naijachain.org/tls/ca.crt
+export PEER0CBN_CA=${PWD}/crypto-config/peerOrganizations/cbn.naijachain.org/peers/peer0.cbn.naijachain.org/tls/ca.crt
 
 # Set MSPCONFIGPATH for each bank
 export MSPCONFIGPATHACCESSBANK=${PWD}/crypto-config/peerOrganizations/accessbank.naijachain.org/users/Admin@accessbank.naijachain.org/msp
 export MSPCONFIGPATHGTBANK=${PWD}/crypto-config/peerOrganizations/gtbank.naijachain.org/users/Admin@gtbank.naijachain.org/msp
 export MSPCONFIGPATHZENITHBANK=${PWD}/crypto-config/peerOrganizations/zenithbank.naijachain.org/users/Admin@zenithbank.naijachain.org/msp
 export MSPCONFIGPATHFIRSTBANK=${PWD}/crypto-config/peerOrganizations/firstbank.naijachain.org/users/Admin@firstbank.naijachain.org/msp
-
+export MSPCONFIGPATHCBNPEER=${PWD}/crypto-config/peerOrganizations/cbn.naijachain.org/users/Admin@cbn.naijachain.org/msp
 
 setGlobalForPeer0AccessBank() {
   export CORE_PEER_LOCALMSPID="AccessBankMSP"
@@ -49,4 +50,12 @@ setGlobalForPeerFirstBank() {
 	export CORE_PEER_ADDRESS="localhost:10051"
 	export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0FIRSTBANK_CA
 	export CORE_PEER_MSPCONFIGPATH=$MSPCONFIGPATHFIRSTBANK
+}
+
+setGlobalForPeer0CBN() {
+	export CORE_PEER_LOCALMSPID="CentralBankPeerMSP"
+	# export CORE_PEER_ADDRESS="peer0.cbn.naijachain.org:11051"
+	export CORE_PEER_ADDRESS="localhost:11051"
+	export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0CBN_CA
+	export CORE_PEER_MSPCONFIGPATH=$MSPCONFIGPATHCBNPEER
 }

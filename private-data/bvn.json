@@ -1,0 +1,82 @@
+{
+  "22133455678": {
+    "firstname": "Oluwaseun",
+    "lastname": "Adebanjo",
+    "middlename": "Temitope",
+    "gender": "Female",
+    "phone": "08031234567",
+    "birthdate": "15-04-1990"
+  },
+  "23455677890": {
+    "firstname": "Emeka",
+    "lastname": "Okafor",
+    "middlename": "Chukwuemeka",
+    "gender": "Male",
+    "phone": "08134567890",
+    "birthdate": "02-11-1985"
+  },
+  "24566788901": {
+    "firstname": "Chiamaka",
+    "lastname": "Nwankwo",
+    "middlename": "Amarachi",
+    "gender": "Female",
+    "phone": "08046789012",
+    "birthdate": "28-09-1993"
+  },
+  "25677899012": {
+    "firstname": "Ibrahim",
+    "lastname": "Muhammad",
+    "middlename": "Abdulrahman",
+    "gender": "Male",
+    "phone": "08156789023",
+    "birthdate": "10-01-1988"
+  },
+  "26788900123": {
+    "firstname": "Fatima",
+    "lastname": "Ahmad",
+    "middlename": "Sadiku",
+    "gender": "Female",
+    "phone": "08067890123",
+    "birthdate": "05-06-1992"
+  },
+  "27899011234": {
+    "firstname": "Tunde",
+    "lastname": "Oloyede",
+    "middlename": "Oluwatobi",
+    "gender": "Male",
+    "phone": "08178901234",
+    "birthdate": "22-12-1983"
+  },
+  "28900122345": {
+    "firstname": "Amarachi",
+    "lastname": "Eze",
+    "middlename": "Chidera",
+    "gender": "Female",
+    "phone": "08089012345",
+    "birthdate": "17-08-1995"
+  },
+  "29011233456": {
+    "firstname": "Chukwuemeka",
+    "lastname": "Okoro",
+    "middlename": "Obinna",
+    "gender": "Male",
+    "phone": "08190123456",
+    "birthdate": "30-03-1989"
+  },
+  "30122344567": {
+    "firstname": "Aikevbiosa",
+    "lastname": "Okunrola",
+    "middlename": "Oluwasegun",
+    "gender": "Male",
+    "phone": "08091234567",
+    "birthdate": "12-07-1991"
+  },
+  "31233455678": {
+    "firstname": "Bolanle",
+    "lastname": "Soniyi",
+    "middlename": "Omowunmi",
+    "gender": "Female",
+    "phone": "08102345678",
+    "birthdate": "09-10-1987"
+  }
+}

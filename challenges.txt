@@ -1,3 +1,50 @@
+Settlement is the process of updating the record of ownership of the assets being transferred.
+
+Settlement risk can also be eliminated
+by ensuring the atomicity of the related
+or linked transfers. Atomicity refers
+to the completion of all transfers
+comprising the transaction where they
+either succeed together or fail together.
+In the case of failure, the other linked
+transfers would automatically fail as well,
+reverting the funds back to the sender. 
+
+The use of intermediaries in the traditional
+correspondent banking model results
+in credit default risk (the risk that a party
+is unable to deliver the currency it sold)
+and settlement risk (the risk that a party
+delivers currency it sold without receiving
+currency it bought) for the transacting
+parties. One way of eliminating such risks
+is by removing the need to hold funds
+with the intermediary.
+
+
+In most computer
+systems, including databases, atomicity
+is guaranteed through the concept of
+“two-phase commit.” A two-phase commit
+is a protocol that coordinates two or more
+processes that participate in a transaction
+to decide to commit or abort (roll back)
+all the processes of the transaction.
+The two-phase commit is typically
+implemented as follows:
+Phase 1—Each participant in a transaction
+writes its data records to a temporary
+storage and indicates to the coordinator
+whether the process is successful.
+Phase 2—Upon confirmation that all
+processes are successful, the coordinator
+sends a signal to all participants to
+commit¸ which is to update the records
+from the temporary storage into the
+actual storage. If any participant fails,
+the coordinator sends an instruction to 
+all participants to abort and roll back.
+
 - TLS CA - Identity of a dormain
 - TLS Server cert - the key for signing communication
 - SAN must be present for TLS Server certs
@@ -7,3 +54,7 @@
 1. msp config path misconfiguration
 2. How to handle switching and bank users identification. How does it sync to the recipient user?
 3. Hyperledger-fabric gateway client
+4. Designing settlement
+5. Implementing BVN Verification
+6. Txs ran by other banks can't access another (recipient)bank's implicit data which holds the bank account balance. 
+    Do I allocate fund to bilaterral PDCs or what?

@@ -19,8 +19,31 @@ Organizations:
     OrdererEndpoints:
       - orderer.cbn.naijachain.org:7050
 
+  - &CentralBankPeerOrg
+    Name: CentralBankPeerOrg
+    ID: CentralBankPeerMSP
+    MSPDir: crypto-config/peerOrganizations/cbn.naijachain.org/msp
+
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('CentralBankPeerMSP.admin', 'CentralBankPeerMSP.peer', 'CentralBankPeerMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('CentralBankPeerMSP.admin', 'CentralBankPeerMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('CentralBankPeerMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('CentralBankPeerMSP.peer')"
+
+    AnchorPeers:
+      - Host: peer0.cbn.naijachain.org
+        Port: 11051
+
   - &AccessBankOrg
-    Name: AccessBankMSP
+    Name: AccessBankOrg
     ID: AccessBankMSP
     MSPDir: crypto-config/peerOrganizations/accessbank.naijachain.org/msp
 
@@ -43,7 +66,7 @@ Organizations:
         Port: 7051
 
   - &GTBankOrg
-    Name: GTBankMSP
+    Name: GTBankOrg
     ID: GTBankMSP
     MSPDir: crypto-config/peerOrganizations/gtbank.naijachain.org/msp
 
@@ -66,7 +89,7 @@ Organizations:
         Port: 8051
 
   - &ZenithBankOrg
-    Name: ZenithBankMSP
+    Name: ZenithBankOrg
     ID: ZenithBankMSP
     MSPDir: crypto-config/peerOrganizations/zenithbank.naijachain.org/msp
 
@@ -89,7 +112,7 @@ Organizations:
         Port: 9051
 
   - &FirstBankOrg
-    Name: FirstBankMSP
+    Name: FirstBankOrg
     ID: FirstBankMSP
     MSPDir: crypto-config/peerOrganizations/firstbank.naijachain.org/msp
 
@@ -216,6 +239,7 @@ Profiles:
           - *GTBankOrg
           - *ZenithBankOrg
           - *FirstBankOrg
+          - *CentralBankPeerOrg
 
   RetailChannel:
     Consortium: RetailConsortium
@@ -227,5 +251,6 @@ Profiles:
         - *GTBankOrg
         - *ZenithBankOrg
         - *FirstBankOrg
+        - *CentralBankPeerOrg
       Capabilities:
         <<: *ApplicationCapabilities

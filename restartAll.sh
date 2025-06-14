@@ -10,3 +10,6 @@ sleep 2
 sleep 2
 
 ./deploy-cc.sh
+sleep 2
+
+./invoke-cc.sh
