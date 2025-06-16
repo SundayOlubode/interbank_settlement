@@ -213,7 +213,7 @@ func (s *SmartContract) CreatePayment(ctx contractapi.TransactionContextInterfac
 	}
 
 	// create and store public stub
-	hash := computeHash(paymentJSON)
+	hash := computeHash(createHashablePayment(details))
 	stub := PaymentStub{
 		ID:       details.ID,
 		Hash:     hash,
@@ -285,7 +285,7 @@ func (s *SmartContract) GetPrivatePayment(ctx contractapi.TransactionContextInte
 }
 
 // TransferTokens debits fromMSP and credits toMSP an amount in their implicit collections
-func (s *SmartContract) TransferTokens(ctx contractapi.TransactionContextInterface, fromMSP, toMSP string, amount float64) (string, error) {
+func (s *SmartContract) TransferTokens(ctx contractapi.TransactionContextInterface, fromMSP, toMSP string, amount float64, paymentID string) (string, error) {
 	// debit payer
 	fromColl := fmt.Sprintf("col-settlement-%s", fromMSP)
 	fromBytes, err := ctx.GetStub().GetPrivateData(fromColl, fromMSP)
@@ -302,7 +302,7 @@ func (s *SmartContract) TransferTokens(ctx contractapi.TransactionContextInterfa
 		status := "QUEUED"
 		// Update Bilateral PDC
 		paymentColl := getCollectionName(fromMSP, toMSP)
-		paymentBytes, err := ctx.GetStub().GetPrivateData(paymentColl, fromAcct.MSP)
+		paymentBytes, err := ctx.GetStub().GetPrivateData(paymentColl, paymentID)
 		if err != nil || paymentBytes == nil {
 			return "", fmt.Errorf("payment not found for %s in collection %s", fromMSP, paymentColl)
 		}
@@ -395,14 +395,14 @@ func (s *SmartContract) SettlePayment(ctx contractapi.TransactionContextInterfac
 	}
 
 	// Compute and Verify payment hash
-	// hash := computeHash(paymentBytes)
-	// if hash != stub.Hash {
-	// 	return fmt.Sprintf("%s hash vs %s stub hash", hash, stub.Hash), fmt.Errorf("payment hash mismatch: %s != %s", hash, stub.Hash)
-	// }
+	hash := computeHash(createHashablePayment(paymentInPDC))
+	if hash != stub.Hash {
+		return fmt.Sprintf("%s hash vs %s stub hash", hash, stub.Hash), fmt.Errorf("payment hash mismatch: %s != %s", hash, stub.Hash)
+	}
 
 	// Transfer tokens if status is PENDING
 	if stub.Status == "PENDING" {
-		result, err := s.TransferTokens(ctx, paymentDetails.PayerMSP, paymentDetails.PayeeMSP, paymentInPDC.Amount)
+		result, err := s.TransferTokens(ctx, paymentDetails.PayerMSP, paymentDetails.PayeeMSP, paymentInPDC.Amount, paymentInPDC.ID)
 		if err != nil {
 			return "", fmt.Errorf("failed to transfer tokens: %v", err)
 		}
@@ -470,6 +470,37 @@ func getPayerBankAccountPDC(payerMSP string) string {
 func computeHash(data []byte) string {
 	h := sha256.Sum256(data)
 	return hex.EncodeToString(h[:])
+}
+
+// createHashablePayment creates a consistent representation for hashing
+func createHashablePayment(details PaymentDetails) []byte {
+	// Create a copy without status field for consistent hashing
+	hashable := struct {
+		ID        string   `json:"id"`
+		PayerAcct string   `json:"payerAcct"`
+		PayeeAcct string   `json:"payeeAcct"`
+		Amount    float64  `json:"amount"`
+		Currency  string   `json:"currency"`
+		BVN       string   `json:"bvn"`
+		PayerMSP  string   `json:"payerMSP"`
+		PayeeMSP  string   `json:"payeeMSP"`
+		Timestamp int64    `json:"timestamp"`
+		User      BankUser `json:"user"`
+	}{
+		ID:        details.ID,
+		PayerAcct: details.PayerAcct,
+		PayeeAcct: details.PayeeAcct,
+		Amount:    details.Amount,
+		Currency:  details.Currency,
+		BVN:       details.BVN,
+		PayerMSP:  details.PayerMSP,
+		PayeeMSP:  details.PayeeMSP,
+		Timestamp: details.Timestamp,
+		User:      details.User,
+	}
+
+	data, _ := json.Marshal(hashable)
+	return data
 }
 
 // send Event emits a Fabric event with the given name and payload

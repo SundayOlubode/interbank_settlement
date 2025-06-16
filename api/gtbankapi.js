@@ -69,7 +69,7 @@ async function newGateway() {
 
 /* ---------- payment processing --------------------------------------------- */
 async function processPaymentEvent(evt, contract, cp) {
-  const { id, payeeMSP } = JSON.parse(
+  const { id, payerMSP, payeeMSP } = JSON.parse(
     Buffer.from(evt.payload).toString("utf8")
   );
 
@@ -83,7 +83,7 @@ async function processPaymentEvent(evt, contract, cp) {
   }
 
   // Remove the Buffer conversion since it's now a string
-  const payBytes = await contract.submit("GetPrivatePayment", {
+  const payBytes = await contract.submit("GetIncomingPayment", {
     arguments: [id],
   });
   const pay = JSON.parse(Buffer.from(payBytes).toString("utf8"));
@@ -104,6 +104,10 @@ async function processPaymentEvent(evt, contract, cp) {
   );
 
   console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);
+
+  await contract.submit("AcknowledgePayment", {
+    arguments: [JSON.stringify({ id, payerMSP, payeeMSP })],
+  });
 
   // await contract.submitTransaction("SettlePayment", id);
   console.log(`Payment ${id} marked as SETTLED`);

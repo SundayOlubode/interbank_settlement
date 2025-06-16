@@ -27,7 +27,8 @@ presetup
 
 CC_RUNTIME_LANGUAGE="golang"
 VERSION="1"
-CC_SRC_PATH="./chaincode"
+# CC_SRC_PATH="./chaincode"
+CC_SRC_PATH="./contracts"
 CC_NAME="account"
 
 packageChaincode() {

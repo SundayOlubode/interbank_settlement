@@ -59,9 +59,66 @@ async function processSettlementEvent(evt, contract, cp) {
     const result = await contract.submit("SettlePayment", {
       arguments: [Buffer.from(evt.payload)],
     });
-    console.log(`Payment ${id} successfully ${Buffer.from(result)} through CBN`);
+    console.log(
+      `Payment ${id} successfully ${Buffer.from(result)} through CBN`
+    );
   } catch (err) {
     console.error(`Failed to settle payment ${id}:`, err);
+  }
+
+  await cp.checkpointChaincodeEvent(evt);
+}
+
+/* ---------- payment settlement processing ---------------------------------- */
+async function processSettlementEventV2(evt, contract, cp) {
+  const paymentData = JSON.parse(Buffer.from(evt.payload).toString("utf8"));
+  const { id, payerMSP, payeeMSP } = paymentData;
+  console.log(
+    `Processing event ${evt.eventName} for payment ID ${id} from ${payerMSP} to ${payeeMSP}...`
+  );
+
+  try {
+    // Step 1: Attempt to debit the payer's account
+    console.log(`Debiting from ${payerMSP}...`);
+    const debitResult = await contract.submit("DebitAccount", {
+      arguments: [Buffer.from(evt.payload)],
+    });
+
+    const debitStatus = Buffer.from(debitResult).toString();
+    console.log(`Debit result: ${debitStatus}`);
+
+    // Check if debit was successful
+    if (debitStatus === "QUEUED") {
+      console.log(
+        `Payment ${id} queued due to insufficient funds in ${payerMSP}. Settlement will be attempted later through netting.`
+      );
+      await cp.checkpointChaincodeEvent(evt);
+      return; // Exit early - do not proceed to credit
+    }
+
+    if (debitStatus !== "SUCCESS") {
+      throw new Error(`Unexpected debit result: ${debitStatus}`);
+    }
+
+    // Step 2: If debit was successful, proceed to credit the payee
+    console.log(`Crediting ${payeeMSP}...`);
+    await contract.submit("CreditAccount", {
+      arguments: [Buffer.from(evt.payload)],
+    });
+
+    console.log(
+      `Payment ${id} successfully settled: ${payerMSP} -> ${payeeMSP} in eNaira`
+    );
+  } catch (err) {
+    console.error(`Failed to settle payment ${id}:`, err);
+
+    // If credit failed after successful debit, we need to handle this scenario
+    // This would require implementing a rollback mechanism or compensation transaction
+    if (err.message && err.message.includes("CreditAccount")) {
+      console.error(
+        `CRITICAL: Debit succeeded but credit failed for payment ${id}. Manual intervention may be required.`
+      );
+    }
   }
 
   await cp.checkpointChaincodeEvent(evt);
@@ -73,7 +130,7 @@ async function startListener(gateway) {
   const cp = checkpointers.inMemory();
 
   console.log(
-    "🎧 CBN Settlement Listener started, waiting for PaymentCompleted events..."
+    "🎧 CBN Settlement Listener started, waiting for PaymentAcknowledged events..."
   );
 
   while (true) {
@@ -82,8 +139,8 @@ async function startListener(gateway) {
 
     try {
       for await (const evt of stream) {
-        if (evt.eventName !== "PaymentCompleted") continue;
-        await processSettlementEvent(evt, contract, cp);
+        if (evt.eventName !== "PaymentAcknowledged") continue;
+        await processSettlementEventV2(evt, contract, cp);
       }
     } catch (err) {
       console.error("🔌 event stream dropped, reconnecting…", err);
