@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  accountNumber String   @unique
+  firstname     String
+  lastname      String
+  middlename    String?
+  bvn           String   @unique
+  gender        String
+  balance       Float    @default(0)
+  birthdate     String
+  phone         String?
+  bankMSP       String // Which bank this user belongs to
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  sentPayments     Payment[]     @relation("PayerPayments")
+  transactions     Transaction[]
+
+  @@map("users")
+}
+
+model Payment {
+  id           String        @id @default(cuid())
+  paymentId    String        @unique // The blockchain payment ID
+  payerAcct    String
+  payerMSP     String
+  payeeMSP     String
+  amount       Float
+  currency     String        @default("eNaira")
+  status       PaymentStatus @default(PENDING)
+  blockchainTx String? // Fabric transaction ID
+  hash         String? // Payment hash from blockchain
+  timestamp    DateTime      @default(now())
+  settledAt    DateTime?
+
+  // Relations
+  payer User @relation("PayerPayments", fields: [payerAcct], references: [accountNumber])
+  @@map("payments")
+}
+
+model Transaction {
+  id            String          @id @default(cuid())
+  accountNumber String
+  type          TransactionType
+  amount        Float
+  balanceBefore Float
+  balanceAfter  Float
+  description   String
+  paymentId     String? // Link to payment if applicable
+  timestamp     DateTime        @default(now())
+
+  // Relations
+  user User @relation(fields: [accountNumber], references: [accountNumber])
+
+  @@map("transactions")
+}
+
+model Settlement {
+  id           String           @id @default(cuid())
+  paymentId    String           @unique
+  payerMSP     String
+  payeeMSP     String
+  amount       Float
+  status       SettlementStatus @default(PENDING)
+  debitedAt    DateTime?
+  creditedAt   DateTime?
+  settledAt    DateTime?
+  queuedReason String? // Reason if queued (e.g., insufficient funds)
+  timestamp    DateTime         @default(now())
+
+  @@map("settlements")
+}
+
+enum PaymentStatus {
+  PENDING
+  ACKNOWLEDGED
+  SETTLED
+  QUEUED
+  FAILED
+}
+
+enum TransactionType {
+  DEBIT
+  CREDIT
+  SETTLEMENT_DEBIT
+  SETTLEMENT_CREDIT
+}
+
+enum SettlementStatus {
+  PENDING
+  DEBITED
+  CREDITED
+  SETTLED
+  QUEUED
+  FAILED
+}

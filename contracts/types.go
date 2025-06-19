@@ -77,3 +77,22 @@ type PaymentSummary struct {
 	StatusCounts   map[string]int     `json:"statusCounts"`
 	TotalAmounts   map[string]float64 `json:"totalAmounts"`
 }
+
+// CombinedBankingData holds both balance and queued transaction information
+type CombinedBankingData struct {
+	BankAccount   *BankAccount      `json:"bankAccount"`
+	QueuedSummary *AllQueuedSummary `json:"queuedSummary"`
+}
+
+// TransactionAnalytics holds the aggregated transaction data
+type TransactionAnalytics struct {
+    Completed TransactionStats `json:"completed"`
+    Queued    TransactionStats `json:"queued"`
+    Pending   TransactionStats `json:"pending"`
+}
+
+// TransactionStats holds count and volume for each status
+type TransactionStats struct {
+    Count  int     `json:"count"`
+    Volume float64 `json:"volume"`
+}

@@ -1,0 +1,102 @@
+[
+  {
+    "accountNumber": "1012345678",
+    "firstname": "Musa",
+    "lastname": "Garba",
+    "middlename": "Ibrahim",
+    "bvn": "42344556789",
+    "gender": "Male",
+    "balance": 195000,
+    "birthdate": "18-08-1994"
+  },
+  {
+    "accountNumber": "1012456789",
+    "firstname": "Ngozi",
+    "lastname": "Ikwuemesi",
+    "middlename": "Adanna",
+    "bvn": "43455667891",
+    "gender": "Female",
+    "balance": 575000,
+    "birthdate": "02-10-1985"
+  },
+  {
+    "accountNumber": "1012567890",
+    "firstname": "Gbenga",
+    "lastname": "Olumide",
+    "middlename": "Ayodeji",
+    "bvn": "44566778902",
+    "gender": "Male",
+    "balance": 145000,
+    "birthdate": "21-12-1996"
+  },
+  {
+    "accountNumber": "1012678901",
+    "firstname": "Aisha",
+    "lastname": "Bello",
+    "middlename": "Fatima",
+    "bvn": "45677889013",
+    "gender": "Female",
+    "balance": 385000,
+    "birthdate": "16-07-1988"
+  },
+  {
+    "accountNumber": "1012789012",
+    "firstname": "Emeka",
+    "lastname": "Nnamdi",
+    "middlename": "Chukwuma",
+    "bvn": "46788990124",
+    "gender": "Male",
+    "balance": 465000,
+    "birthdate": "09-05-1992"
+  },
+  {
+    "accountNumber": "1012890123",
+    "firstname": "Damilola",
+    "lastname": "Adebisi",
+    "middlename": "Temiloluwa",
+    "bvn": "47899001235",
+    "gender": "Female",
+    "balance": 225000,
+    "birthdate": "30-01-1990"
+  },
+  {
+    "accountNumber": "1012901234",
+    "firstname": "Yahaya",
+    "lastname": "Aliyu",
+    "middlename": "Usman",
+    "bvn": "48900112346",
+    "gender": "Male",
+    "balance": 535000,
+    "birthdate": "12-11-1983"
+  },
+  {
+    "accountNumber": "1012012345",
+    "firstname": "Blessing",
+    "lastname": "Okoro",
+    "middlename": "Chiamaka",
+    "bvn": "49011223457",
+    "gender": "Female",
+    "balance": 265000,
+    "birthdate": "07-03-1994"
+  },
+  {
+    "accountNumber": "1012123456",
+    "firstname": "Babatunde",
+    "lastname": "Ajayi",
+    "middlename": "Olumuyiwa",
+    "bvn": "50122334568",
+    "gender": "Male",
+    "balance": 415000,
+    "birthdate": "24-09-1986"
+  },
+  {
+    "accountNumber": "1012234567",
+    "firstname": "Safiya",
+    "lastname": "Umar",
+    "middlename": "Hadiza",
+    "bvn": "51233445679",
+    "gender": "Female",
+    "balance": 335000,
+    "birthdate": "15-06-1991"
+  }
+]
