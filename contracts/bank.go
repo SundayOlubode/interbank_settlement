@@ -1,9 +1,11 @@
+// bank.go
 package main
 
 import (
 	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
@@ -23,6 +25,20 @@ type AllQueuedSummary struct {
 	BilateralSummaries []QueuedTransactionSummary `json:"bilateralSummaries"`
 	GrandTotalAmount   float64                    `json:"grandTotalAmount"`
 	GrandTotalCount    int                        `json:"grandTotalCount"`
+}
+
+type TransactionHistoryEntry struct {
+	Amount       float64 `json:"amount"`
+	BlockchainTx *string `json:"blockchainTx"` // always null here
+	Currency     string  `json:"currency"`
+	Hash         *string `json:"hash"` // not tracked, so null
+	PayeeMSP     string  `json:"payeeMSP"`
+	PayerAcct    string  `json:"payerAcct"`
+	PayerMSP     string  `json:"payerMSP"`
+	PaymentId    string  `json:"paymentId"`
+	SettledAt    *string `json:"settledAt"` // nil unless SETTLED
+	Status       string  `json:"status"`
+	Timestamp    string  `json:"timestamp"` // RFC3339
 }
 
 var authorizedMSPs = []string{
@@ -131,7 +147,7 @@ func (s *SmartContract) getQueuedTransactionsFromCollection(ctx contractapi.Tran
 		// Check if status is QUEUED
 		if payment.Status == "QUEUED" {
 			queuedCount++
-			queuedTotalAmount += payment.Amount
+			queuedTotalAmount += payment.AmountToSettle
 		}
 	}
 
@@ -377,7 +393,7 @@ func (s *SmartContract) processCollectionTransactions(ctx contractapi.Transactio
 			analytics.Completed.Volume += payment.Amount
 		case "QUEUED":
 			analytics.Queued.Count++
-			analytics.Queued.Volume += payment.Amount
+			analytics.Queued.Volume += payment.AmountToSettle
 		case "PENDING":
 			analytics.Pending.Count++
 			analytics.Pending.Volume += payment.Amount
@@ -436,4 +452,53 @@ func (s *SmartContract) GetAllBankTransactions(ctx contractapi.TransactionContex
 	}
 
 	return allTransactions, nil
+}
+
+// GetTransactionHistory fetches all transactions
+func (s *SmartContract) GetTransactionHistory(
+	ctx contractapi.TransactionContextInterface,
+) ([]TransactionHistoryEntry, error) {
+	clientMSP, err := ctx.GetClientIdentity().GetMSPID()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get client MSP: %v", err)
+	}
+
+	payments, err := s.GetAllBankTransactions(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get transactions: %v", err)
+	}
+
+	entries := make([]TransactionHistoryEntry, 0, len(payments))
+	for _, pd := range payments {
+		// Only include if caller is payer or payee
+		if pd.PayerMSP != clientMSP && pd.PayeeMSP != clientMSP {
+			continue
+		}
+
+		// format timestamps
+		ts := time.UnixMilli(pd.Timestamp).UTC().Format(time.RFC3339Nano)
+
+		var settledAt *string
+		if pd.Status == "SETTLED" {
+			sa := ts
+			settledAt = &sa
+		}
+
+		entry := TransactionHistoryEntry{
+			Amount:       pd.Amount,
+			BlockchainTx: nil,
+			Currency:     pd.Currency,
+			Hash:         nil,
+			PayeeMSP:     pd.PayeeMSP,
+			PayerAcct:    pd.PayerAcct,
+			PayerMSP:     pd.PayerMSP,
+			PaymentId:    pd.ID,
+			SettledAt:    settledAt,
+			Status:       pd.Status,
+			Timestamp:    ts,
+		}
+		entries = append(entries, entry)
+	}
+
+	return entries, nil
 }

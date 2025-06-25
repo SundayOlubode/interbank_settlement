@@ -9,7 +9,9 @@ export class DashboardController {
   }
 
   async getBankingOverview(req, res) {
-    const result = await this.contract.submit("GetBankingOverview");
+    const result = await this.contract.evaluateTransaction(
+      "GetBankingOverview"
+    );
 
     const bankingData = JSON.parse(Buffer.from(result).toString("utf8"));
 
@@ -25,7 +27,9 @@ export class DashboardController {
   }
 
   async getTransactionAnalytics(req, res) {
-    const result = await this.contract.submit("GetAllTransactionAnalytics");
+    const result = await this.contract.evaluateTransaction(
+      "GetAllTransactionAnalytics"
+    );
 
     const analytics = JSON.parse(Buffer.from(result).toString("utf8"));
 
@@ -44,8 +48,12 @@ export class DashboardController {
   async getAllBankTransaction(req, res) {
     try {
       const bank = req.query.bank;
-      //   const result = await this.contract.submit("GetAllBankTransactions");
-      let transactions = await this.databaseService.getAllBankTransactions();
+      const result = await this.contract.evaluateTransaction(
+        "GetTransactionHistory"
+      );
+      // let transactions = await this.databaseService.getAllBankTransactions();
+
+      let transactions = JSON.parse(Buffer.from(result).toString("utf8"));
 
       //   let transactions = JSON.parse(Buffer.from(result).toString("utf8"));
 

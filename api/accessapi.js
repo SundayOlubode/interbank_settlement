@@ -21,11 +21,13 @@ class BankApplication {
   setupMiddleware() {
     this.app.use(express.json());
     this.app.use(morgan("dev"));
-    this.app.use(cors({
-      origin: ["http://localhost:5173", "*"],
-      methods: "GET,POST,PUT,DELETE",
-      credentials: true,
-    }));
+    this.app.use(
+      cors({
+        origin: ["http://localhost:5173", "*"],
+        methods: "GET,POST,PUT,DELETE",
+        credentials: true,
+      })
+    );
   }
 
   setupRoutes() {
@@ -34,6 +36,16 @@ class BankApplication {
     this.dashboardController = new DashboardController();
     this.txController = new TxController();
     const paymentRoutes = createPaymentRoutes(this.paymentController);
+
+    // Bilateral netting route
+    this.app.post("/api/bilateral/netting", (req, res) =>
+      this.paymentController.performBilateralOffsetting(req, res)
+    );
+
+    // Get all bilateral PDC data
+    this.app.get("/private-data/:collection", (req, res) =>
+      this.paymentController.getAllBilateralPDCData(req, res)
+    );
 
     // Dashboard route
     this.app.use("/api/balance", (req, res) =>

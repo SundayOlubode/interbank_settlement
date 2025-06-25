@@ -5,7 +5,7 @@ import express from "express";
 import morgan from "morgan";
 import { promises as fs } from "node:fs";
 import * as crypto from "node:crypto";
-import path from "node:path";
+
 import {
   connect,
   hash,
@@ -16,45 +16,34 @@ import * as grpc from "@grpc/grpc-js";
 import * as dotenv from "dotenv";
 dotenv.config();
 import { buildQsccHelpers } from "./helper/qcss.js";
-import { extractSimpleBlockData } from "./helper/extract-block-data.js";
 
 const userAccounts = {
-  "0103456789": {
-    firstname: "Chiamaka",
-    lastname: "Nwankwo",
-    middlename: "Amarachi",
-    gender: "Female",
-    birthdate: "28-09-1993",
-    bvn: "24566788901",
-    balance: 20000,
-  },
-  "0103567890": {
-    firstname: "Ibrahim",
-    lastname: "Muhammad",
-    middlename: "Abdulrahman",
+  "2000123456": {
+    firstname: "Obinna",
+    lastname: "Ezechukwu",
+    middlename: "Kenechukwu",
+    bvn: "52344556780",
     gender: "Male",
-    phone: "08156789023",
-    birthdate: "10-01-1988",
-    bvn: "25677899012",
-    balance: 450000,
+    balance: 285000,
+    birthdate: "03-02-1989",
   },
-  "0103678901": {
-    firstname: "Tolu",
-    lastname: "Adesanya",
-    middlename: "Folake",
-    bvn: "34566778901",
+  "2000234567": {
+    firstname: "Funmi",
+    lastname: "Elegbede",
+    middlename: "Abisola",
+    bvn: "53455667891",
     gender: "Female",
-    balance: 295000,
-    birthdate: "11-05-1995",
+    balance: 445000,
+    birthdate: "28-04-1987",
   },
 };
 
 /* ---------- env / constants ------------------------------------------------ */
-const MSP_ID = process.env.GTBANK_MSP_ID ?? "GTBankMSP";
-const PEER_ENDPOINT = process.env.GTBANK_PEER_ENDPOINT ?? "localhost:8051";
-const TLS_CERT_PATH = process.env.GTBANK_TLS_CERT_PATH;
-const ID_CERT_PATH = process.env.GTBANK_ID_CERT_PATH;
-const KEY_PATH = process.env.GTBANK_KEY_PATH;
+const MSP_ID = process.env.FIRSTBANK_MSP_ID ?? "FirstBankMSP";
+const PEER_ENDPOINT = process.env.FIRSTBANK_PEER_ENDPOINT ?? "localhost:10051";
+const TLS_CERT_PATH = process.env.FIRSTBANK_TLS_CERT_PATH;
+const ID_CERT_PATH = process.env.FIRSTBANK_ID_CERT_PATH;
+const KEY_PATH = process.env.FIRSTBANK_KEY_PATH;
 const CHANNEL = process.env.CHANNEL;
 const CHAINCODE = process.env.CHAINCODE_NAME;
 const CHECKPOINT_FILE = process.env.CHECKPOINT_FILE ?? "./payment-events.chk";
@@ -377,8 +366,8 @@ app.post("/payments", async (req, res) => {
     console.log("Setting up event listeners...");
     startListener(gatewayGlobal).catch(console.error);
 
-    app.listen(4001, () => {
-      console.log(`${MSP_ID} API listening on port 4001`);
+    app.listen(4004, () => {
+      console.log(`${MSP_ID} API listening on port 4004`);
       console.log("Event listeners configured and running");
     });
   } catch (error) {

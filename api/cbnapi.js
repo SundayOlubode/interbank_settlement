@@ -46,6 +46,8 @@ async function newGateway() {
   });
 }
 
+let gateway;
+
 /* ---------- payment settlement processing ---------------------------------- */
 async function processSettlementEvent(evt, contract, cp) {
   const paymentData = JSON.parse(Buffer.from(evt.payload).toString("utf8"));
@@ -159,10 +161,90 @@ app.get("/health", (req, res) => {
   res.json({ status: "CBN Settlement Service Running" });
 });
 
+app.post("/api/netting/bilateral", async (req, res) => {
+  const { BankA, BankB } = req.body;
+  try {
+    const network = gateway.getNetwork(CHANNEL);
+    const contract = network.getContract(CHAINCODE);
+
+    const calc = await contract.submit("CalculateBilateralOffset", {
+      arguments: [BankA, BankB],
+    });
+    // const payload = JSON.parse(calc.toString("utf8"));
+    const payload = JSON.parse(Buffer.from(calc).toString("utf8"));
+
+    console.log("Bilateral netting calculation result:", payload);
+
+    const tx = contract.submit("ApplyBilateralOffset", {
+      arguments: [BankA, BankB],
+      transientData: {
+        offsetUpdate: Buffer.from(calc),
+      },
+    });
+    console.log(
+      `Bilateral netting applied between ${BankA} & ${BankB}:`,
+      payload.offset
+    );
+
+    return res.status(200).json({
+      success: true,
+      message:
+        "Bilateral offsetting performed successfully Between " +
+        BankA +
+        " and " +
+        BankB,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("Bilateral offsetting error:", error);
+    res.status(500).json({
+      error: "Bilateral offsetting failed",
+      message:
+        error.message ||
+        "An unexpected error occurred during bilateral offsetting",
+    });
+  }
+});
+
+app.post("/api/netting/multilateral", async (req, res) => {
+  try {
+    const network = gateway.getNetwork(CHANNEL);
+    const contract = network.getContract(CHAINCODE);
+
+    const calcBytes = await contract.evaluateTransaction("CalculateMultilateralOffset");
+    const payload = JSON.parse(Buffer.from(calcBytes).toString("utf8"));
+
+    const tx = await contract.submit("ApplyMultilateralOffset", {
+      transientData: {
+        multilateralUpdate: Buffer.from(calcBytes),
+      },
+    });
+
+    console.log(
+      "Multilateral netting done. NetPositions: ",
+      payload.netPositions
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Multilateral offsetting performed successfully",
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("Multilateral offsetting error:", error);
+    res.status(500).json({
+      error: "Multilateral offsetting failed",
+      message:
+        error.message ||
+        "An unexpected error occurred during Multilateral offsetting",
+    });
+  }
+});
+
 /* ---------- bootstrap everything ------------------------------------------- */
 (async () => {
   try {
-    const gateway = await newGateway();
+    gateway = await newGateway();
     console.log("✅ Connected to CBN Fabric Gateway");
 
     startListener(gateway).catch(console.error);

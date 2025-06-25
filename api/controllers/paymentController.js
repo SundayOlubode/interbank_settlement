@@ -69,15 +69,15 @@ export class PaymentController {
         payerMSP: this.config.MSP_ID,
         payeeMSP,
         amount,
-        status: 'PENDING'
+        status: "PENDING",
       });
 
       // Deduct amount from payer's account with transaction record
       const newBalance = user.balance - amount;
       await this.userManager.updateUserBalance(payerAcct, newBalance, {
-        type: 'DEBIT',
+        type: "DEBIT",
         description: `Payment to ${payeeAcct}`,
-        paymentId: paymentID
+        paymentId: paymentID,
       });
 
       console.log(
@@ -102,9 +102,15 @@ export class PaymentController {
       });
 
       // Start waiting for acknowledgment
-      const acknowledgmentPromise = this.acknowledgmentService.waitForPaymentAcknowledgment(paymentID, 10000);
-      
-      console.log(`Submitting payment ${paymentID} and waiting for acknowledgment...`);
+      const acknowledgmentPromise =
+        this.acknowledgmentService.waitForPaymentAcknowledgment(
+          paymentID,
+          10000
+        );
+
+      console.log(
+        `Submitting payment ${paymentID} and waiting for acknowledgment...`
+      );
 
       try {
         // Submit the transaction to blockchain
@@ -115,56 +121,65 @@ export class PaymentController {
           endorsingOrganizations: [this.config.MSP_ID, payeeMSP],
         });
 
-        console.log(`Payment ${paymentID} submitted to blockchain, waiting for acknowledgment...`);
+        console.log(
+          `Payment ${paymentID} submitted to blockchain, waiting for acknowledgment...`
+        );
 
         try {
           // Wait for the PaymentAcknowledged event
           const ackData = await acknowledgmentPromise;
-          
+
           // Update payment status in database
-          await this.databaseService.updatePaymentStatus(paymentID, 'ACKNOWLEDGED');
-          
+          await this.databaseService.updatePaymentStatus(
+            paymentID,
+            "ACKNOWLEDGED"
+          );
+
           console.log(`Payment ${paymentID} acknowledged:`, ackData);
-          
-          res.status(201).json({ 
-            id: paymentID, 
+
+          res.status(201).json({
+            id: paymentID,
             status: "Successful",
             message: "Payment created and acknowledged by settlement system",
             acknowledgment: ackData,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
           });
-          
         } catch (timeoutError) {
-          console.warn(`Payment ${paymentID} submitted but acknowledgment timed out:`, timeoutError.message);
-          
-          res.status(202).json({ 
-            id: paymentID, 
+          console.warn(
+            `Payment ${paymentID} submitted but acknowledgment timed out:`,
+            timeoutError.message
+          );
+
+          res.status(202).json({
+            id: paymentID,
             status: "PENDING",
-            message: "Payment created successfully but acknowledgment timed out. Payment is being processed.",
-            warning: "Settlement system acknowledgment not received within 10 seconds",
-            timestamp: new Date().toISOString()
+            message:
+              "Payment created successfully but acknowledgment timed out. Payment is being processed.",
+            warning:
+              "Settlement system acknowledgment not received within 10 seconds",
+            timestamp: new Date().toISOString(),
           });
         }
-
       } catch (submitError) {
         // Transaction submission failed, refund the user
         await this.userManager.updateUserBalance(payerAcct, user.balance, {
-          type: 'CREDIT',
+          type: "CREDIT",
           description: `Refund for failed payment ${paymentID}`,
-          paymentId: paymentID
+          paymentId: paymentID,
         });
 
         // Update payment status
-        await this.databaseService.updatePaymentStatus(paymentID, 'FAILED');
-        
-        console.log(`Refunded account ${payerAcct} with ₦${amount} due to transaction failure`);
-        
+        await this.databaseService.updatePaymentStatus(paymentID, "FAILED");
+
+        console.log(
+          `Refunded account ${payerAcct} with ₦${amount} due to transaction failure`
+        );
+
         throw submitError;
       }
-
     } catch (err) {
-      console.error('Payment creation error:', err);
-      
+      console.error("Payment creation error:", err);
+
       res.status(500).json({
         error: "Could not create payment",
         message: err.details ? err.details[0]["message"] : err.message,
@@ -172,22 +187,52 @@ export class PaymentController {
     }
   }
 
+  async getAllBilateralPDCData(req, res) {
+    const { collection } = req.params;
+
+    try {
+      const contract = this.fabricService.getContract();
+
+      // Call chaincode function to get ALL private data (no range specified)
+      const result = await contract.evaluateTransaction(
+        "GetAllPrivateData",
+        collection
+      );
+
+      const privateDataList = JSON.parse(Buffer.from(result).toString("utf8"));
+
+      res.json({
+        collection: collection,
+        totalRecords: privateDataList.length,
+        data: privateDataList,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error) {
+      console.error("Error getting all private data:", error);
+      res.status(500).json({
+        error: "Could not retrieve all private data",
+        message: error.message,
+        collection: collection,
+      });
+    }
+  }
+
   async getAccountBalance(req, res) {
     const { accountId } = req.params;
     const user = await this.userManager.getUser(accountId);
-    
+
     if (!user) {
       return res.status(404).json({
         error: "Account not found",
-        message: `Account ${accountId} does not exist`
+        message: `Account ${accountId} does not exist`,
       });
     }
-    
+
     res.json({
       accountId,
       balance: user.balance,
       name: `${user.firstname} ${user.lastname}`,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -196,16 +241,19 @@ export class PaymentController {
     const limit = parseInt(req.query.limit) || 20;
 
     try {
-      const transactions = await this.userManager.getTransactionHistory(accountId, limit);
+      const transactions = await this.userManager.getTransactionHistory(
+        accountId,
+        limit
+      );
       res.json({
         accountId,
         transactions,
-        total: transactions.length
+        total: transactions.length,
       });
     } catch (error) {
       res.status(500).json({
         error: "Failed to get transaction history",
-        message: error.message
+        message: error.message,
       });
     }
   }
@@ -215,29 +263,32 @@ export class PaymentController {
     const limit = parseInt(req.query.limit) || 10;
 
     try {
-      const payments = await this.databaseService.getPaymentsByUser(accountId, limit);
+      const payments = await this.databaseService.getPaymentsByUser(
+        accountId,
+        limit
+      );
       res.json({
         accountId,
         payments,
-        total: payments.length
+        total: payments.length,
       });
     } catch (error) {
       res.status(500).json({
         error: "Failed to get payment history",
-        message: error.message
+        message: error.message,
       });
     }
   }
 
   async getHealth(req, res) {
     const dbHealth = await this.databaseService.healthCheck();
-    
-    res.json({ 
-      status: dbHealth.status === 'healthy' ? "healthy" : "degraded",
+
+    res.json({
+      status: dbHealth.status === "healthy" ? "healthy" : "degraded",
       msp: this.config.MSP_ID,
       database: dbHealth,
       timestamp: new Date().toISOString(),
-      pendingAcknowledgments: this.acknowledgmentService.getPendingCount()
+      pendingAcknowledgments: this.acknowledgmentService.getPendingCount(),
     });
   }
 }

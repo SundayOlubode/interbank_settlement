@@ -1,3 +1,4 @@
+// settlement.go
 package main
 
 import (
@@ -60,9 +61,13 @@ func (s *SmartContract) DebitAccount(ctx contractapi.TransactionContextInterface
 		return "", fmt.Errorf("failed to read account for %s: %v", payerMSP, err)
 	}
 
+	if len(accountBytes) == 0 {
+		return "", fmt.Errorf("no account found for %s in %s", payerMSP, collectionName)
+	}
+
 	var account BankAccount
 	if err := json.Unmarshal(accountBytes, &account); err != nil {
-		return "", fmt.Errorf("failed to unmarshal account: %v", err)
+		return "", fmt.Errorf("failed to unmarshal account in debit account for %s in %s: %v", err, payerMSP, collectionName)
 	}
 
 	// Check if sufficient funds available
@@ -105,18 +110,6 @@ func (s *SmartContract) DebitAccount(ctx contractapi.TransactionContextInterface
 		return "", fmt.Errorf("failed to update payment status to DEBITED: %v", err)
 	}
 
-	// Emit debit success event
-	// evt := map[string]interface{}{
-	// 	"type":       "AccountDebited",
-	// 	"payerMSP":   payerMSP,
-	// 	"payeeMSP":   payeeMSP,
-	// 	"amount":     amount,
-	// 	"paymentID":  paymentID,
-	// 	"newBalance": account.Balance,
-	// }
-	// evtBytes, _ := json.Marshal(evt)
-	// ctx.GetStub().SetEvent("AccountDebited", evtBytes)
-
 	return "SUCCESS", nil
 }
 
@@ -126,7 +119,7 @@ func (s *SmartContract) CreditAccount(ctx contractapi.TransactionContextInterfac
 	payeeMSP := paymentDetails.PayeeMSP
 	paymentID := paymentDetails.ID
 
-	// Look up the payment in Bilateral PDC (this works as CentralBank can access bilateral PDCs)
+	// Look up the payment in Bilateral PDC
 	paymentColl := getCollectionName(paymentDetails.PayerMSP, paymentDetails.PayeeMSP)
 	paymentBytes, err := ctx.GetStub().GetPrivateData(paymentColl, paymentID)
 	if err != nil || paymentBytes == nil {
@@ -154,7 +147,7 @@ func (s *SmartContract) CreditAccount(ctx contractapi.TransactionContextInterfac
 
 	var account BankAccount
 	if err := json.Unmarshal(accountBytes, &account); err != nil {
-		return fmt.Errorf("failed to unmarshal account: %v", err)
+		return fmt.Errorf("failed to unmarshal account in credit account: %v", err)
 	}
 
 	account.Balance += amount
@@ -163,6 +156,7 @@ func (s *SmartContract) CreditAccount(ctx contractapi.TransactionContextInterfac
 		return fmt.Errorf("failed to update account: %v", err)
 	}
 
+	// TODO: Update AmountToSettle to 0 in PDC
 	// Update payment status to SETTLED in bilateral PDC
 	if err := s.updatePaymentStatusInPDC(ctx, payerMSP, payeeMSP, paymentID, "SETTLED"); err != nil {
 		return fmt.Errorf("failed to update payment status to SETTLED: %v", err)
@@ -172,18 +166,6 @@ func (s *SmartContract) CreditAccount(ctx contractapi.TransactionContextInterfac
 	if err := s.updatePublicPaymentStatus(ctx, paymentID, "SETTLED"); err != nil {
 		return fmt.Errorf("failed to update public payment status to SETTLED: %v", err)
 	}
-
-	// Emit credit success event
-	// evt := map[string]interface{}{
-	// 	"type":       "AccountCredited",
-	// 	"payerMSP":   payerMSP,
-	// 	"payeeMSP":   payeeMSP,
-	// 	"amount":     amount,
-	// 	"paymentID":  paymentID,
-	// 	"newBalance": account.Balance,
-	// }
-	// evtBytes, _ := json.Marshal(evt)
-	// ctx.GetStub().SetEvent("AccountCredited", evtBytes)
 
 	// Emit final settlement event
 	settlementEvt := PaymentEventDetails{

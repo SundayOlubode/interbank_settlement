@@ -5,7 +5,7 @@ import express from "express";
 import morgan from "morgan";
 import { promises as fs } from "node:fs";
 import * as crypto from "node:crypto";
-import path from "node:path";
+
 import {
   connect,
   hash,
@@ -19,42 +19,32 @@ import { buildQsccHelpers } from "./helper/qcss.js";
 import { extractSimpleBlockData } from "./helper/extract-block-data.js";
 
 const userAccounts = {
-  "0103456789": {
-    firstname: "Chiamaka",
-    lastname: "Nwankwo",
-    middlename: "Amarachi",
-    gender: "Female",
-    birthdate: "28-09-1993",
-    bvn: "24566788901",
-    balance: 20000,
-  },
-  "0103567890": {
-    firstname: "Ibrahim",
-    lastname: "Muhammad",
-    middlename: "Abdulrahman",
+  "1012345678": {
+    firstname: "Musa",
+    lastname: "Garba",
+    middlename: "Ibrahim",
+    bvn: "42344556789",
     gender: "Male",
-    phone: "08156789023",
-    birthdate: "10-01-1988",
-    bvn: "25677899012",
-    balance: 450000,
+    balance: 195000,
+    birthdate: "18-08-1994",
   },
-  "0103678901": {
-    firstname: "Tolu",
-    lastname: "Adesanya",
-    middlename: "Folake",
-    bvn: "34566778901",
+  "1012456789": {
+    firstname: "Ngozi",
+    lastname: "Ikwuemesi",
+    middlename: "Adanna",
+    bvn: "43455667891",
     gender: "Female",
-    balance: 295000,
-    birthdate: "11-05-1995",
+    balance: 575000,
+    birthdate: "02-10-1985"
   },
 };
 
 /* ---------- env / constants ------------------------------------------------ */
-const MSP_ID = process.env.GTBANK_MSP_ID ?? "GTBankMSP";
-const PEER_ENDPOINT = process.env.GTBANK_PEER_ENDPOINT ?? "localhost:8051";
-const TLS_CERT_PATH = process.env.GTBANK_TLS_CERT_PATH;
-const ID_CERT_PATH = process.env.GTBANK_ID_CERT_PATH;
-const KEY_PATH = process.env.GTBANK_KEY_PATH;
+const MSP_ID = process.env.ZENITHBANK_MSP_ID ?? "ZenithBankMSP";
+const PEER_ENDPOINT = process.env.ZENITHBANK_PEER_ENDPOINT ?? "localhost:9051";
+const TLS_CERT_PATH = process.env.ZENITHBANK_TLS_CERT_PATH;
+const ID_CERT_PATH = process.env.ZENITHBANK_ID_CERT_PATH;
+const KEY_PATH = process.env.ZENITHBANK_KEY_PATH;
 const CHANNEL = process.env.CHANNEL;
 const CHAINCODE = process.env.CHAINCODE_NAME;
 const CHECKPOINT_FILE = process.env.CHECKPOINT_FILE ?? "./payment-events.chk";
@@ -377,8 +367,8 @@ app.post("/payments", async (req, res) => {
     console.log("Setting up event listeners...");
     startListener(gatewayGlobal).catch(console.error);
 
-    app.listen(4001, () => {
-      console.log(`${MSP_ID} API listening on port 4001`);
+    app.listen(4003, () => {
+      console.log(`${MSP_ID} API listening on port 4003`);
       console.log("Event listeners configured and running");
     });
   } catch (error) {

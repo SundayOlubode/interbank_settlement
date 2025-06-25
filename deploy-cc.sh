@@ -196,6 +196,7 @@ commitChaincodeDefination() {
         --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0ACCESSBANK_CA \
         --peerAddresses localhost:8051 --tlsRootCertFiles $PEER0GTBANK_CA \
         --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0ZENITHBANK_CA \
+        --peerAddresses localhost:10051 --tlsRootCertFiles $PEER0FIRSTBANK_CA \
         --version ${VERSION} --sequence ${VERSION} \
         --init-required --signature-policy "$CC_POLICY"
 

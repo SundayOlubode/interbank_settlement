@@ -25,7 +25,8 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 	}
 
 	// seed account balance
-	starting := 15_000_000_000.0 // 15 billion eNaira
+	// starting := 15_000_000_000.0 // 15 billion eNaira
+	starting := 20_000.0 // 20 thousand eNaira
 	acct := BankAccount{MSP: clientMSP, Balance: starting}
 	acctBytes, err := json.Marshal(acct)
 	if err != nil {
@@ -38,15 +39,4 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 
 	// Initialize BVN records
 	return s.initializeBVNRecords(ctx)
-}
-
-// CreateBankAccount initializes a zero-balance account for the given MSP
-func (s *SmartContract) CreateBankAccount(ctx contractapi.TransactionContextInterface, msp string) error {
-	account := BankAccount{MSP: msp, Balance: 0}
-	accJSON, err := json.Marshal(account)
-	if err != nil {
-		return fmt.Errorf("failed to marshal account: %v", err)
-	}
-	coll := fmt.Sprintf("_implicit_org_%s", msp)
-	return ctx.GetStub().PutPrivateData(coll, msp, accJSON)
 }

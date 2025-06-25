@@ -11,17 +11,18 @@ type BankUser struct {
 
 // PaymentDetails holds sensitive payment fields (in Naira, decimals for kobo)
 type PaymentDetails struct {
-	ID        string   `json:"id"`
-	PayerAcct string   `json:"payerAcct"`
-	PayeeAcct string   `json:"payeeAcct"`
-	Amount    float64  `json:"amount"`   // eNaira, e.g. 1234.56
-	Currency  string   `json:"currency"` // "eNaira"
-	BVN       string   `json:"bvn"`      // customer BVN
-	PayerMSP  string   `json:"payerMSP"`
-	PayeeMSP  string   `json:"payeeMSP"`
-	Status    string   `json:"status"` // PENDING, SETTLED, QUEUED
-	Timestamp int64    `json:"timestamp"`
-	User      BankUser `json:"user"` // optional, can be used to store user details
+	ID             string   `json:"id"`
+	PayerAcct      string   `json:"payerAcct"`
+	PayeeAcct      string   `json:"payeeAcct"`
+	Amount         float64  `json:"amount"`         // original transaction value
+	AmountToSettle float64  `json:"amountToSettle"` // remaining for settlement/netting
+	Currency       string   `json:"currency"`
+	BVN            string   `json:"bvn"`
+	PayerMSP       string   `json:"payerMSP"`
+	PayeeMSP       string   `json:"payeeMSP"`
+	Status         string   `json:"status"` // PENDING, ACKNOWLEDGED, QUEUED, DEBITED, SETTLED...
+	Timestamp      int64    `json:"timestamp"`
+	User           BankUser `json:"user"`
 }
 
 // PaymentEventDetails for events
@@ -86,13 +87,13 @@ type CombinedBankingData struct {
 
 // TransactionAnalytics holds the aggregated transaction data
 type TransactionAnalytics struct {
-    Completed TransactionStats `json:"completed"`
-    Queued    TransactionStats `json:"queued"`
-    Pending   TransactionStats `json:"pending"`
+	Completed TransactionStats `json:"completed"`
+	Queued    TransactionStats `json:"queued"`
+	Pending   TransactionStats `json:"pending"`
 }
 
 // TransactionStats holds count and volume for each status
 type TransactionStats struct {
-    Count  int     `json:"count"`
-    Volume float64 `json:"volume"`
+	Count  int     `json:"count"`
+	Volume float64 `json:"volume"`
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
@@ -18,19 +19,26 @@ func (s *SmartContract) CreatePayment(ctx contractapi.TransactionContextInterfac
 	if !ok {
 		return fmt.Errorf("payment details must be provided in transient data under 'payment'")
 	}
+
 	var details PaymentDetails
 	if err := json.Unmarshal(paymentJSON, &details); err != nil {
 		return fmt.Errorf("failed to unmarshal payment details: %v", err)
 	}
+	details.AmountToSettle = details.Amount
 
 	// Verify BVN
 	if err := s.verifyBVN(ctx, details.User); err != nil {
 		return err
 	}
 
+	updatedBytes, err := json.Marshal(details)
+	if err != nil {
+		return fmt.Errorf("failed to marshal updated PaymentDetails: %v", err)
+	}
+
 	// Store full details in bilateral collection
 	coll := getCollectionName(details.PayerMSP, details.PayeeMSP)
-	if err := ctx.GetStub().PutPrivateData(coll, details.ID, paymentJSON); err != nil {
+	if err := ctx.GetStub().PutPrivateData(coll, details.ID, updatedBytes); err != nil {
 		return fmt.Errorf("failed to put private payment data: %v", err)
 	}
 
@@ -139,4 +147,29 @@ func (s *SmartContract) GetBilateralPaymentsByStatus(ctx contractapi.Transaction
 	}
 
 	return filteredPayments, nil
+}
+
+// GetAllPrivateData returns all private data in a given collection.
+func (s *SmartContract) GetAllPrivateData(ctx contractapi.TransactionContextInterface, collection string) (string, error) {
+	// Simple range query with empty start/end keys
+	resultsIterator, err := ctx.GetStub().GetPrivateDataByRange(collection, "", "")
+	if err != nil {
+		return "", err
+	}
+	defer resultsIterator.Close()
+
+	var results []string
+
+	for resultsIterator.HasNext() {
+		queryResult, err := resultsIterator.Next()
+		if err != nil {
+			return "", err
+		}
+
+		record := fmt.Sprintf(`{"key":"%s","value":%s}`, queryResult.Key, string(queryResult.Value))
+		results = append(results, record)
+	}
+
+	// Return JSON array
+	return fmt.Sprintf("[%s]", strings.Join(results, ",")), nil
 }
