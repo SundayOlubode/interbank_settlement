@@ -18,7 +18,7 @@ dotenv.config();
 import { buildQsccHelpers } from "./helper/qcss.js";
 
 const userAccounts = {
-  "2000123456": {
+  2000123456: {
     firstname: "Obinna",
     lastname: "Ezechukwu",
     middlename: "Kenechukwu",
@@ -27,7 +27,7 @@ const userAccounts = {
     balance: 285000,
     birthdate: "03-02-1989",
   },
-  "2000234567": {
+  2000234567: {
     firstname: "Funmi",
     lastname: "Elegbede",
     middlename: "Abisola",
@@ -268,6 +268,7 @@ app.post("/payments", async (req, res) => {
       payeeMSP,
       payeeAcct,
       amount,
+      timestamp: Date.now(),
       user: {
         firstname: user.firstname,
         lastname: user.lastname,

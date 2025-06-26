@@ -92,6 +92,7 @@ export class PaymentController {
         payeeMSP,
         payeeAcct,
         amount,
+        timestamp: Date.now(),
         user: {
           firstname: user.firstname,
           lastname: user.lastname,

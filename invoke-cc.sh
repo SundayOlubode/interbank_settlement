@@ -6,7 +6,7 @@ set -x
 setGlobalForPeer0AccessBank
 
 chaincodeInvokeInit() {
-    # setGlobalForPeer0AccessBank
+    setGlobalForPeer0AccessBank
     peer chaincode invoke -o localhost:7050 \
         --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
         --tls $CORE_PEER_TLS_ENABLED \
@@ -23,7 +23,7 @@ chaincodeInvokeInit
 sleep 2
 
 chaincodeCreateAccount(){
-    # setGlobalForPeer0AccessBank
+    setGlobalForPeer0AccessBank
     peer chaincode invoke -o localhost:7050 \
         --ordererTLSHostnameOverride orderer.cbn.naijachain.org \
         --tls $CORE_PEER_TLS_ENABLED \
