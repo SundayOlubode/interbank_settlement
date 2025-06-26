@@ -97,3 +97,11 @@ type TransactionStats struct {
 	Count  int     `json:"count"`
 	Volume float64 `json:"volume"`
 }
+
+// CounterpartyStats holds the summary for one counterparty MSP.
+type CounterpartyStats struct {
+	BankMSP           string  `json:"bankMSP"`
+	TransactionCount  int     `json:"transactionCount"`
+	TransactionVolume float64 `json:"transactionVolume"`
+	NetPosition       float64 `json:"netPosition"`
+}

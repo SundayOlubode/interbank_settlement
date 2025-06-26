@@ -28,17 +28,15 @@ type AllQueuedSummary struct {
 }
 
 type TransactionHistoryEntry struct {
-	Amount       float64 `json:"amount"`
-	BlockchainTx *string `json:"blockchainTx"` // always null here
-	Currency     string  `json:"currency"`
-	Hash         *string `json:"hash"` // not tracked, so null
-	PayeeMSP     string  `json:"payeeMSP"`
-	PayerAcct    string  `json:"payerAcct"`
-	PayerMSP     string  `json:"payerMSP"`
-	PaymentId    string  `json:"paymentId"`
-	SettledAt    *string `json:"settledAt"` // nil unless SETTLED
-	Status       string  `json:"status"`
-	Timestamp    string  `json:"timestamp"` // RFC3339
+	Amount    float64 `json:"amount"`
+	Currency  string  `json:"currency"`
+	PayeeMSP  string  `json:"payeeMSP"`
+	PayerAcct string  `json:"payerAcct"`
+	PayerMSP  string  `json:"payerMSP"`
+	PaymentId string  `json:"paymentId"`
+	SettledAt string  `json:"settledAt"` // nil unless SETTLED
+	Status    string  `json:"status"`
+	Timestamp string  `json:"timestamp"` // RFC3339
 }
 
 var authorizedMSPs = []string{
@@ -478,27 +476,89 @@ func (s *SmartContract) GetTransactionHistory(
 		// format timestamps
 		ts := time.UnixMilli(pd.Timestamp).UTC().Format(time.RFC3339Nano)
 
-		var settledAt *string
+		var settledAt string
 		if pd.Status == "SETTLED" {
 			sa := ts
-			settledAt = &sa
+			settledAt = sa
 		}
 
 		entry := TransactionHistoryEntry{
-			Amount:       pd.Amount,
-			BlockchainTx: nil,
-			Currency:     pd.Currency,
-			Hash:         nil,
-			PayeeMSP:     pd.PayeeMSP,
-			PayerAcct:    pd.PayerAcct,
-			PayerMSP:     pd.PayerMSP,
-			PaymentId:    pd.ID,
-			SettledAt:    settledAt,
-			Status:       pd.Status,
-			Timestamp:    ts,
+			Amount:    pd.Amount,
+			Currency:  pd.Currency,
+			PayeeMSP:  pd.PayeeMSP,
+			PayerAcct: pd.PayerAcct,
+			PayerMSP:  pd.PayerMSP,
+			PaymentId: pd.ID,
+			SettledAt: settledAt,
+			Status:    pd.Status,
+			Timestamp: ts,
 		}
 		entries = append(entries, entry)
 	}
 
 	return entries, nil
+}
+
+func (s *SmartContract) GetCounterpartyStats(
+	ctx contractapi.TransactionContextInterface,
+) ([]*CounterpartyStats, error) {
+	clientMSP, err := ctx.GetClientIdentity().GetMSPID()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get client MSP: %v", err)
+	}
+
+	var stats []*CounterpartyStats
+
+	for _, otherMSP := range authorizedMSPs {
+		if otherMSP == clientMSP {
+			continue
+		}
+
+		coll := getCollectionName(clientMSP, otherMSP)
+		iter, err := ctx.GetStub().GetPrivateDataByRange(coll, "", "")
+		if err != nil {
+			return nil, fmt.Errorf("failed to read private data collection %s: %v", coll, err)
+		}
+
+		count := 0
+		var volume, net float64
+
+		for iter.HasNext() {
+			qr, err := iter.Next()
+			if err != nil {
+				iter.Close()
+				return nil, fmt.Errorf("iterator error on %s: %v", coll, err)
+			}
+
+			var pd PaymentDetails
+			if err := json.Unmarshal(qr.Value, &pd); err != nil {
+				continue
+			}
+
+			count++
+			volume += pd.Amount
+
+			if pd.Status != "QUEUED" {
+				continue // net position depends on unsettled transactions
+			}
+
+			// netPosition: incoming (payee) minus outgoing (payer)
+			if pd.PayeeMSP == clientMSP {
+				net += pd.Amount
+			}
+			if pd.PayerMSP == clientMSP {
+				net -= pd.Amount
+			}
+		}
+		iter.Close()
+
+		stats = append(stats, &CounterpartyStats{
+			BankMSP:           otherMSP,
+			TransactionCount:  count,
+			TransactionVolume: volume,
+			NetPosition:       net,
+		})
+	}
+
+	return stats, nil
 }

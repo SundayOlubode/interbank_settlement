@@ -134,8 +134,9 @@ func (s *SmartContract) ApplyBilateralOffset(
 	}
 
 	evt := struct {
-		MSPA, MSPB string  `json:"mspA,mspB"`
-		Offset     float64 `json:"offset"`
+		MSPA   string  `json:"mspA"`
+		MSPB   string  `json:"mspB"`
+		Offset float64 `json:"offset"`
 	}{mspA, mspB, payload.Offset}
 	evtBytes, _ := json.Marshal(evt)
 	ctx.GetStub().SetEvent("BilateralOffsetExecuted", evtBytes)
