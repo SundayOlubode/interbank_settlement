@@ -54,7 +54,7 @@ peer:
         # MinInterval is the minimum permitted time between client pings.
         # If clients send pings more frequently, the peer server will
         # disconnect them
-        minInterval: 60s
+        minInterval: 10s
         # Client keepalive settings for communicating with other peer nodes
         client:
             # Interval is the time between pings to peer nodes.  This must
