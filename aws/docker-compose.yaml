@@ -1,0 +1,22 @@
+services:
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:2.2.3
+    tty: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=info # Set logging level to debug for more verbose logging
+      - CORE_PEER_ID=cli
+      - CORE_CHAINCODE_KEEPALIVE=10
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem
+      - CORE_PEER_LOCALMSPID=m-KT25LAMFLRDDBMSOWL5B3Q4JLE
+      - CORE_PEER_MSPCONFIGPATH=/opt/home/admin-msp
+      - CORE_PEER_ADDRESS=nd-uzxvn57l3fcdfopmhws5d5wypa.m-kt25lamflrddbmsowl5b3q4jle.n-35fag43kwnhchcsxjtdhxvqsfu.managedblockchain.us-east-1.amazonaws.com:30006
+    working_dir: /opt/home
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - /home/ec2-user/fabric-samples/chaincode:/opt/gopath/src/github.com/
+      - /home/ec2-user:/opt/home

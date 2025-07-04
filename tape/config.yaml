@@ -70,14 +70,14 @@ chaincode: account
 # randomString$length
 # randomNumber$min_$max
 args:
-  - CalculateMultilateralOffset
+  - GetBankAccountBalance
   # - uuid
   # - randomString8
   # - randomNumber0_50
   # - randomString8
   # - randomNumber0_50
 # Tx submiter information
-mspid: CentralBankPeerMSP
+mspid: AccessBankMSP
 private_key: ../crypto-config/peerOrganizations/accessbank.naijachain.org/users/User1@accessbank.naijachain.org/msp/keystore/priv_sk
 sign_cert: ../crypto-config/peerOrganizations/accessbank.naijachain.org/users/User1@accessbank.naijachain.org/msp/signcerts/User1@accessbank.naijachain.org-cert.pem
 # network traffic control

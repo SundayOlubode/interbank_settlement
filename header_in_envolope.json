@@ -39,7 +39,7 @@
                     "max_message_count": 5,
                     "preferred_max_bytes": 524288
                   },
-                  "version": "1"
+                  "version": "3"
                 }
               },
               "version": "0"
