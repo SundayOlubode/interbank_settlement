@@ -4,3 +4,4 @@ channel-artifacts/
 contracts/vendor/
 cli_scripts/
 chaincode/vendor/
+caliper-benchmarks/

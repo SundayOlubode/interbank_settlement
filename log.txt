@@ -1,2 +1,2 @@
 Installed chaincodes on peer:
-Package ID: account_1:c4a81744ade7b62206227f8a3cf4dd4e9647121b8f425582da9bf8bc3ace7d6a, Label: account_1
+Package ID: account_1:f4c33fb318d6f9f24095fff07c0b9c0976ba19309f5e2cc1181f0b398d7de5d5, Label: account_1

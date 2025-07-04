@@ -1,0 +1,102 @@
+[
+  {
+    "accountNumber": "2000123456",
+    "firstname": "Obinna",
+    "lastname": "Ezechukwu",
+    "middlename": "Kenechukwu",
+    "bvn": "52344556780",
+    "gender": "Male",
+    "balance": 285000,
+    "birthdate": "03-02-1989"
+  },
+  {
+    "accountNumber": "2000234567",
+    "firstname": "Funmi",
+    "lastname": "Elegbede",
+    "middlename": "Abisola",
+    "bvn": "53455667891",
+    "gender": "Female",
+    "balance": 445000,
+    "birthdate": "28-04-1987"
+  },
+  {
+    "accountNumber": "2000345678",
+    "firstname": "Abdullahi",
+    "lastname": "Maikano",
+    "middlename": "Nasiru",
+    "bvn": "54566778903",
+    "gender": "Male",
+    "balance": 155000,
+    "birthdate": "20-10-1995"
+  },
+  {
+    "accountNumber": "2000456789",
+    "firstname": "Chidinma",
+    "lastname": "Okafor",
+    "middlename": "Precious",
+    "bvn": "55677889014",
+    "gender": "Female",
+    "balance": 375000,
+    "birthdate": "11-08-1993"
+  },
+  {
+    "accountNumber": "2000567890",
+    "firstname": "Femi",
+    "lastname": "Ogundimu",
+    "middlename": "Oluwaseyi",
+    "bvn": "56788990125",
+    "gender": "Male",
+    "balance": 525000,
+    "birthdate": "05-12-1984"
+  },
+  {
+    "accountNumber": "2000678901",
+    "firstname": "Rukayat",
+    "lastname": "Salami",
+    "middlename": "Aminat",
+    "bvn": "57899001236",
+    "gender": "Female",
+    "balance": 205000,
+    "birthdate": "17-07-1990"
+  },
+  {
+    "accountNumber": "2000789012",
+    "firstname": "Kelechi",
+    "lastname": "Anyanwu",
+    "middlename": "Chukwuebuka",
+    "bvn": "58900112347",
+    "gender": "Male",
+    "balance": 355000,
+    "birthdate": "22-01-1988"
+  },
+  {
+    "accountNumber": "2000890123",
+    "firstname": "Yetunde",
+    "lastname": "Oladele",
+    "middlename": "Omolara",
+    "bvn": "59011223458",
+    "gender": "Female",
+    "balance": 425000,
+    "birthdate": "08-05-1992"
+  },
+  {
+    "accountNumber": "2000901234",
+    "firstname": "Sani",
+    "lastname": "Danjuma",
+    "middlename": "Yakubu",
+    "bvn": "60122334569",
+    "gender": "Male",
+    "balance": 485000,
+    "birthdate": "14-03-1985"
+  },
+  {
+    "accountNumber": "2000012345",
+    "firstname": "Nneka",
+    "lastname": "Okoye",
+    "middlename": "Chizoba",
+    "bvn": "61233445680",
+    "gender": "Female",
+    "balance": 165000,
+    "birthdate": "26-11-1996"
+  }
+]

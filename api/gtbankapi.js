@@ -15,11 +15,11 @@ import {
 import * as grpc from "@grpc/grpc-js";
 import * as dotenv from "dotenv";
 dotenv.config();
-
-const utf8Decoder = new TextDecoder();
+import { buildQsccHelpers } from "./helper/qcss.js";
+import { extractSimpleBlockData } from "./helper/extract-block-data.js";
 
 const userAccounts = {
-  3331144777: {
+  "0103456789": {
     firstname: "Chiamaka",
     lastname: "Nwankwo",
     middlename: "Amarachi",
@@ -28,7 +28,7 @@ const userAccounts = {
     bvn: "24566788901",
     balance: 20000,
   },
-  3331144666: {
+  "0103567890": {
     firstname: "Ibrahim",
     lastname: "Muhammad",
     middlename: "Abdulrahman",
@@ -36,7 +36,16 @@ const userAccounts = {
     phone: "08156789023",
     birthdate: "10-01-1988",
     bvn: "25677899012",
-    balance: 45000,
+    balance: 450000,
+  },
+  "0103678901": {
+    firstname: "Tolu",
+    lastname: "Adesanya",
+    middlename: "Folake",
+    bvn: "34566778901",
+    gender: "Female",
+    balance: 295000,
+    birthdate: "11-05-1995",
   },
 };
 
@@ -49,6 +58,9 @@ const KEY_PATH = process.env.GTBANK_KEY_PATH;
 const CHANNEL = process.env.CHANNEL;
 const CHAINCODE = process.env.CHAINCODE_NAME;
 const CHECKPOINT_FILE = process.env.CHECKPOINT_FILE ?? "./payment-events.chk";
+
+// Global map to track pending payment acknowledgments
+const pendingAcknowledgments = new Map();
 
 /* ---------- fabric helper --------------------------------------------------- */
 async function newGateway() {
@@ -64,12 +76,40 @@ async function newGateway() {
     identity: { mspId: MSP_ID, credentials: idBytes },
     signer: signers.newPrivateKeySigner(signerKey),
     hash: hash.sha256,
+    discovery: { enabled: true, asLocalhost: true },
+  });
+}
+
+let qscc;
+
+// Helper function to wait for PaymentAcknowledged event with timeout
+function waitForPaymentAcknowledgment(paymentID, timeout = 10000) {
+  return new Promise((resolve, reject) => {
+    const timeoutId = setTimeout(() => {
+      // Clean up pending acknowledgment
+      pendingAcknowledgments.delete(paymentID);
+      reject(new Error("Payment acknowledgment timeout"));
+    }, timeout);
+
+    // Store the resolve function to be called when event is received
+    pendingAcknowledgments.set(paymentID, {
+      resolve: (ackData) => {
+        clearTimeout(timeoutId);
+        pendingAcknowledgments.delete(paymentID);
+        resolve(ackData);
+      },
+      reject: (error) => {
+        clearTimeout(timeoutId);
+        pendingAcknowledgments.delete(paymentID);
+        reject(error);
+      },
+    });
   });
 }
 
 /* ---------- payment processing --------------------------------------------- */
 async function processPaymentEvent(evt, contract, cp) {
-  const { id, payeeMSP } = JSON.parse(
+  const { id, payerMSP, payeeMSP } = JSON.parse(
     Buffer.from(evt.payload).toString("utf8")
   );
 
@@ -83,7 +123,7 @@ async function processPaymentEvent(evt, contract, cp) {
   }
 
   // Remove the Buffer conversion since it's now a string
-  const payBytes = await contract.submit("GetPrivatePayment", {
+  const payBytes = await contract.submit("GetIncomingPayment", {
     arguments: [id],
   });
   const pay = JSON.parse(Buffer.from(payBytes).toString("utf8"));
@@ -105,10 +145,41 @@ async function processPaymentEvent(evt, contract, cp) {
 
   console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);
 
+  await contract.submit("AcknowledgePayment", {
+    arguments: [JSON.stringify({ id, payerMSP, payeeMSP })],
+  });
+
   // await contract.submitTransaction("SettlePayment", id);
   console.log(`Payment ${id} marked as SETTLED`);
 
   await cp.checkpointChaincodeEvent(evt);
+}
+
+// Handle PaymentAcknowledged events
+async function processPaymentAcknowledgedEvent(evt, cp) {
+  try {
+    const ackData = JSON.parse(Buffer.from(evt.payload).toString("utf8"));
+
+    if (ackData.payerMSP !== MSP_ID) return;
+
+    const { id: paymentID } = ackData;
+
+    console.log(
+      `Received PaymentAcknowledged for payment ${paymentID}:`,
+      ackData
+    );
+
+    // Check if someone is waiting for this acknowledgment
+    const pending = pendingAcknowledgments.get(paymentID);
+    if (pending) {
+      pending.resolve(ackData);
+    }
+
+    await cp.checkpointChaincodeEvent(evt);
+  } catch (error) {
+    console.error("Error processing PaymentAcknowledged event:", error);
+    await cp.checkpointChaincodeEvent(evt);
+  }
 }
 
 async function startListener(gateway) {
@@ -124,8 +195,15 @@ async function startListener(gateway) {
     try {
       for await (const evt of stream) {
         console.log(`Received event: ${evt.eventName}`);
-        if (evt.eventName !== "PaymentPending") continue;
-        await processPaymentEvent(evt, contract, cp);
+
+        if (evt.eventName === "PaymentPending") {
+          await processPaymentEvent(evt, contract, cp);
+        } else if (evt.eventName === "PaymentAcknowledged") {
+          await processPaymentAcknowledgedEvent(evt, cp);
+        } else {
+          // Checkpoint other events
+          await cp.checkpointChaincodeEvent(evt);
+        }
       }
     } catch (err) {
       console.error("🔌 event stream dropped, reconnecting…", err);
@@ -149,44 +227,163 @@ app.post("/payments", async (req, res) => {
     const contract = network.getContract(CHAINCODE);
 
     const { payerAcct, payeeMSP, payeeAcct, amount } = req.body;
-    const paymentID = crypto.randomUUID();
 
-    await contract.submit("CreatePayment", {
-      transientData: {
-        payerAcct,
-        payeeMSP,
-        payeeAcct,
-        amount: amount.toString(),
+    const user = userAccounts[payerAcct];
+    if (!user) {
+      return res.status(400).json({
+        error: "Invalid payer account",
+        message: `Account ${payerAcct} does not exist`,
+      });
+    }
+
+    // Check if recipient is not same account as payer
+    if (payerAcct === payeeAcct) {
+      return res.status(400).json({
+        error: "Invalid transaction",
+        message: `Payer account ${payerAcct} cannot be the same as payee account ${payeeAcct}`,
+      });
+    }
+
+    const payerBalance = user.balance;
+
+    if (payerBalance < amount) {
+      return res.status(400).json({
+        error: "Insufficient funds",
+        message: `Account ${payerAcct} has insufficient funds (₦${payerBalance}) for this transaction (₦${amount})`,
+      });
+    }
+
+    // Deduct amount from payer's account
+    user.balance -= amount;
+    console.log(
+      `Debited account ${payerAcct} (${user.firstname}) with ₦${amount}. New balance: ₦${user.balance}`
+    );
+
+    const paymentID = crypto.randomUUID().toString();
+    const bvn = user.bvn;
+
+    if (!bvn) {
+      // Refund the user since we can't process without BVN
+      user.balance += amount;
+      return res.status(400).json({
+        error: "Missing BVN",
+        message: `Account ${payerAcct} does not have a valid BVN`,
+      });
+    }
+
+    // Prepare payment data
+    const payJson = JSON.stringify({
+      id: paymentID,
+      payerMSP: MSP_ID,
+      payerAcct,
+      payeeMSP,
+      payeeAcct,
+      amount,
+      timestamp: Date.now(),
+      user: {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        gender: user.gender,
+        birthdate: user.birthdate,
+        bvn: user.bvn,
       },
-      arguments: [paymentID],
     });
 
-    res.status(201).json({ id: paymentID, status: "PENDING" });
+    // Start waiting for acknowledgment before submitting transaction
+    const acknowledgmentPromise = waitForPaymentAcknowledgment(
+      paymentID,
+      10000
+    ); // 10 second timeout
+
+    console.log(
+      `Submitting payment ${paymentID} and waiting for acknowledgment...`
+    );
+
+    try {
+      // Submit the transaction
+      await contract.submit("CreatePayment", {
+        transientData: {
+          payment: Buffer.from(payJson),
+        },
+        endorsingOrganizations: [MSP_ID, payeeMSP],
+      });
+
+      console.log(
+        `Payment ${paymentID} submitted to blockchain, waiting for acknowledgment...`
+      );
+
+      try {
+        // Wait for the PaymentAcknowledged event (with 10s timeout)
+        const ackData = await acknowledgmentPromise;
+
+        console.log(`Payment ${paymentID} acknowledged:`, ackData);
+
+        // Return success response with acknowledgment data
+        res.status(201).json({
+          id: paymentID,
+          status: "Successful",
+          message: "Payment created and acknowledged by settlement system",
+          acknowledgment: ackData,
+          timestamp: new Date().toISOString(),
+        });
+      } catch (timeoutError) {
+        console.warn(
+          `Payment ${paymentID} submitted but acknowledgment timed out:`,
+          timeoutError.message
+        );
+
+        // Return success but indicate acknowledgment timeout
+        res.status(202).json({
+          id: paymentID,
+          status: "PENDING",
+          message:
+            "Payment created successfully but acknowledgment timed out. Payment is being processed.",
+          warning:
+            "Settlement system acknowledgment not received within 10 seconds",
+          timestamp: new Date().toISOString(),
+        });
+      }
+    } catch (submitError) {
+      // Transaction submission failed, refund the user
+      user.balance += amount;
+      console.log(
+        `Refunded account ${payerAcct} with ₦${amount} due to transaction failure`
+      );
+
+      throw submitError; // Re-throw to be caught by outer catch
+    }
   } catch (err) {
-    console.error(err);
+    console.error("Payment creation error:", err);
+
     res.status(500).json({
       error: "Could not create payment",
-      message: err.details[0]["message"],
+      message: err.details ? err.details[0]["message"] : err.message,
     });
-  }
-});
-
-app.post("/payments/:id/settle", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const network = gatewayGlobal.getNetwork(CHANNEL);
-    const contract = network.getContract(CHAINCODE);
-    await contract.submitTransaction("SettlePayment", id);
-    res.json({ id, status: "SETTLED" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "settle failed" });
   }
 });
 
 /* ---------- bootstrap everything ------------------------------------------- */
 (async () => {
-  gatewayGlobal = await newGateway();
-  startListener(gatewayGlobal).catch(console.error);
-  app.listen(4001, () => console.log("Bank‑API listening on 4001"));
+  try {
+    console.log(`Starting ${MSP_ID} API server...`);
+
+    gatewayGlobal = await newGateway();
+    console.log("Gateway connection established");
+
+    // after gateway connection established:
+    const network = gatewayGlobal.getNetwork(CHANNEL);
+    qscc = await buildQsccHelpers(gatewayGlobal, CHANNEL);
+
+    // Start event listeners (acknowledgment is now integrated into startListener)
+    console.log("Setting up event listeners...");
+    startListener(gatewayGlobal).catch(console.error);
+
+    app.listen(4001, () => {
+      console.log(`${MSP_ID} API listening on port 4001`);
+      console.log("Event listeners configured and running");
+    });
+  } catch (error) {
+    console.error("Failed to start application:", error);
+    process.exit(1);
+  }
 })();

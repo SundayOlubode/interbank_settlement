@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: access-postgres
+    environment:
+      POSTGRES_USER: bankuser
+      POSTGRES_PASSWORD: bankpass123
+      POSTGRES_DB: accessdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - accessdata:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+volumes:
+  accessdata:

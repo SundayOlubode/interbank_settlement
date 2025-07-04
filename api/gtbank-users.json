@@ -1,0 +1,102 @@
+[
+  {
+    "accountNumber": "0103456789",
+    "firstname": "Aminu",
+    "lastname": "Abdullahi",
+    "middlename": "Suleiman",
+    "bvn": "32344566789",
+    "gender": "Male",
+    "balance": 480000,
+    "birthdate": "14-07-1992"
+  },
+  {
+    "accountNumber": "0103567890",
+    "firstname": "Chinwendu",
+    "lastname": "Okonkwo",
+    "middlename": "Adaeze",
+    "bvn": "33455667890",
+    "gender": "Female",
+    "balance": 165000,
+    "birthdate": "23-02-1988"
+  },
+  {
+    "accountNumber": "0103678901",
+    "firstname": "Tolu",
+    "lastname": "Adesanya",
+    "middlename": "Folake",
+    "bvn": "34566778901",
+    "gender": "Female",
+    "balance": 295000,
+    "birthdate": "11-05-1995"
+  },
+  {
+    "accountNumber": "0103789012",
+    "firstname": "Bashir",
+    "lastname": "Yusuf",
+    "middlename": "Ahmad",
+    "bvn": "35677889012",
+    "gender": "Male",
+    "balance": 620000,
+    "birthdate": "08-12-1984"
+  },
+  {
+    "accountNumber": "0103890123",
+    "firstname": "Ijeoma",
+    "lastname": "Uzoma",
+    "middlename": "Chioma",
+    "bvn": "36788990123",
+    "gender": "Female",
+    "balance": 310000,
+    "birthdate": "19-09-1991"
+  },
+  {
+    "accountNumber": "0103901234",
+    "firstname": "Seun",
+    "lastname": "Ogundipe",
+    "middlename": "Adebayo",
+    "bvn": "37899001234",
+    "gender": "Male",
+    "balance": 245000,
+    "birthdate": "06-03-1986"
+  },
+  {
+    "accountNumber": "0103012345",
+    "firstname": "Hauwa",
+    "lastname": "Mohammed",
+    "middlename": "Zainab",
+    "bvn": "38900112345",
+    "gender": "Female",
+    "balance": 175000,
+    "birthdate": "25-11-1993"
+  },
+  {
+    "accountNumber": "0103123456",
+    "firstname": "Kemi",
+    "lastname": "Adeleye",
+    "middlename": "Bukola",
+    "bvn": "39011223456",
+    "gender": "Female",
+    "balance": 425000,
+    "birthdate": "13-01-1989"
+  },
+  {
+    "accountNumber": "0103234567",
+    "firstname": "Chinedu",
+    "lastname": "Emeagwali",
+    "middlename": "Ikechukwu",
+    "bvn": "40122334567",
+    "gender": "Male",
+    "balance": 355000,
+    "birthdate": "27-06-1990"
+  },
+  {
+    "accountNumber": "0103345678",
+    "firstname": "Adunni",
+    "lastname": "Bakare",
+    "middlename": "Omotola",
+    "bvn": "41233445678",
+    "gender": "Female",
+    "balance": 285000,
+    "birthdate": "04-04-1987"
+  }
+]

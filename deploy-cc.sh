@@ -27,7 +27,8 @@ presetup
 
 CC_RUNTIME_LANGUAGE="golang"
 VERSION="1"
-CC_SRC_PATH="./chaincode"
+# CC_SRC_PATH="./chaincode"
+CC_SRC_PATH="./contracts"
 CC_NAME="account"
 
 packageChaincode() {
@@ -195,6 +196,7 @@ commitChaincodeDefination() {
         --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0ACCESSBANK_CA \
         --peerAddresses localhost:8051 --tlsRootCertFiles $PEER0GTBANK_CA \
         --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0ZENITHBANK_CA \
+        --peerAddresses localhost:10051 --tlsRootCertFiles $PEER0FIRSTBANK_CA \
         --version ${VERSION} --sequence ${VERSION} \
         --init-required --signature-policy "$CC_POLICY"
 

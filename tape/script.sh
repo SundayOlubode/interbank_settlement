@@ -1,0 +1,1 @@
+cat ../crypto-config/peerOrganizations/accessbank.naijachain.org/msp/tlscacerts/tlsca.accessbank.naijachain.org-cert.pem

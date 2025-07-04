@@ -1,0 +1,44 @@
+{
+	"channel_id": "retailchannel",
+	"isolated_data": {},
+	"read_set": {
+		"groups": {
+			"Orderer": {
+				"groups": {},
+				"mod_policy": "",
+				"policies": {},
+				"values": {},
+				"version": "0"
+			}
+		},
+		"mod_policy": "",
+		"policies": {},
+		"values": {},
+		"version": "0"
+	},
+	"write_set": {
+		"groups": {
+			"Orderer": {
+				"groups": {},
+				"mod_policy": "",
+				"policies": {},
+				"values": {
+					"BatchSize": {
+						"mod_policy": "Admins",
+						"value": {
+							"absolute_max_bytes": 103809024,
+							"max_message_count": 5,
+							"preferred_max_bytes": 524288
+						},
+						"version": "3"
+					}
+				},
+				"version": "0"
+			}
+		},
+		"mod_policy": "",
+		"policies": {},
+		"values": {},
+		"version": "0"
+	}
+}

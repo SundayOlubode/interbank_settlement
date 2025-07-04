@@ -1,0 +1,102 @@
+[
+  {
+    "accountNumber": "0506886519",
+    "firstname": "Oluwaseun",
+    "lastname": "Adebanjo",
+    "middlename": "Temitope",
+    "bvn": "22133455678",
+    "gender": "Female",
+    "balance": 250000,
+    "birthdate": "15-04-1990"
+  },
+  {
+    "accountNumber": "0506886390",
+    "firstname": "Emeka",
+    "lastname": "Okafor",
+    "middlename": "Chukwuemeka",
+    "bvn": "23455677890",
+    "gender": "Male",
+    "balance": 450000,
+    "birthdate": "02-11-1985"
+  },
+  {
+    "accountNumber": "0506887234",
+    "firstname": "Chiamaka",
+    "lastname": "Nwankwo",
+    "middlename": "Amarachi",
+    "bvn": "24566788901",
+    "gender": "Female",
+    "balance": 185000,
+    "birthdate": "28-09-1993"
+  },
+  {
+    "accountNumber": "0506888156",
+    "firstname": "Ibrahim",
+    "lastname": "Muhammad",
+    "middlename": "Abdulrahman",
+    "bvn": "25677899012",
+    "gender": "Male",
+    "balance": 320000,
+    "birthdate": "10-01-1988"
+  },
+  {
+    "accountNumber": "0506889078",
+    "firstname": "Fatima",
+    "lastname": "Ahmad",
+    "middlename": "Sadiku",
+    "bvn": "26788900123",
+    "gender": "Female",
+    "balance": 275000,
+    "birthdate": "05-06-1992"
+  },
+  {
+    "accountNumber": "0506890123",
+    "firstname": "Tunde",
+    "lastname": "Oloyede",
+    "middlename": "Oluwatobi",
+    "bvn": "27899011234",
+    "gender": "Male",
+    "balance": 550000,
+    "birthdate": "22-12-1983"
+  },
+  {
+    "accountNumber": "0506891245",
+    "firstname": "Amarachi",
+    "lastname": "Eze",
+    "middlename": "Chidera",
+    "bvn": "28900122345",
+    "gender": "Female",
+    "balance": 125000,
+    "birthdate": "17-08-1995"
+  },
+  {
+    "accountNumber": "0506892367",
+    "firstname": "Chukwuemeka",
+    "lastname": "Okoro",
+    "middlename": "Obinna",
+    "bvn": "29011233456",
+    "gender": "Male",
+    "balance": 390000,
+    "birthdate": "30-03-1989"
+  },
+  {
+    "accountNumber": "0506893489",
+    "firstname": "Aikevbiosa",
+    "lastname": "Okunrola",
+    "middlename": "Oluwasegun",
+    "bvn": "30122344567",
+    "gender": "Male",
+    "balance": 225000,
+    "birthdate": "12-07-1991"
+  },
+  {
+    "accountNumber": "0506894501",
+    "firstname": "Bolanle",
+    "lastname": "Soniyi",
+    "middlename": "Omowunmi",
+    "bvn": "31233455678",
+    "gender": "Female",
+    "balance": 340000,
+    "birthdate": "09-10-1987"
+  }
+]

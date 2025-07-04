@@ -1,0 +1,3614 @@
+[
+  {
+    "name": "col-BVN",
+    "policy": "OR('AccessBankMSP.member','GTBankMSP.member','ZenithBankMSP.member','FirstBankMSP.member','CitiBankMSP.member','EcoBankMSP.member','FidelityBankMSP.member','FirstCityMonumentBankMSP.member','GlobusBankMSP.member','KeystoneBankMSP.member','OptimusBankMSP.member','ParrallexBankMSP.member','PolarisBankMSP.member','PremiumTrustBankMSP.member','ProvidusBankMSP.member','StanbicIBTCBankMSP.member','StandardCharteredBankMSP.member','SterlingBankMSP.member','SunTrustBankMSP.member','TitanTrustBankMSP.member','UnionBankMSP.member','UBAMSP.member','UnityBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 25,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','GTBankMSP.member','ZenithBankMSP.member','FirstBankMSP.member','CitiBankMSP.member','EcoBankMSP.member','FidelityBankMSP.member','FirstCityMonumentBankMSP.member','GlobusBankMSP.member','KeystoneBankMSP.member','OptimusBankMSP.member','ParrallexBankMSP.member','PolarisBankMSP.member','PremiumTrustBankMSP.member','ProvidusBankMSP.member','StanbicIBTCBankMSP.member','StandardCharteredBankMSP.member','SterlingBankMSP.member','SunTrustBankMSP.member','TitanTrustBankMSP.member','UnionBankMSP.member','UBAMSP.member','UnityBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-GTBankMSP",
+    "policy": "OR('AccessBankMSP.member','GTBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','GTBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-ZenithBankMSP",
+    "policy": "OR('AccessBankMSP.member','ZenithBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','ZenithBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-FirstBankMSP",
+    "policy": "OR('AccessBankMSP.member','FirstBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','FirstBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-CitiBankMSP",
+    "policy": "OR('AccessBankMSP.member','CitiBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','CitiBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-EcoBankMSP",
+    "policy": "OR('AccessBankMSP.member','EcoBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','EcoBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-FidelityBankMSP",
+    "policy": "OR('AccessBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-FirstCityMonumentBankMSP",
+    "policy": "OR('AccessBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-GlobusBankMSP",
+    "policy": "OR('AccessBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-KeystoneBankMSP",
+    "policy": "OR('AccessBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-OptimusBankMSP",
+    "policy": "OR('AccessBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-ParrallexBankMSP",
+    "policy": "OR('AccessBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-PolarisBankMSP",
+    "policy": "OR('AccessBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('AccessBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-ProvidusBankMSP",
+    "policy": "OR('AccessBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('AccessBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('AccessBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-SterlingBankMSP",
+    "policy": "OR('AccessBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-SunTrustBankMSP",
+    "policy": "OR('AccessBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-TitanTrustBankMSP",
+    "policy": "OR('AccessBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-UnionBankMSP",
+    "policy": "OR('AccessBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-UBAMSP",
+    "policy": "OR('AccessBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-UnityBankMSP",
+    "policy": "OR('AccessBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-AccessBankMSP-WemaBankMSP",
+    "policy": "OR('AccessBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-ZenithBankMSP",
+    "policy": "OR('GTBankMSP.member','ZenithBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','ZenithBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-FirstBankMSP",
+    "policy": "OR('GTBankMSP.member','FirstBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','FirstBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-CitiBankMSP",
+    "policy": "OR('GTBankMSP.member','CitiBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','CitiBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-EcoBankMSP",
+    "policy": "OR('GTBankMSP.member','EcoBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','EcoBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-FidelityBankMSP",
+    "policy": "OR('GTBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-FirstCityMonumentBankMSP",
+    "policy": "OR('GTBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-GlobusBankMSP",
+    "policy": "OR('GTBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-KeystoneBankMSP",
+    "policy": "OR('GTBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-OptimusBankMSP",
+    "policy": "OR('GTBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-ParrallexBankMSP",
+    "policy": "OR('GTBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-PolarisBankMSP",
+    "policy": "OR('GTBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('GTBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-ProvidusBankMSP",
+    "policy": "OR('GTBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('GTBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('GTBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-SterlingBankMSP",
+    "policy": "OR('GTBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-SunTrustBankMSP",
+    "policy": "OR('GTBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-TitanTrustBankMSP",
+    "policy": "OR('GTBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-UnionBankMSP",
+    "policy": "OR('GTBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-UBAMSP",
+    "policy": "OR('GTBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-UnityBankMSP",
+    "policy": "OR('GTBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GTBankMSP-WemaBankMSP",
+    "policy": "OR('GTBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-FirstBankMSP",
+    "policy": "OR('ZenithBankMSP.member','FirstBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','FirstBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-CitiBankMSP",
+    "policy": "OR('ZenithBankMSP.member','CitiBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','CitiBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-EcoBankMSP",
+    "policy": "OR('ZenithBankMSP.member','EcoBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','EcoBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-FidelityBankMSP",
+    "policy": "OR('ZenithBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-FirstCityMonumentBankMSP",
+    "policy": "OR('ZenithBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-GlobusBankMSP",
+    "policy": "OR('ZenithBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-KeystoneBankMSP",
+    "policy": "OR('ZenithBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-OptimusBankMSP",
+    "policy": "OR('ZenithBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-ParrallexBankMSP",
+    "policy": "OR('ZenithBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-PolarisBankMSP",
+    "policy": "OR('ZenithBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('ZenithBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-ProvidusBankMSP",
+    "policy": "OR('ZenithBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('ZenithBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('ZenithBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-SterlingBankMSP",
+    "policy": "OR('ZenithBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-SunTrustBankMSP",
+    "policy": "OR('ZenithBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-TitanTrustBankMSP",
+    "policy": "OR('ZenithBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-UnionBankMSP",
+    "policy": "OR('ZenithBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-UBAMSP",
+    "policy": "OR('ZenithBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-UnityBankMSP",
+    "policy": "OR('ZenithBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ZenithBankMSP-WemaBankMSP",
+    "policy": "OR('ZenithBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-CitiBankMSP",
+    "policy": "OR('FirstBankMSP.member','CitiBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','CitiBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-EcoBankMSP",
+    "policy": "OR('FirstBankMSP.member','EcoBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','EcoBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-FidelityBankMSP",
+    "policy": "OR('FirstBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-FirstCityMonumentBankMSP",
+    "policy": "OR('FirstBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-GlobusBankMSP",
+    "policy": "OR('FirstBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-KeystoneBankMSP",
+    "policy": "OR('FirstBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-OptimusBankMSP",
+    "policy": "OR('FirstBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-ParrallexBankMSP",
+    "policy": "OR('FirstBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-PolarisBankMSP",
+    "policy": "OR('FirstBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('FirstBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-ProvidusBankMSP",
+    "policy": "OR('FirstBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('FirstBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('FirstBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-SterlingBankMSP",
+    "policy": "OR('FirstBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-SunTrustBankMSP",
+    "policy": "OR('FirstBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-TitanTrustBankMSP",
+    "policy": "OR('FirstBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-UnionBankMSP",
+    "policy": "OR('FirstBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-UBAMSP",
+    "policy": "OR('FirstBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-UnityBankMSP",
+    "policy": "OR('FirstBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstBankMSP-WemaBankMSP",
+    "policy": "OR('FirstBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-EcoBankMSP",
+    "policy": "OR('CitiBankMSP.member','EcoBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','EcoBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-FidelityBankMSP",
+    "policy": "OR('CitiBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-FirstCityMonumentBankMSP",
+    "policy": "OR('CitiBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-GlobusBankMSP",
+    "policy": "OR('CitiBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-KeystoneBankMSP",
+    "policy": "OR('CitiBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-OptimusBankMSP",
+    "policy": "OR('CitiBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-ParrallexBankMSP",
+    "policy": "OR('CitiBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-PolarisBankMSP",
+    "policy": "OR('CitiBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('CitiBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-ProvidusBankMSP",
+    "policy": "OR('CitiBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('CitiBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('CitiBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-SterlingBankMSP",
+    "policy": "OR('CitiBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-SunTrustBankMSP",
+    "policy": "OR('CitiBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-TitanTrustBankMSP",
+    "policy": "OR('CitiBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-UnionBankMSP",
+    "policy": "OR('CitiBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-UBAMSP",
+    "policy": "OR('CitiBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-UnityBankMSP",
+    "policy": "OR('CitiBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-CitiBankMSP-WemaBankMSP",
+    "policy": "OR('CitiBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-FidelityBankMSP",
+    "policy": "OR('EcoBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','FidelityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-FirstCityMonumentBankMSP",
+    "policy": "OR('EcoBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-GlobusBankMSP",
+    "policy": "OR('EcoBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-KeystoneBankMSP",
+    "policy": "OR('EcoBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-OptimusBankMSP",
+    "policy": "OR('EcoBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-ParrallexBankMSP",
+    "policy": "OR('EcoBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-PolarisBankMSP",
+    "policy": "OR('EcoBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('EcoBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-ProvidusBankMSP",
+    "policy": "OR('EcoBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('EcoBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('EcoBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-SterlingBankMSP",
+    "policy": "OR('EcoBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-SunTrustBankMSP",
+    "policy": "OR('EcoBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-TitanTrustBankMSP",
+    "policy": "OR('EcoBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-UnionBankMSP",
+    "policy": "OR('EcoBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-UBAMSP",
+    "policy": "OR('EcoBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-UnityBankMSP",
+    "policy": "OR('EcoBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-EcoBankMSP-WemaBankMSP",
+    "policy": "OR('EcoBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-FirstCityMonumentBankMSP",
+    "policy": "OR('FidelityBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-GlobusBankMSP",
+    "policy": "OR('FidelityBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-KeystoneBankMSP",
+    "policy": "OR('FidelityBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-OptimusBankMSP",
+    "policy": "OR('FidelityBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-ParrallexBankMSP",
+    "policy": "OR('FidelityBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-PolarisBankMSP",
+    "policy": "OR('FidelityBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('FidelityBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-ProvidusBankMSP",
+    "policy": "OR('FidelityBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('FidelityBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('FidelityBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-SterlingBankMSP",
+    "policy": "OR('FidelityBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-SunTrustBankMSP",
+    "policy": "OR('FidelityBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-TitanTrustBankMSP",
+    "policy": "OR('FidelityBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-UnionBankMSP",
+    "policy": "OR('FidelityBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-UBAMSP",
+    "policy": "OR('FidelityBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-UnityBankMSP",
+    "policy": "OR('FidelityBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FidelityBankMSP-WemaBankMSP",
+    "policy": "OR('FidelityBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-GlobusBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','GlobusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-KeystoneBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-OptimusBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-ParrallexBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-PolarisBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-ProvidusBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-SterlingBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-SunTrustBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-TitanTrustBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-UnionBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-UBAMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-UnityBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-FirstCityMonumentBankMSP-WemaBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-KeystoneBankMSP",
+    "policy": "OR('GlobusBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','KeystoneBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-OptimusBankMSP",
+    "policy": "OR('GlobusBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-ParrallexBankMSP",
+    "policy": "OR('GlobusBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-PolarisBankMSP",
+    "policy": "OR('GlobusBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('GlobusBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-ProvidusBankMSP",
+    "policy": "OR('GlobusBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('GlobusBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('GlobusBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-SterlingBankMSP",
+    "policy": "OR('GlobusBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-SunTrustBankMSP",
+    "policy": "OR('GlobusBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-TitanTrustBankMSP",
+    "policy": "OR('GlobusBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-UnionBankMSP",
+    "policy": "OR('GlobusBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-UBAMSP",
+    "policy": "OR('GlobusBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-UnityBankMSP",
+    "policy": "OR('GlobusBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-GlobusBankMSP-WemaBankMSP",
+    "policy": "OR('GlobusBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-OptimusBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','OptimusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-ParrallexBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-PolarisBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-ProvidusBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-SterlingBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-SunTrustBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-TitanTrustBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-UnionBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-UBAMSP",
+    "policy": "OR('KeystoneBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-UnityBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-KeystoneBankMSP-WemaBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-ParrallexBankMSP",
+    "policy": "OR('OptimusBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-PolarisBankMSP",
+    "policy": "OR('OptimusBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('OptimusBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-ProvidusBankMSP",
+    "policy": "OR('OptimusBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('OptimusBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('OptimusBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-SterlingBankMSP",
+    "policy": "OR('OptimusBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-SunTrustBankMSP",
+    "policy": "OR('OptimusBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-TitanTrustBankMSP",
+    "policy": "OR('OptimusBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-UnionBankMSP",
+    "policy": "OR('OptimusBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-UBAMSP",
+    "policy": "OR('OptimusBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-UnityBankMSP",
+    "policy": "OR('OptimusBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-OptimusBankMSP-WemaBankMSP",
+    "policy": "OR('OptimusBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-PolarisBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-ProvidusBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-SterlingBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-SunTrustBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-TitanTrustBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-UnionBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-UBAMSP",
+    "policy": "OR('ParrallexBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-UnityBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ParrallexBankMSP-WemaBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PolarisBankMSP-PremiumTrustBankMSP",
+    "policy": "OR('PolarisBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PolarisBankMSP-ProvidusBankMSP",
+    "policy": "OR('PolarisBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PolarisBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('PolarisBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PolarisBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('PolarisBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PolarisBankMSP-SterlingBankMSP",
+    "policy": "OR('PolarisBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PolarisBankMSP-SunTrustBankMSP",
+    "policy": "OR('PolarisBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PolarisBankMSP-TitanTrustBankMSP",
+    "policy": "OR('PolarisBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PolarisBankMSP-UnionBankMSP",
+    "policy": "OR('PolarisBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PolarisBankMSP-UBAMSP",
+    "policy": "OR('PolarisBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PolarisBankMSP-UnityBankMSP",
+    "policy": "OR('PolarisBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PolarisBankMSP-WemaBankMSP",
+    "policy": "OR('PolarisBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PremiumTrustBankMSP-ProvidusBankMSP",
+    "policy": "OR('PremiumTrustBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PremiumTrustBankMSP.member','ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PremiumTrustBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('PremiumTrustBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PremiumTrustBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PremiumTrustBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('PremiumTrustBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PremiumTrustBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PremiumTrustBankMSP-SterlingBankMSP",
+    "policy": "OR('PremiumTrustBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PremiumTrustBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PremiumTrustBankMSP-SunTrustBankMSP",
+    "policy": "OR('PremiumTrustBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PremiumTrustBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PremiumTrustBankMSP-TitanTrustBankMSP",
+    "policy": "OR('PremiumTrustBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PremiumTrustBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PremiumTrustBankMSP-UnionBankMSP",
+    "policy": "OR('PremiumTrustBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PremiumTrustBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PremiumTrustBankMSP-UBAMSP",
+    "policy": "OR('PremiumTrustBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PremiumTrustBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PremiumTrustBankMSP-UnityBankMSP",
+    "policy": "OR('PremiumTrustBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PremiumTrustBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-PremiumTrustBankMSP-WemaBankMSP",
+    "policy": "OR('PremiumTrustBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PremiumTrustBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ProvidusBankMSP-StanbicIBTCBankMSP",
+    "policy": "OR('ProvidusBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ProvidusBankMSP.member','StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ProvidusBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('ProvidusBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ProvidusBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ProvidusBankMSP-SterlingBankMSP",
+    "policy": "OR('ProvidusBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ProvidusBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ProvidusBankMSP-SunTrustBankMSP",
+    "policy": "OR('ProvidusBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ProvidusBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ProvidusBankMSP-TitanTrustBankMSP",
+    "policy": "OR('ProvidusBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ProvidusBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ProvidusBankMSP-UnionBankMSP",
+    "policy": "OR('ProvidusBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ProvidusBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ProvidusBankMSP-UBAMSP",
+    "policy": "OR('ProvidusBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ProvidusBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ProvidusBankMSP-UnityBankMSP",
+    "policy": "OR('ProvidusBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ProvidusBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-ProvidusBankMSP-WemaBankMSP",
+    "policy": "OR('ProvidusBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ProvidusBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StanbicIBTCBankMSP-StandardCharteredBankMSP",
+    "policy": "OR('StanbicIBTCBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StanbicIBTCBankMSP.member','StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StanbicIBTCBankMSP-SterlingBankMSP",
+    "policy": "OR('StanbicIBTCBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StanbicIBTCBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StanbicIBTCBankMSP-SunTrustBankMSP",
+    "policy": "OR('StanbicIBTCBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StanbicIBTCBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StanbicIBTCBankMSP-TitanTrustBankMSP",
+    "policy": "OR('StanbicIBTCBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StanbicIBTCBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StanbicIBTCBankMSP-UnionBankMSP",
+    "policy": "OR('StanbicIBTCBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StanbicIBTCBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StanbicIBTCBankMSP-UBAMSP",
+    "policy": "OR('StanbicIBTCBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StanbicIBTCBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StanbicIBTCBankMSP-UnityBankMSP",
+    "policy": "OR('StanbicIBTCBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StanbicIBTCBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StanbicIBTCBankMSP-WemaBankMSP",
+    "policy": "OR('StanbicIBTCBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StanbicIBTCBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StandardCharteredBankMSP-SterlingBankMSP",
+    "policy": "OR('StandardCharteredBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StandardCharteredBankMSP.member','SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StandardCharteredBankMSP-SunTrustBankMSP",
+    "policy": "OR('StandardCharteredBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StandardCharteredBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StandardCharteredBankMSP-TitanTrustBankMSP",
+    "policy": "OR('StandardCharteredBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StandardCharteredBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StandardCharteredBankMSP-UnionBankMSP",
+    "policy": "OR('StandardCharteredBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StandardCharteredBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StandardCharteredBankMSP-UBAMSP",
+    "policy": "OR('StandardCharteredBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StandardCharteredBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StandardCharteredBankMSP-UnityBankMSP",
+    "policy": "OR('StandardCharteredBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StandardCharteredBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-StandardCharteredBankMSP-WemaBankMSP",
+    "policy": "OR('StandardCharteredBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StandardCharteredBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-SterlingBankMSP-SunTrustBankMSP",
+    "policy": "OR('SterlingBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SterlingBankMSP.member','SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-SterlingBankMSP-TitanTrustBankMSP",
+    "policy": "OR('SterlingBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SterlingBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-SterlingBankMSP-UnionBankMSP",
+    "policy": "OR('SterlingBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SterlingBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-SterlingBankMSP-UBAMSP",
+    "policy": "OR('SterlingBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SterlingBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-SterlingBankMSP-UnityBankMSP",
+    "policy": "OR('SterlingBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SterlingBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-SterlingBankMSP-WemaBankMSP",
+    "policy": "OR('SterlingBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SterlingBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-SunTrustBankMSP-TitanTrustBankMSP",
+    "policy": "OR('SunTrustBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SunTrustBankMSP.member','TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-SunTrustBankMSP-UnionBankMSP",
+    "policy": "OR('SunTrustBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SunTrustBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-SunTrustBankMSP-UBAMSP",
+    "policy": "OR('SunTrustBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SunTrustBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-SunTrustBankMSP-UnityBankMSP",
+    "policy": "OR('SunTrustBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SunTrustBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-SunTrustBankMSP-WemaBankMSP",
+    "policy": "OR('SunTrustBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SunTrustBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-TitanTrustBankMSP-UnionBankMSP",
+    "policy": "OR('TitanTrustBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('TitanTrustBankMSP.member','UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-TitanTrustBankMSP-UBAMSP",
+    "policy": "OR('TitanTrustBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('TitanTrustBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-TitanTrustBankMSP-UnityBankMSP",
+    "policy": "OR('TitanTrustBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('TitanTrustBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-TitanTrustBankMSP-WemaBankMSP",
+    "policy": "OR('TitanTrustBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('TitanTrustBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-UnionBankMSP-UBAMSP",
+    "policy": "OR('UnionBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('UnionBankMSP.member','UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-UnionBankMSP-UnityBankMSP",
+    "policy": "OR('UnionBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('UnionBankMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-UnionBankMSP-WemaBankMSP",
+    "policy": "OR('UnionBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('UnionBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-UBAMSP-UnityBankMSP",
+    "policy": "OR('UBAMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('UBAMSP.member','UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-UBAMSP-WemaBankMSP",
+    "policy": "OR('UBAMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('UBAMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-UnityBankMSP-WemaBankMSP",
+    "policy": "OR('UnityBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('UnityBankMSP.member','WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-AccessBankMSP",
+    "policy": "OR('AccessBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('AccessBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-GTBankMSP",
+    "policy": "OR('GTBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GTBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-ZenithBankMSP",
+    "policy": "OR('ZenithBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ZenithBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-FirstBankMSP",
+    "policy": "OR('FirstBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-CitiBankMSP",
+    "policy": "OR('CitiBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('CitiBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-EcoBankMSP",
+    "policy": "OR('EcoBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('EcoBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-FidelityBankMSP",
+    "policy": "OR('FidelityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FidelityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-FirstCityMonumentBankMSP",
+    "policy": "OR('FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('FirstCityMonumentBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-GlobusBankMSP",
+    "policy": "OR('GlobusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('GlobusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-KeystoneBankMSP",
+    "policy": "OR('KeystoneBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('KeystoneBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-OptimusBankMSP",
+    "policy": "OR('OptimusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('OptimusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-ParrallexBankMSP",
+    "policy": "OR('ParrallexBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ParrallexBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-PolarisBankMSP",
+    "policy": "OR('PolarisBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PolarisBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-PremiumTrustBankMSP",
+    "policy": "OR('PremiumTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('PremiumTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-ProvidusBankMSP",
+    "policy": "OR('ProvidusBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('ProvidusBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-StanbicIBTCBankMSP",
+    "policy": "OR('StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StanbicIBTCBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-StandardCharteredBankMSP",
+    "policy": "OR('StandardCharteredBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('StandardCharteredBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-SterlingBankMSP",
+    "policy": "OR('SterlingBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SterlingBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-SunTrustBankMSP",
+    "policy": "OR('SunTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('SunTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-TitanTrustBankMSP",
+    "policy": "OR('TitanTrustBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('TitanTrustBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-UnionBankMSP",
+    "policy": "OR('UnionBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('UnionBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-UBAMSP",
+    "policy": "OR('UBAMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('UBAMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-UnityBankMSP",
+    "policy": "OR('UnityBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('UnityBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  },
+  {
+    "name": "col-settlement-WemaBankMSP",
+    "policy": "OR('WemaBankMSP.member','CentralBankPeerMSP.member')",
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('WemaBankMSP.member','CentralBankPeerMSP.member')"
+    }
+  }
+]
