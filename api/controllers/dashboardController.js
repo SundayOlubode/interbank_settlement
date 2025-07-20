@@ -15,10 +15,6 @@ export class DashboardController {
 
     const bankingData = JSON.parse(Buffer.from(result).toString("utf8"));
 
-    console.log(
-      `Successfully retrieved banking overview for MSP: ${bankingData.bankAccount}`
-    );
-
     return res.status(200).json({
       success: true,
       data: bankingData,
@@ -51,14 +47,10 @@ export class DashboardController {
       const result = await this.contract.evaluateTransaction(
         "GetTransactionHistory"
       );
-      // let transactions = await this.databaseService.getAllBankTransactions();
 
       let transactions = JSON.parse(Buffer.from(result).toString("utf8"));
 
-      //   let transactions = JSON.parse(Buffer.from(result).toString("utf8"));
-
       if (bank) {
-        // Filter transactions by bank if specified
         transactions = transactions.filter(
           (tx) => tx.payeeMSP === `${bank}MSP` || tx.payerMSP === `${bank}MSP`
         );

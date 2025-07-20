@@ -26,7 +26,7 @@ const userAccounts = {
     gender: "Female",
     birthdate: "28-09-1993",
     bvn: "24566788901",
-    balance: 20000,
+    balance: 2000000,
   },
   "0103567890": {
     firstname: "Ibrahim",
@@ -36,7 +36,7 @@ const userAccounts = {
     phone: "08156789023",
     birthdate: "10-01-1988",
     bvn: "25677899012",
-    balance: 450000,
+    balance: 4500000,
   },
   "0103678901": {
     firstname: "Tolu",
@@ -44,7 +44,7 @@ const userAccounts = {
     middlename: "Folake",
     bvn: "34566778901",
     gender: "Female",
-    balance: 295000,
+    balance: 2950000,
     birthdate: "11-05-1995",
   },
 };

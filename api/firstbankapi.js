@@ -24,7 +24,7 @@ const userAccounts = {
     middlename: "Kenechukwu",
     bvn: "52344556780",
     gender: "Male",
-    balance: 285000,
+    balance: 5850000,
     birthdate: "03-02-1989",
   },
   2000234567: {
@@ -33,8 +33,17 @@ const userAccounts = {
     middlename: "Abisola",
     bvn: "53455667891",
     gender: "Female",
-    balance: 445000,
+    balance: 64500000,
     birthdate: "28-04-1987",
+  },
+  2000345678: {
+    firstname: "Abdullahi",
+    lastname: "Maikano",
+    middlename: "Nasiru",
+    bvn: "54566778903",
+    gender: "Male",
+    balance: 8500000,
+    birthdate: "20-10-1995",
   },
 };
 

@@ -11,16 +11,17 @@ docker rm -f \
   couchdb1 \
   couchdb2 \
   couchdb3 \
-  couchdb4 \
+  couchdb4
 
 docker volume rm $(docker volume ls -q | grep -i 'naijachain')
 docker volume prune
 docker network prune
 
-
 # rm ./contracts/cc-version.txt
 # rm -rf ./contracts/cc-packages
 
 rm -rf ./channel-artifacts ./crypto-config
+
+rm -rf ./caliper-benchmarks/channel-artifacts ./caliper-benchmarks/crypto-config
 
 set +x

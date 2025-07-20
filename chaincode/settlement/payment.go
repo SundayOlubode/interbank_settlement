@@ -1,4 +1,4 @@
-package main
+package settlement
 
 import (
 	"encoding/json"
@@ -10,7 +10,6 @@ import (
 
 // CreatePayment records a new payment, verifies BVN, record transaction, and writes a public stub
 func (s *SmartContract) CreatePayment(ctx contractapi.TransactionContextInterface) error {
-	// Get transient payment details
 	transMap, err := ctx.GetStub().GetTransient()
 	if err != nil {
 		return fmt.Errorf("error getting transient data: %v", err)
