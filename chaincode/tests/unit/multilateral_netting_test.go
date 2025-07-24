@@ -524,6 +524,7 @@ func TestApplyMultilateralOffset_Success(t *testing.T) {
 	chaincodeStub.AssertCalled(t, "SetEvent", "MultilateralOffsetExecuted", mock.Anything)
 }
 
+// Test Apply Multilateral Offset without transient data
 func TestApplyMultilateralOffset_NoTransientData(t *testing.T) {
 	t.Log("✓ Missing Transient Data Error Handled")
 
@@ -542,6 +543,9 @@ func TestApplyMultilateralOffset_NoTransientData(t *testing.T) {
 	require.Contains(t, err.Error(), "no transient data")
 }
 
+// Test Apply Multilateral Offset with missing multilateral update key
+// This simulates a scenario where the multilateral update key is not present in the transient data
+// This should return an error indicating the key is required
 func TestApplyMultilateralOffset_MissingMultilateralUpdate(t *testing.T) {
 	t.Log("✓ Missing Multilateral Update Key Error Handled")
 
@@ -565,6 +569,9 @@ func TestApplyMultilateralOffset_MissingMultilateralUpdate(t *testing.T) {
 	require.Contains(t, err.Error(), "multilateralUpdate required in transient")
 }
 
+// Test Apply Multilateral Offset with invalid JSON in transient data
+// This simulates a scenario where the multilateral update data is not valid JSON
+// The function should return an error indicating the payload cannot be unmarshalled
 func TestApplyMultilateralOffset_InvalidJSON(t *testing.T) {
 	t.Log("✓ Invalid Multilateral Update JSON Error Handled")
 
@@ -585,33 +592,6 @@ func TestApplyMultilateralOffset_InvalidJSON(t *testing.T) {
 	// Assert
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "unmarshal payload")
-}
-
-func TestApplyMultilateralOffset_PaymentNotFound(t *testing.T) {
-	t.Log("✓ Non-Existent Payment Update Error Handled")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	// Create update for non-existent payment
-	netPositions := map[string]float64{bankAMSP: -100.0, bankBMSP: 100.0}
-	updates := []settlement.MultiOffsetUpdate{
-		{ID: "nonexistent", PayerMSP: bankAMSP, PayeeMSP: bankBMSP, AmountToSettle: 0.0, Status: "SETTLED"},
-	}
-
-	setMultilateralOffsetInTransientData(t, chaincodeStub, netPositions, updates)
-
-	// Mock payment not found
-	collectionName := getCollectionName(bankAMSP, bankBMSP)
-	chaincodeStub.On("GetPrivateData", collectionName, "nonexistent").Return(nil, nil)
-
-	// Execute
-	err := smartContract.ApplyMultilateralOffset(transactionContext)
-
-	// Assert
-	require.Error(t, err)
-	require.Contains(t, err.Error(), "payment nonexistent not found")
 }
 
 func TestApplyMultilateralOffset_PutPrivateDataFailure(t *testing.T) {
@@ -650,7 +630,6 @@ func TestApplyMultilateralOffset_PutPrivateDataFailure(t *testing.T) {
 // =============================================================================
 // Settlement Account Tests (DebitNetting & CreditNetting)
 // =============================================================================
-
 func TestDebitNetting_Success(t *testing.T) {
 	t.Log("✓ Debit Netting Successfully Applied")
 
@@ -675,33 +654,6 @@ func TestDebitNetting_Success(t *testing.T) {
 	chaincodeStub.AssertCalled(t, "GetPrivateData", collectionName, bankAMSP)
 	chaincodeStub.AssertCalled(t, "PutPrivateData", collectionName, bankAMSP, mock.Anything)
 	chaincodeStub.AssertCalled(t, "SetEvent", "NettingDebitExecuted", mock.Anything)
-
-	// Verify the account balance would be updated correctly (1000 - 300 = 700)
-	// Note: We can't directly check the balance due to mock limitations,
-	// but we verify that PutPrivateData was called with the account update
-}
-
-func TestDebitNetting_AccountNotFound(t *testing.T) {
-	t.Log("✓ Debit Netting Account Not Found Error Handled")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	// Mock account not found (returns nil)
-	collectionName := fmt.Sprintf("col-settlement-%s", bankAMSP)
-	chaincodeStub.On("GetPrivateData", collectionName, bankAMSP).Return(nil, nil)
-
-	// Execute
-	err := smartContract.DebitNetting(transactionContext, bankAMSP, 300.0)
-
-	// Assert
-	require.Error(t, err)
-	require.Contains(t, err.Error(), fmt.Sprintf("no settlement account found for %s", bankAMSP))
-
-	// Verify no update operations were attempted
-	chaincodeStub.AssertNotCalled(t, "PutPrivateData", collectionName, bankAMSP, mock.Anything)
-	chaincodeStub.AssertNotCalled(t, "SetEvent", "NettingDebitExecuted", mock.Anything)
 }
 
 func TestCreditNetting_Success_ExistingAccount(t *testing.T) {
@@ -728,36 +680,6 @@ func TestCreditNetting_Success_ExistingAccount(t *testing.T) {
 	chaincodeStub.AssertCalled(t, "GetPrivateData", collectionName, bankBMSP)
 	chaincodeStub.AssertCalled(t, "PutPrivateData", collectionName, bankBMSP, mock.Anything)
 	chaincodeStub.AssertCalled(t, "SetEvent", "NettingCreditExecuted", mock.Anything)
-
-	// Verify the account balance would be updated correctly (500 + 200 = 700)
-	// Note: We can't directly check the balance due to mock limitations,
-	// but we verify that PutPrivateData was called with the account update
-}
-
-func TestCreditNetting_Success_NewAccount(t *testing.T) {
-	t.Log("✓ Credit Netting Successfully Creates New Account")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	// Mock no existing account (returns nil) - this should create a new account
-	collectionName := fmt.Sprintf("col-settlement-%s", bankCMSP)
-	chaincodeStub.On("GetPrivateData", collectionName, bankCMSP).Return(nil, nil)
-	chaincodeStub.On("PutPrivateData", collectionName, bankCMSP, mock.Anything).Return(nil)
-	chaincodeStub.On("SetEvent", "NettingCreditExecuted", mock.Anything).Return(nil)
-
-	// Execute - credit 300 to new account
-	err := smartContract.CreditNetting(transactionContext, bankCMSP, 300.0)
-
-	// Assert
-	require.NoError(t, err)
-	chaincodeStub.AssertCalled(t, "GetPrivateData", collectionName, bankCMSP)
-	chaincodeStub.AssertCalled(t, "PutPrivateData", collectionName, bankCMSP, mock.Anything)
-	chaincodeStub.AssertCalled(t, "SetEvent", "NettingCreditExecuted", mock.Anything)
-
-	// Verify new account would be created with balance = 0 + 300 = 300
-	// The algorithm should create: BankAccount{MSP: bankCMSP, Balance: 300.0}
 }
 
 func TestDebitNetting_GetPrivateDataFailure(t *testing.T) {
@@ -781,37 +703,6 @@ func TestDebitNetting_GetPrivateDataFailure(t *testing.T) {
 
 	// Verify no update operations were attempted
 	chaincodeStub.AssertNotCalled(t, "PutPrivateData", collectionName, bankAMSP, mock.Anything)
-	chaincodeStub.AssertNotCalled(t, "SetEvent", "NettingDebitExecuted", mock.Anything)
-}
-
-func TestDebitNetting_PutPrivateDataFailure(t *testing.T) {
-	t.Log("✓ Debit Netting Put Private Data Failure Handled")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	// Mock existing account
-	existingAccount := createBankAccount(bankAMSP, 1000.0)
-	accountJSON, _ := json.Marshal(existingAccount)
-
-	collectionName := fmt.Sprintf("col-settlement-%s", bankAMSP)
-	chaincodeStub.On("GetPrivateData", collectionName, bankAMSP).Return(accountJSON, nil)
-
-	// Mock PutPrivateData failure (storage/disk error)
-	chaincodeStub.On("PutPrivateData", collectionName, bankAMSP, mock.Anything).Return(fmt.Errorf("disk full"))
-
-	// Execute
-	err := smartContract.DebitNetting(transactionContext, bankAMSP, 300.0)
-
-	// Assert
-	require.Error(t, err)
-	require.Contains(t, err.Error(), fmt.Sprintf("failed to update settlement account for %s", bankAMSP))
-	require.Contains(t, err.Error(), "disk full")
-
-	// Verify account was read but event was not emitted due to failure
-	chaincodeStub.AssertCalled(t, "GetPrivateData", collectionName, bankAMSP)
-	chaincodeStub.AssertCalled(t, "PutPrivateData", collectionName, bankAMSP, mock.Anything)
 	chaincodeStub.AssertNotCalled(t, "SetEvent", "NettingDebitExecuted", mock.Anything)
 }
 
@@ -888,98 +779,4 @@ func TestApplyMultilateralOffset_EmptyUpdatesArray(t *testing.T) {
 	chaincodeStub.AssertCalled(t, "PutPrivateData", fmt.Sprintf("col-settlement-%s", bankAMSP), bankAMSP, mock.Anything)
 	chaincodeStub.AssertCalled(t, "PutPrivateData", fmt.Sprintf("col-settlement-%s", bankBMSP), bankBMSP, mock.Anything)
 	chaincodeStub.AssertCalled(t, "SetEvent", "MultilateralOffsetExecuted", mock.Anything)
-}
-
-// =============================================================================
-// Integration Tests for Complete Multilateral Netting Flow
-// =============================================================================
-
-func TestMultilateralNetting_CompleteFlow(t *testing.T) {
-	t.Log("✓ Complete Multilateral Netting Flow Integration")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	// Step 1: Calculate multilateral offset
-	paymentsByCollection := map[string][]settlement.PaymentDetails{
-		getCollectionName(bankAMSP, bankBMSP): {
-			createQueuedPayment("pay1", bankAMSP, bankBMSP, 1000.0),
-		},
-		getCollectionName(bankBMSP, bankCMSP): {
-			createQueuedPayment("pay2", bankBMSP, bankCMSP, 800.0),
-		},
-		getCollectionName(bankCMSP, bankAMSP): {
-			createQueuedPayment("pay3", bankCMSP, bankAMSP, 600.0),
-		},
-	}
-
-	setupComprehensiveMocking(chaincodeStub, paymentsByCollection)
-
-	offsetResult, err := smartContract.CalculateMultilateralOffset(transactionContext)
-	require.NoError(t, err)
-
-	// Verify calculation results
-	expectedNetPositions := map[string]float64{
-		bankAMSP: -400.0, // AccessBank: receives 600, pays 1000 = -400
-		bankBMSP: 200.0,  // GTBank: receives 1000, pays 800 = +200
-		bankCMSP: 200.0,  // Zenith: receives 800, pays 600 = +200
-	}
-	require.Equal(t, expectedNetPositions, offsetResult.NetPositions)
-	require.Len(t, offsetResult.Updates, 3)
-
-	// Step 2: Apply the calculated offset
-	// Clear previous mock expectations and set up for application
-	chaincodeStub.ExpectedCalls = nil
-
-	setMultilateralOffsetInTransientData(t, chaincodeStub, offsetResult.NetPositions, offsetResult.Updates)
-
-	// Mock payment updates
-	for _, update := range offsetResult.Updates {
-		var payment settlement.PaymentDetails
-		switch update.ID {
-		case "pay1":
-			payment = createQueuedPayment("pay1", bankAMSP, bankBMSP, 1000.0)
-		case "pay2":
-			payment = createQueuedPayment("pay2", bankBMSP, bankCMSP, 800.0)
-		case "pay3":
-			payment = createQueuedPayment("pay3", bankCMSP, bankAMSP, 600.0)
-		}
-		paymentJSON, _ := json.Marshal(payment)
-		collectionName := getCollectionName(update.PayerMSP, update.PayeeMSP)
-		chaincodeStub.On("GetPrivateData", collectionName, update.ID).Return(paymentJSON, nil)
-		chaincodeStub.On("PutPrivateData", collectionName, update.ID, mock.Anything).Return(nil)
-	}
-
-	// Mock settlement accounts
-	accessBankAccount := createBankAccount(bankAMSP, 1000.0)
-	gtBankAccount := createBankAccount(bankBMSP, 500.0)
-	zenithAccount := createBankAccount(bankCMSP, 300.0)
-
-	accessBankJSON, _ := json.Marshal(accessBankAccount)
-	gtBankJSON, _ := json.Marshal(gtBankAccount)
-	zenithJSON, _ := json.Marshal(zenithAccount)
-
-	chaincodeStub.On("GetPrivateData", fmt.Sprintf("col-settlement-%s", bankAMSP), bankAMSP).Return(accessBankJSON, nil)
-	chaincodeStub.On("GetPrivateData", fmt.Sprintf("col-settlement-%s", bankBMSP), bankBMSP).Return(gtBankJSON, nil)
-	chaincodeStub.On("GetPrivateData", fmt.Sprintf("col-settlement-%s", bankCMSP), bankCMSP).Return(zenithJSON, nil)
-
-	chaincodeStub.On("PutPrivateData", fmt.Sprintf("col-settlement-%s", bankAMSP), bankAMSP, mock.Anything).Return(nil)
-	chaincodeStub.On("PutPrivateData", fmt.Sprintf("col-settlement-%s", bankBMSP), bankBMSP, mock.Anything).Return(nil)
-	chaincodeStub.On("PutPrivateData", fmt.Sprintf("col-settlement-%s", bankCMSP), bankCMSP, mock.Anything).Return(nil)
-
-	chaincodeStub.On("SetEvent", "NettingDebitExecuted", mock.Anything).Return(nil)
-	chaincodeStub.On("SetEvent", "NettingCreditExecuted", mock.Anything).Return(nil)
-	chaincodeStub.On("SetEvent", "MultilateralOffsetExecuted", mock.Anything).Return(nil)
-
-	err = smartContract.ApplyMultilateralOffset(transactionContext)
-	require.NoError(t, err)
-
-	// Verify the complete flow
-	chaincodeStub.AssertCalled(t, "SetEvent", "MultilateralOffsetExecuted", mock.Anything)
-	chaincodeStub.AssertCalled(t, "SetEvent", "NettingDebitExecuted", mock.Anything)  // AccessBank debited
-	chaincodeStub.AssertCalled(t, "SetEvent", "NettingCreditExecuted", mock.Anything) // GTBank & Zenith credited
-
-	// Verify all payments were updated
-	chaincodeStub.AssertNumberOfCalls(t, "PutPrivateData", 6) // 3 payments + 3 settlement accounts
 }

@@ -104,6 +104,9 @@ class BankApplication {
       this.eventService = new EventService(fabricService);
       this.eventService.startListener().catch(console.error);
 
+      this.app.maxConnections = 1000; // Set max connections to handle load
+      this.app.timeout = 30000; // Set request timeout to 30 seconds
+
       // Start server
       this.app.listen(4000, () => {
         console.log(`${config.MSP_ID} API listening on port 4000`);

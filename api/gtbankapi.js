@@ -5,7 +5,6 @@ import express from "express";
 import morgan from "morgan";
 import { promises as fs } from "node:fs";
 import * as crypto from "node:crypto";
-import path from "node:path";
 import {
   connect,
   hash,
@@ -16,7 +15,6 @@ import * as grpc from "@grpc/grpc-js";
 import * as dotenv from "dotenv";
 dotenv.config();
 import { buildQsccHelpers } from "./helper/qcss.js";
-import { extractSimpleBlockData } from "./helper/extract-block-data.js";
 
 const userAccounts = {
   "0103456789": {
@@ -146,7 +144,7 @@ async function processPaymentEvent(evt, contract, cp) {
   console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);
 
   await contract.submit("AcknowledgePayment", {
-    arguments: [JSON.stringify({ id, payerMSP, payeeMSP })],
+    arguments: [JSON.stringify({ id, payerMSP, payeeMSP, batchWindow: 0 })],
   });
 
   // await contract.submitTransaction("SettlePayment", id);
@@ -377,6 +375,9 @@ app.post("/payments", async (req, res) => {
     // Start event listeners (acknowledgment is now integrated into startListener)
     console.log("Setting up event listeners...");
     startListener(gatewayGlobal).catch(console.error);
+
+    app.maxConnections = 1000; // Set max connections to handle load
+    app.timeout = 30000; // Set request timeout to 30 seconds
 
     app.listen(4001, () => {
       console.log(`${MSP_ID} API listening on port 4001`);

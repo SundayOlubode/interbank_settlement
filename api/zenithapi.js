@@ -19,7 +19,7 @@ import { buildQsccHelpers } from "./helper/qcss.js";
 import { extractSimpleBlockData } from "./helper/extract-block-data.js";
 
 const userAccounts = {
-  "1012345678": {
+  1012345678: {
     firstname: "Musa",
     lastname: "Garba",
     middlename: "Ibrahim",
@@ -28,7 +28,7 @@ const userAccounts = {
     balance: 9500000,
     birthdate: "18-08-1994",
   },
-  "1012456789": {
+  1012456789: {
     firstname: "Ngozi",
     lastname: "Ikwuemesi",
     middlename: "Adanna",
@@ -37,7 +37,7 @@ const userAccounts = {
     balance: 57500000,
     birthdate: "02-10-1985",
   },
-  "1012567890": {
+  1012567890: {
     firstname: "Gbenga",
     lastname: "Olumide",
     middlename: "Ayodeji",
@@ -145,7 +145,7 @@ async function processPaymentEvent(evt, contract, cp) {
   console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);
 
   await contract.submit("AcknowledgePayment", {
-    arguments: [JSON.stringify({ id, payerMSP, payeeMSP })],
+    arguments: [JSON.stringify({ id, payerMSP, payeeMSP, batchWindow: 0 })],
   });
 
   // await contract.submitTransaction("SettlePayment", id);
@@ -376,6 +376,9 @@ app.post("/payments", async (req, res) => {
     // Start event listeners (acknowledgment is now integrated into startListener)
     console.log("Setting up event listeners...");
     startListener(gatewayGlobal).catch(console.error);
+
+    app.maxConnections = 1000; // Set max connections to handle load
+    app.timeout = 30000; // Set request timeout to 30 seconds
 
     app.listen(4003, () => {
       console.log(`${MSP_ID} API listening on port 4003`);

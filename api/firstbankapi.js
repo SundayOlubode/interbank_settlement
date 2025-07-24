@@ -144,7 +144,7 @@ async function processPaymentEvent(evt, contract, cp) {
   console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);
 
   await contract.submit("AcknowledgePayment", {
-    arguments: [JSON.stringify({ id, payerMSP, payeeMSP })],
+    arguments: [JSON.stringify({ id, payerMSP, payeeMSP, batchWindow: 0 })],
   });
 
   // await contract.submitTransaction("SettlePayment", id);
@@ -375,6 +375,9 @@ app.post("/payments", async (req, res) => {
     // Start event listeners (acknowledgment is now integrated into startListener)
     console.log("Setting up event listeners...");
     startListener(gatewayGlobal).catch(console.error);
+
+    app.maxConnections = 1000; // Set max connections to handle load
+    app.timeout = 30000; // Set request timeout to 30 seconds
 
     app.listen(4004, () => {
       console.log(`${MSP_ID} API listening on port 4004`);

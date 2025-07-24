@@ -23,7 +23,10 @@ func (s *SmartContract) CreatePayment(ctx contractapi.TransactionContextInterfac
 	if err := json.Unmarshal(paymentJSON, &details); err != nil {
 		return fmt.Errorf("failed to unmarshal payment details: %v", err)
 	}
+
+	// Set mandatory fields
 	details.AmountToSettle = details.Amount
+	details.Status = "PENDING"
 
 	// Verify BVN
 	if err := s.verifyBVN(ctx, details.User); err != nil {
@@ -48,7 +51,7 @@ func (s *SmartContract) CreatePayment(ctx contractapi.TransactionContextInterfac
 		Hash:      hash,
 		PayerMSP:  details.PayerMSP,
 		PayeeMSP:  details.PayeeMSP,
-		Status:    "PENDING",
+		Status:    details.Status,
 		Timestamp: details.Timestamp,
 	}
 

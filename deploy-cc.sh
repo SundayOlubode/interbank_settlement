@@ -3,6 +3,12 @@ set -e
 # Import the environment variables
 source ./env-vars.sh
 
+CC_RUNTIME_LANGUAGE="golang"
+VERSION="1"
+CC_SRC_PATH="./chaincode"
+# CC_SRC_PATH="./contracts"
+CC_NAME="account"
+
 export PRIVATE_DATA_CONFIG=${PWD}/private-data/collections_config.json
 
 CC_POLICY="OutOf(2, 'AccessBankMSP.peer', 'GTBankMSP.peer', 'ZenithBankMSP.peer', 'FirstBankMSP.peer', 'CentralBankPeerMSP.peer')"
@@ -16,20 +22,17 @@ setGlobalsForOrderer() {
 
 presetup() {
     echo Vendoring Go dependencies ...
-    pushd ./chaincode
-    rm -rf vendor
+    pushd ${CC_SRC_PATH}
+    if [ -d "vendor" ]; then
+        echo "Removing old vendor directory"
+        rm -rf vendor
+    fi
     GO111MODULE=on go mod vendor
     popd
     echo Finished vendoring Go dependencies
 }
 
 presetup
-
-CC_RUNTIME_LANGUAGE="golang"
-VERSION="1"
-CC_SRC_PATH="./chaincode"
-# CC_SRC_PATH="./contracts"
-CC_NAME="account"
 
 packageChaincode() {
     rm -rf ${CC_NAME}.tar.gz

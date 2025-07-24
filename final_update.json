@@ -27,7 +27,7 @@
 						"mod_policy": "Admins",
 						"value": {
 							"absolute_max_bytes": 103809024,
-							"max_message_count": 5,
+							"max_message_count": 150,
 							"preferred_max_bytes": 524288
 						},
 						"version": "1"

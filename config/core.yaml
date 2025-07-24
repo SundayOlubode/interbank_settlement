@@ -47,10 +47,12 @@ peer:
     keepalive:
         # Interval is the duration after which if the server does not see
         # any activity from the client it pings the client to see if it's alive
-        interval: 7200s
+        # interval: 7200s
+        interval: 30s
         # Timeout is the duration the server waits for a response
         # from the client after sending a ping before closing the connection
-        timeout: 20s
+        # timeout: 20s
+        timeout: 10s
         # MinInterval is the minimum permitted time between client pings.
         # If clients send pings more frequently, the peer server will
         # disconnect them
@@ -60,10 +62,12 @@ peer:
             # Interval is the time between pings to peer nodes.  This must
             # greater than or equal to the minInterval specified by peer
             # nodes
-            interval: 60s
+            # interval: 60s
+            interval: 30s
             # Timeout is the duration the client waits for a response from
             # peer nodes before closing the connection
-            timeout: 20s
+            # timeout: 20s
+            timeout: 10s
         # DeliveryClient keepalive settings for communication with ordering
         # nodes.
         deliveryClient:
@@ -114,15 +118,18 @@ peer:
         maxBlockCountToStore: 100
         # Max time between consecutive message pushes(unit: millisecond)
         maxPropagationBurstLatency: 10ms
+        # maxPropagationBurstLatency: 5ms
         # Max number of messages stored until a push is triggered to remote peers
-        maxPropagationBurstSize: 10
+        maxPropagationBurstSize: 5
+        # maxPropagationBurstSize: 10
         # Number of times a message is pushed to remote peers
         propagateIterations: 1
         # Number of peers selected to push messages to
         propagatePeerNum: 3
         # Determines frequency of pull phases(unit: second)
         # Must be greater than digestWaitTime + responseWaitTime
-        pullInterval: 4s
+        pullInterval: 2s
+        # pullInterval: 4s
         # Number of peers to pull from
         pullPeerNum: 3
         # Determines frequency of pulling state info messages from peers(unit: second)
@@ -140,9 +147,11 @@ peer:
         # Connection timeout(unit: second)
         connTimeout: 2s
         # Buffer size of received messages
-        recvBuffSize: 20
+        recvBuffSize: 50
+        # recvBuffSize: 20
         # Buffer size of sending messages
-        sendBuffSize: 200
+        sendBuffSize: 500
+        # sendBuffSize: 200
         # Time to wait before pull engine processes incoming digests (unit: second)
         # Should be slightly smaller than requestWaitTime
         digestWaitTime: 1s
@@ -283,6 +292,11 @@ peer:
             # SHA2 is hardcoded in several places, not only BCCSP
             Hash: SHA2
             Security: 256
+            # Add caching configuration
+            Cache:
+                Enabled: true
+                Size: 10000
+                TTL: 300  # 5 minutes
             # Location of Key Store
             FileKeyStore:
                 # If "", defaults to 'mspConfigPath'/keystore
@@ -313,7 +327,7 @@ peer:
     # CLI common client config options
     client:
         # connection timeout
-        connTimeout: 3s
+        connTimeout: 1s
 
     # Delivery service related config
     deliveryclient:
@@ -322,7 +336,7 @@ peer:
         reconnectTotalTimeThreshold: 3600s
 
         # It sets the delivery service <-> ordering service node connection timeout
-        connTimeout: 3s
+        connTimeout: 1s
 
         # It sets the delivery service maximal delay between consecutive retries
         reConnectBackoffThreshold: 3600s
@@ -381,7 +395,8 @@ peer:
     handlers:
         authFilters:
           -
-            name: DefaultAuth
+            name: CachedAuth
+            library: /opt/fabric/plugins/cached_auth.so
           -
             name: ExpirationCheck    # This filter checks identity x509 certificate expiration
         decorators:
@@ -389,8 +404,8 @@ peer:
             name: DefaultDecorator
         endorsers:
           escc:
-            name: DefaultEndorsement
-            library:
+            name: CachedEndorsement
+            library: /opt/fabric/plugins/cached_escc.so
         validators:
           vscc:
             name: DefaultValidation
@@ -413,9 +428,9 @@ peer:
         # Whether the authentication cache is enabled or not.
         authCacheEnabled: true
         # The maximum size of the cache, after which a purge takes place
-        authCacheMaxSize: 1000
+        authCacheMaxSize: 10000
         # The proportion (0 to 1) of entries that remain in the cache after the cache is purged due to overpopulation
-        authCachePurgeRetentionRatio: 0.75
+        authCachePurgeRetentionRatio: 0.9
         # Whether to allow non-admins to perform non channel scoped queries.
         # When this is false, it means that only peer admins can perform non channel scoped queries.
         orgMembersAllowedAccess: false
@@ -428,11 +443,14 @@ peer:
         qscc: 5000
         # endorserService limits concurrent requests to endorser service that handles chaincode deployment, query and invocation,
         # including both user chaincodes and system chaincodes.
-        endorserService: 2500
+        endorserService: 8000
         # deliverService limits concurrent event listeners registered to deliver service for blocks and transaction events.
-        deliverService: 2500
+        deliverService: 5000
         # gatewayService limits concurrent requests to gateway service that handles the submission and evaluation of transactions.
-        gatewayService: 2500
+        gatewayService: 6000
+    
+    # Parallel validation settings
+    validatorPoolSize: 3
 
 ###############################################################################
 #

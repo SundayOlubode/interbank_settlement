@@ -38,6 +38,13 @@ services:
     container_name: couchdb0
     image: hyperledger/fabric-couchdb
     platform: linux/amd64
+    deploy:
+      resources:
+        limits:
+          cpus: 2.0 # Major increase
+          memory: 3G
+    volumes:
+      - ./couchdb-config/local.ini:/opt/couchdb/etc/local.d/local.ini
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
@@ -50,6 +57,13 @@ services:
     container_name: couchdb1
     image: hyperledger/fabric-couchdb
     platform: linux/amd64
+    deploy:
+      resources:
+        limits:
+          cpus: 2.0  # Major increase
+          memory: 3G
+    volumes:
+      - ./couchdb-config/local.ini:/opt/couchdb/etc/local.d/local.ini
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
@@ -62,6 +76,8 @@ services:
     container_name: couchdb2
     image: hyperledger/fabric-couchdb
     platform: linux/amd64
+    volumes:
+      - ./couchdb-config/local.ini:/opt/couchdb/etc/local.d/local.ini
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
@@ -74,6 +90,8 @@ services:
     container_name: couchdb3
     image: hyperledger/fabric-couchdb
     platform: linux/amd64
+    volumes:
+      - ./couchdb-config/local.ini:/opt/couchdb/etc/local.d/local.ini
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
@@ -86,6 +104,13 @@ services:
     container_name: couchdb4
     image: hyperledger/fabric-couchdb
     platform: linux/amd64
+    deploy:
+      resources:
+        limits:
+          cpus: 2.0  # Major increase
+          memory: 3G
+    volumes:
+      - ./couchdb-config/local.ini:/opt/couchdb/etc/local.d/local.ini
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=

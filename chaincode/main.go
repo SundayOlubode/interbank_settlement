@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	cc "github.com/SundayOlubode/interbank_settlement/chaincode/settlement"
+	cc "github.com/SundayOlubode/interbank_settlement/chaincode/batched_settlement"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 

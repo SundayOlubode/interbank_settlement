@@ -168,7 +168,7 @@ Application: &ApplicationDefaults
     <<: *ApplicationCapabilities
 
 Orderer: &OrdererDefaults
-  OrdererType: solo
+  OrdererType: etcdraft
 
   Addresses:
     - orderer.cbn.naijachain.org:7050

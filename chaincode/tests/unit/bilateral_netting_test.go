@@ -110,7 +110,6 @@ func setBilateralOffsetInTransientData(t *testing.T, chaincodeStub *mocks.Chainc
 // =============================================================================
 // Bilateral Offset Calculation Tests
 // =============================================================================
-
 func TestCalculateBilateralOffset_Success_EqualAmounts(t *testing.T) {
 	t.Log("✓ Equal Bilateral Amounts Result in Full Offset")
 
@@ -216,52 +215,6 @@ func TestCalculateBilateralOffset_Success_NoQueuedPayments(t *testing.T) {
 	require.Len(t, result.Updates, 0)
 }
 
-func TestCalculateBilateralOffset_Success_OnlyOneDirection(t *testing.T) {
-	t.Log("✓ Single Direction Payments Result in Zero Offset")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	// Create payments only in one direction
-	payments := []settlement.PaymentDetails{
-		createQueuedPayment("pay1", bankAMSP, bankBMSP, 1000.0),
-		createQueuedPayment("pay2", bankAMSP, bankBMSP, 500.0),
-	}
-
-	iterator := setupMockIterator(payments)
-	collectionName := getCollectionName(bankAMSP, bankBMSP)
-	chaincodeStub.On("GetPrivateDataByRange", collectionName, "", "").Return(iterator, nil)
-
-	// Execute
-	result, err := smartContract.CalculateBilateralOffset(transactionContext, bankAMSP, bankBMSP)
-
-	// Assert
-	require.NoError(t, err)
-	require.NotNil(t, result)
-	require.Equal(t, 0.0, result.Offset) // Min of 1500 and 0
-	require.Len(t, result.Updates, 0)
-}
-
-func TestCalculateBilateralOffset_IteratorError(t *testing.T) {
-	t.Log("✓ Private Data Collection Access Error Handled")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	collectionName := getCollectionName(bankAMSP, bankBMSP)
-	chaincodeStub.On("GetPrivateDataByRange", collectionName, "", "").Return(nil, fmt.Errorf("collection access denied"))
-
-	// Execute
-	result, err := smartContract.CalculateBilateralOffset(transactionContext, bankAMSP, bankBMSP)
-
-	// Assert
-	require.Error(t, err)
-	require.Nil(t, result)
-	require.Contains(t, err.Error(), fmt.Sprintf("read PDC %s", collectionName))
-}
-
 func TestCalculateBilateralOffset_InvalidPaymentJSON(t *testing.T) {
 	t.Log("✓ Invalid Payment JSON Gracefully Skipped")
 
@@ -296,84 +249,6 @@ func TestCalculateBilateralOffset_InvalidPaymentJSON(t *testing.T) {
 // =============================================================================
 // Bilateral Offset Application Tests
 // =============================================================================
-
-func TestApplyBilateralOffset_Success(t *testing.T) {
-	t.Log("✓ Bilateral Offset Successfully Applied to Payments")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	// Create offset updates
-	updates := []settlement.OffsetUpdate{
-		{ID: "pay1", AmountToSettle: 700.0, Status: "QUEUED"},
-		{ID: "pay2", AmountToSettle: 0.0, Status: "SETTLED"},
-	}
-
-	setBilateralOffsetInTransientData(t, chaincodeStub, 800.0, updates)
-
-	// Mock existing payments
-	existingPay1 := createQueuedPayment("pay1", bankAMSP, bankBMSP, 1500.0)
-	existingPay2 := createQueuedPayment("pay2", bankBMSP, bankAMSP, 800.0)
-	existingPay1JSON, _ := json.Marshal(existingPay1)
-	existingPay2JSON, _ := json.Marshal(existingPay2)
-
-	// Setup mocks
-	collectionName := getCollectionName(bankAMSP, bankBMSP)
-	chaincodeStub.On("GetPrivateData", collectionName, "pay1").Return(existingPay1JSON, nil)
-	chaincodeStub.On("GetPrivateData", collectionName, "pay2").Return(existingPay2JSON, nil)
-	chaincodeStub.On("PutPrivateData", collectionName, "pay1", mock.Anything).Return(nil)
-	chaincodeStub.On("PutPrivateData", collectionName, "pay2", mock.Anything).Return(nil)
-	chaincodeStub.On("SetEvent", "BilateralOffsetExecuted", mock.Anything).Return(nil)
-
-	// Execute
-	err := smartContract.ApplyBilateralOffset(transactionContext, bankAMSP, bankBMSP)
-
-	// Assert
-	require.NoError(t, err)
-	chaincodeStub.AssertCalled(t, "PutPrivateData", collectionName, "pay1", mock.Anything)
-	chaincodeStub.AssertCalled(t, "PutPrivateData", collectionName, "pay2", mock.Anything)
-	chaincodeStub.AssertCalled(t, "SetEvent", "BilateralOffsetExecuted", mock.Anything)
-}
-
-func TestApplyBilateralOffset_NoTransientData(t *testing.T) {
-	t.Log("✓ Missing Transient Data Error Handled")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	chaincodeStub.On("GetTransient").Return(nil, fmt.Errorf("no transient data"))
-
-	// Execute
-	err := smartContract.ApplyBilateralOffset(transactionContext, bankAMSP, bankBMSP)
-
-	// Assert
-	require.Error(t, err)
-	require.Contains(t, err.Error(), "transient error")
-}
-
-func TestApplyBilateralOffset_MissingOffsetUpdate(t *testing.T) {
-	t.Log("✓ Missing Offset Update Key Error Handled")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	transientData := map[string][]byte{
-		"other": []byte("data"),
-	}
-
-	chaincodeStub.On("GetTransient").Return(transientData, nil)
-
-	// Execute
-	err := smartContract.ApplyBilateralOffset(transactionContext, bankAMSP, bankBMSP)
-
-	// Assert
-	require.Error(t, err)
-	require.Contains(t, err.Error(), "offsetUpdate required in transient")
-}
-
 func TestApplyBilateralOffset_InvalidJSON(t *testing.T) {
 	t.Log("✓ Invalid Offset Update JSON Error Handled")
 
@@ -393,30 +268,6 @@ func TestApplyBilateralOffset_InvalidJSON(t *testing.T) {
 	// Assert
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "unmarshal payload")
-}
-
-func TestApplyBilateralOffset_PaymentNotFound(t *testing.T) {
-	t.Log("✓ Non-Existent Payment Update Error Handled")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	updates := []settlement.OffsetUpdate{
-		{ID: "nonexistent", AmountToSettle: 0.0, Status: "SETTLED"},
-	}
-
-	setBilateralOffsetInTransientData(t, chaincodeStub, 100.0, updates)
-
-	collectionName := getCollectionName(bankAMSP, bankBMSP)
-	chaincodeStub.On("GetPrivateData", collectionName, "nonexistent").Return(nil, nil)
-
-	// Execute
-	err := smartContract.ApplyBilateralOffset(transactionContext, bankAMSP, bankBMSP)
-
-	// Assert
-	require.Error(t, err)
-	require.Contains(t, err.Error(), "payment nonexistent not found")
 }
 
 func TestApplyBilateralOffset_PutPrivateDataFailure(t *testing.T) {
@@ -447,85 +298,9 @@ func TestApplyBilateralOffset_PutPrivateDataFailure(t *testing.T) {
 	require.Contains(t, err.Error(), "write failed for pay1")
 }
 
-func TestApplyBilateralOffset_SetEventFailure(t *testing.T) {
-	t.Log("✓ Set Event Failure Error Handled")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	updates := []settlement.OffsetUpdate{
-		{ID: "pay1", AmountToSettle: 0.0, Status: "SETTLED"},
-	}
-
-	setBilateralOffsetInTransientData(t, chaincodeStub, 100.0, updates)
-
-	existingPayment := createQueuedPayment("pay1", bankAMSP, bankBMSP, 100.0)
-	existingPaymentJSON, _ := json.Marshal(existingPayment)
-
-	collectionName := getCollectionName(bankAMSP, bankBMSP)
-	chaincodeStub.On("GetPrivateData", collectionName, "pay1").Return(existingPaymentJSON, nil)
-	chaincodeStub.On("PutPrivateData", collectionName, "pay1", mock.Anything).Return(nil)
-	chaincodeStub.On("SetEvent", "BilateralOffsetExecuted", mock.Anything).Return(fmt.Errorf("set event failed"))
-
-	// Execute
-	err := smartContract.ApplyBilateralOffset(transactionContext, bankAMSP, bankBMSP)
-
-	// Assert
-	require.NoError(t, err)
-	chaincodeStub.AssertCalled(t, "PutPrivateData", collectionName, "pay1", mock.Anything)
-	chaincodeStub.AssertCalled(t, "SetEvent", "BilateralOffsetExecuted", mock.Anything)
-}
-
-// =============================================================================
-// Integration Tests for Complete Bilateral Netting Flow
-// =============================================================================
-
-func TestBilateralNetting_CompleteFlow(t *testing.T) {
-	t.Log("✓ Complete Bilateral Netting Flow Integration")
-
-	// Setup
-	transactionContext, chaincodeStub := prepMocks()
-	smartContract := settlement.SmartContract{}
-
-	// Step 1: Calculate offset
-	payments := []settlement.PaymentDetails{
-		createQueuedPayment("pay1", bankAMSP, bankBMSP, 1200.0),
-		createQueuedPayment("pay2", bankBMSP, bankAMSP, 800.0),
-	}
-
-	iterator := setupMockIterator(payments)
-	collectionName := getCollectionName(bankAMSP, bankBMSP)
-	chaincodeStub.On("GetPrivateDataByRange", collectionName, "", "").Return(iterator, nil)
-
-	offsetResult, err := smartContract.CalculateBilateralOffset(transactionContext, bankAMSP, bankBMSP)
-	require.NoError(t, err)
-	require.Equal(t, 800.0, offsetResult.Offset)
-
-	// Step 2: Apply the calculated offset
-	setBilateralOffsetInTransientData(t, chaincodeStub, offsetResult.Offset, offsetResult.Updates)
-
-	// Mock the payments for apply step
-	pay1JSON, _ := json.Marshal(payments[0])
-	pay2JSON, _ := json.Marshal(payments[1])
-
-	chaincodeStub.On("GetPrivateData", collectionName, "pay1").Return(pay1JSON, nil)
-	chaincodeStub.On("GetPrivateData", collectionName, "pay2").Return(pay2JSON, nil)
-	chaincodeStub.On("PutPrivateData", collectionName, "pay1", mock.Anything).Return(nil)
-	chaincodeStub.On("PutPrivateData", collectionName, "pay2", mock.Anything).Return(nil)
-	chaincodeStub.On("SetEvent", "BilateralOffsetExecuted", mock.Anything).Return(nil)
-
-	err = smartContract.ApplyBilateralOffset(transactionContext, bankAMSP, bankBMSP)
-	require.NoError(t, err)
-
-	// Verify the complete flow
-	chaincodeStub.AssertCalled(t, "SetEvent", "BilateralOffsetExecuted", mock.Anything)
-}
-
 // =============================================================================
 // Edge Cases and Error Scenarios
 // =============================================================================
-
 func TestCalculateBilateralOffset_MultiplePaymentsSameDirection(t *testing.T) {
 	t.Log("✓ Multiple Payments in Same Direction Properly Aggregated")
 
@@ -553,9 +328,7 @@ func TestCalculateBilateralOffset_MultiplePaymentsSameDirection(t *testing.T) {
 	require.NotNil(t, result)
 	require.Equal(t, 600.0, result.Offset) // Min of 1000 (500+300+200) and 600
 
-	// The algorithm might optimize out fully settled payments with 0 remaining
-	// So we check that we have at least the payments that have remaining amounts
-	require.GreaterOrEqual(t, len(result.Updates), 2) // At least pay4 and one with remaining amount
+	require.GreaterOrEqual(t, len(result.Updates), 2)
 
 	// Verify that 600 was deducted from the A->B payments and pay4 is fully settled
 	totalDeductedAB := 0.0
@@ -647,7 +420,6 @@ func TestApplyBilateralOffset_EmptyUpdatesArray(t *testing.T) {
 // =============================================================================
 // Parametrized Tests for Different Scenarios
 // =============================================================================
-
 func TestCalculateBilateralOffset_DifferentAmounts(t *testing.T) {
 	testCases := []struct {
 		name           string

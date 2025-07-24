@@ -38,7 +38,7 @@ export class EventService {
       }
 
       await contract.submit("AcknowledgePayment", {
-        arguments: [JSON.stringify({ id, payerMSP, payeeMSP })],
+        arguments: [JSON.stringify({ id, payerMSP, payeeMSP, batchWindow: 0 })],
       });
 
       // Add amount to payee's account with transaction record
