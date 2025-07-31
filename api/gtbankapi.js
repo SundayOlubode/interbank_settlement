@@ -18,6 +18,8 @@ import { buildQsccHelpers } from "./helper/qcss.js";
 
 const userAccounts = {
   "0103456789": {
+    id: "0103456789",
+    accountNumber: "0103456789",
     firstname: "Chiamaka",
     lastname: "Nwankwo",
     middlename: "Amarachi",
@@ -27,6 +29,8 @@ const userAccounts = {
     balance: 2000000,
   },
   "0103567890": {
+    id: "0103567890",
+    accountNumber: "0103567890",
     firstname: "Ibrahim",
     lastname: "Muhammad",
     middlename: "Abdulrahman",
@@ -37,6 +41,45 @@ const userAccounts = {
     balance: 4500000,
   },
   "0103678901": {
+    id: "0103678901",
+    accountNumber: "0103678901",
+    firstname: "Tolu",
+    lastname: "Adesanya",
+    middlename: "Folake",
+    bvn: "34566778901",
+    gender: "Female",
+    balance: 2950000,
+    birthdate: "11-05-1995",
+  },
+};
+
+const users = {
+  "Chiamaka": {
+    id: "0103456789",
+    accountNumber: "0103456789",
+    firstname: "Chiamaka",
+    lastname: "Nwankwo",
+    middlename: "Amarachi",
+    gender: "Female",
+    birthdate: "28-09-1993",
+    bvn: "24566788901",
+    balance: 2000000,
+  },
+  "Ibrahim": {
+    id: "0103567890",
+    accountNumber: "0103567890",
+    firstname: "Ibrahim",
+    lastname: "Muhammad",
+    middlename: "Abdulrahman",
+    gender: "Male",
+    phone: "08156789023",
+    birthdate: "10-01-1988",
+    bvn: "25677899012",
+    balance: 4500000,
+  },
+  "Tolu": {
+    id: "0103678901",
+    accountNumber: "0103678901",
     firstname: "Tolu",
     lastname: "Adesanya",
     middlename: "Folake",
@@ -358,6 +401,26 @@ app.post("/payments", async (req, res) => {
       message: err.details ? err.details[0]["message"] : err.message,
     });
   }
+});
+
+app.post("/auth/login", async (req, res) => {
+  const { username, password } = req.body;
+  const user = users[username];
+  if (!user) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  return res.status(200).json({
+    message: "Login successful",
+    user: {
+      id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      accountNumber: user.accountNumber,
+      balance: user.balance,
+      bankMSP: user.bankMSP,
+    },
+  });
 });
 
 /* ---------- bootstrap everything ------------------------------------------- */

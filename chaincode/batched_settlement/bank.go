@@ -27,8 +27,8 @@ type BatchedTransactionSummary struct {
 }
 
 type EnhancedBankingData struct {
-	BankAccount    *BankAccount      `json:"bankAccount"`
-	QueuedSummary  *AllQueuedSummary `json:"queuedSummary"`
+	BankAccount    *BankAccount       `json:"bankAccount"`
+	QueuedSummary  *AllQueuedSummary  `json:"queuedSummary"`
 	BatchedSummary *AllBatchedSummary `json:"batchedSummary"`
 }
 
@@ -40,7 +40,7 @@ type BatchWindowSummary struct {
 	StatusCounts  map[string]int     `json:"statusCounts"`
 	StatusAmounts map[string]float64 `json:"statusAmounts"`
 	Timestamp     int64              `json:"timestamp"`
-} 
+}
 
 // Get all queued transactions for the calling MSP with all other MSPs
 // Get all queued transactions for the calling MSP with all other MSPs
@@ -62,7 +62,7 @@ func (s *SmartContract) GetAllQueuedTransactions(ctx contractapi.TransactionCont
 	var grandTotalCount int
 
 	// Iterate through all other MSPs
-	for _, otherMSP := range authorizedMSPs {
+	for _, otherMSP := range getBankMSPs() {
 		if otherMSP == callerMSP {
 			continue // Skip self
 		}
@@ -101,9 +101,6 @@ func (s *SmartContract) GetAllQueuedTransactions(ctx contractapi.TransactionCont
 		GrandTotalCount:    grandTotalCount,
 	}, nil
 }
-
-
-
 
 // Get detailed queued transactions from a specific collection
 func (s *SmartContract) GetQueuedTransactionDetails(ctx contractapi.TransactionContextInterface, otherMSP string) ([]*PaymentDetails, error) {
@@ -292,7 +289,7 @@ func (s *SmartContract) GetAllTransactionAnalytics(ctx contractapi.TransactionCo
 func (s *SmartContract) getAllBilateralCollections(callerMSP string) []string {
 	var collections []string
 
-	for _, otherMSP := range authorizedMSPs {
+	for _, otherMSP := range getBankMSPs() {
 		if otherMSP == callerMSP {
 			continue // Skip self
 		}
@@ -524,15 +521,15 @@ func (s *SmartContract) GetBatchWindowSummary(ctx contractapi.TransactionContext
 	}
 
 	summary := &BatchWindowSummary{
-		BatchWindow:     batchWindow,
-		CallerMSP:       clientMSP,
-		StatusCounts:    make(map[string]int),
-		StatusAmounts:   make(map[string]float64),
-		Timestamp:       time.Now().Unix(),
+		BatchWindow:   batchWindow,
+		CallerMSP:     clientMSP,
+		StatusCounts:  make(map[string]int),
+		StatusAmounts: make(map[string]float64),
+		Timestamp:     time.Now().Unix(),
 	}
 
 	// Scan all bilateral collections for payments in this batch window
-	for _, otherMSP := range authorizedMSPs {
+	for _, otherMSP := range getBankMSPs() {
 		if otherMSP == clientMSP {
 			continue
 		}
@@ -569,7 +566,6 @@ func (s *SmartContract) GetBatchWindowSummary(ctx contractapi.TransactionContext
 
 	return summary, nil
 }
-
 
 // GetAllBatchedTransactions returns all BATCHED payments for the calling MSP
 func (s *SmartContract) GetAllBatchedTransactions(ctx contractapi.TransactionContextInterface) (*AllBatchedSummary, error) {
@@ -633,7 +629,7 @@ func (s *SmartContract) GetBatchedTransactionsForWindow(ctx contractapi.Transact
 
 	var batchedTransactions []*PaymentDetails
 
-	for _, otherMSP := range authorizedMSPs {
+	for _, otherMSP := range getBankMSPs() {
 		if otherMSP == clientMSP {
 			continue
 		}
