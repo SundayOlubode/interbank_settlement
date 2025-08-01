@@ -24,7 +24,7 @@ const userAccounts = {
     middlename: "Kenechukwu",
     bvn: "52344556780",
     gender: "Male",
-    balance: 285000,
+    balance: 5850000,
     birthdate: "03-02-1989",
   },
   2000234567: {
@@ -33,8 +33,53 @@ const userAccounts = {
     middlename: "Abisola",
     bvn: "53455667891",
     gender: "Female",
-    balance: 445000,
+    balance: 64500000,
     birthdate: "28-04-1987",
+  },
+  2000345678: {
+    firstname: "Abdullahi",
+    lastname: "Maikano",
+    middlename: "Nasiru",
+    bvn: "54566778903",
+    gender: "Male",
+    balance: 8500000,
+    birthdate: "20-10-1995",
+  },
+};
+
+const users = {
+  "Obinna": {
+    id: "2000123456",
+    accountNumber: "2000123456",
+    firstname: "Obinna",
+    lastname: "Ezechukwu",
+    middlename: "Kenechukwu",
+    bvn: "52344556780",
+    gender: "Male",
+    balance: 5850000,
+    birthdate: "03-02-1989",
+  },
+  "Funmi": {
+    id: "2000234567",
+    accountNumber: "2000234567",
+    firstname: "Funmi",
+    lastname: "Elegbede",
+    middlename: "Abisola",
+    bvn: "53455667891",
+    gender: "Female",
+    balance: 64500000,
+    birthdate: "28-04-1987",
+  },
+  "Abdullahi": {
+    id: "2000345678",
+    accountNumber: "2000345678",
+    firstname: "Abdullahi",
+    lastname: "Maikano",
+    middlename: "Nasiru",
+    bvn: "54566778903",
+    gender: "Male",
+    balance: 8500000,
+    birthdate: "20-10-1995",
   },
 };
 
@@ -135,7 +180,7 @@ async function processPaymentEvent(evt, contract, cp) {
   console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);
 
   await contract.submit("AcknowledgePayment", {
-    arguments: [JSON.stringify({ id, payerMSP, payeeMSP })],
+    arguments: [JSON.stringify({ id, payerMSP, payeeMSP, batchWindow: 0 })],
   });
 
   // await contract.submitTransaction("SettlePayment", id);
@@ -351,6 +396,26 @@ app.post("/payments", async (req, res) => {
   }
 });
 
+app.post("/auth/login", async (req, res) => {
+  const { username, password } = req.body;
+  const user = users[username];
+  if (!user) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  return res.status(200).json({
+    message: "Login successful",
+    user: {
+      id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      accountNumber: user.accountNumber,
+      balance: user.balance,
+      bankMSP: user.bankMSP,
+    },
+  });
+});
+
 /* ---------- bootstrap everything ------------------------------------------- */
 (async () => {
   try {
@@ -366,6 +431,9 @@ app.post("/payments", async (req, res) => {
     // Start event listeners (acknowledgment is now integrated into startListener)
     console.log("Setting up event listeners...");
     startListener(gatewayGlobal).catch(console.error);
+
+    app.maxConnections = 1000; // Set max connections to handle load
+    app.timeout = 30000; // Set request timeout to 30 seconds
 
     app.listen(4004, () => {
       console.log(`${MSP_ID} API listening on port 4004`);

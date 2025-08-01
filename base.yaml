@@ -1,19 +1,58 @@
 services:
   peer-base:
     image: hyperledger/fabric-peer:$IMAGE_TAG
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "4.0"
+    #       memory: 9G
+    #     reservations:
+    #       cpus: "1.0"
+    #       memory: 6G
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_retail
       - FABRIC_LOGGING_SPEC=DEBUG
       - CORE_PEER_GOSSIP_USELEADERELECTION=false
       - CORE_PEER_GOSSIP_ORGLEADER=true
+      - CORE_PEER_GATEWAY_CONCURRENCY=5000 # Must be set here
+      - CORE_PEER_LIMITS_CONCURRENCY_GATEWAYSERVICE=5000
+      - CORE_PEER_LIMITS_CONCURRENCY_ENDORSERSERVICE=5000
+      - CORE_PEER_LIMITS_CONCURRENCY_QSCC=5000
       # - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_LEDGER_STATE_DBCONFIG_CACHESIZE=64
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/ca.crt
       - ORDERER_TLS_HOSTNAME_OVERRIDE=orderer.cbn.naijachain.org
+      # MSP identity caching
+      - CORE_PEER_MSPCONFIGPATH_CACHECAPACITY=5000
+      - CORE_PEER_MSP_CACHE_ENABLED=true
+      - CORE_PEER_MSP_CACHE_SIZE=10000
+
+      # Policy validation caching
+      - CORE_PEER_HANDLERS_AUTHFILTERS_0_CACHE_ENABLED=true
+      - CORE_PEER_HANDLERS_AUTHFILTERS_0_CACHE_SIZE=5000
+      # BCCSP caching
+      - CORE_PEER_BCCSP_SW_CACHE_ENABLED=true
+      - CORE_PEER_BCCSP_SW_CACHE_SIZE=10000
+      - CORE_PEER_BCCSP_SW_CACHE_TTL=300
+      # Endorsement parallelization
+      # - CORE_PEER_LIMITS_CONCURRENCY_ENDORSERSERVICE=8000
+      # - CORE_PEER_VALIDATORPOOLSIZE=3
+
+      # # Parallel policy evaluation
+      # - CORE_PEER_HANDLERS_ENDORSERS_ESCC_PARALLEL=true
+      # - CORE_PEER_HANDLERS_VALIDATORS_VSCC_PARALLEL=true
+
+      # # Worker pool for endorsements
+      # - CORE_PEER_ENDORSER_WORKERCOUNT=3
+
+      # # Goroutine limits for parallel processing
+      # - GOMAXPROCS=1
+      # - GOGC=100 # Optimize garbage collection for parallel workloads
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start
     volumes:

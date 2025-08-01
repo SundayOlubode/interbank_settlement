@@ -13,3 +13,5 @@ sleep 2
 sleep 2
 
 ./invoke-cc.sh
+
+cp -R ./channel-artifacts ./crypto-config ./caliper-benchmarks/

@@ -27,13 +27,13 @@ Organizations:
     Policies: &AccessBankOrgPolicies
       Readers:
         Type: Signature
-        Rule: "OR('AccessBankOrg.member')"
+        Rule: "OR('AccessBankOrg.member', 'GTBankOrg.member')"
         # If your MSP is configured with the new NodeOUs, you might
         # want to use a more specific rule like the following:
         # Rule: "OR('AccessBankOrg.admin', 'AccessBankOrg.peer', 'AccessBankOrg.client')"
       Writers:
         Type: Signature
-        Rule: "OR('AccessBankOrg.member')"
+        Rule: "OR('AccessBankOrg.member', 'GTBankOrg.member')"
         # If your MSP is configured with the new NodeOUs, you might
         # want to use a more specific rule like the following:
         # Rule: "OR('AccessBankOrg.admin', 'AccessBankOrg.client')"
@@ -48,6 +48,48 @@ Organizations:
     AnchorPeers:
       - Host: 127.0.0.1
         Port: 7051
+
+  # GTBankOrg defines an MSP using the sampleconfig. It should never be used
+  # in production but may be used as a template for other definitions.
+  - &GTBankOrg
+    # Name is the key by which this org will be referenced in channel
+    # configuration transactions.
+    # Name can include alphanumeric characters as well as dots and dashes.
+    Name: m-KT25LAMFLRDDBMSOWL5B3Q4JLE
+    # ID is the key by which this org's MSP definition will be referenced.
+    # ID can include alphanumeric characters as well as dots and dashes.
+    ID: m-KT25LAMFLRDDBMSOWL5B3Q4JLE
+    # SkipAsForeign can be set to true for org definitions which are to be
+    # inherited from the orderer system channel during channel creation. This
+    # is especially useful when an admin of a single org without access to the
+    # MSP directories of the other orgs wishes to create a channel. Note
+    # this property must always be set to false for orgs included in block
+    # creation.
+    SkipAsForeign: false
+    Policies: &GTBankOrgPolicies
+      Readers:
+        Type: Signature
+        Rule: "OR('AccessBankOrg.member', 'GTBankOrg.member')"
+        # If your MSP is configured with the new NodeOUs, you might
+        # want to use a more specific rule like the following:
+        # Rule: "OR('GTBankOrg.admin', 'GTBankOrg.peer', 'GTBankOrg.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('AccessBankOrg.member', 'GTBankOrg.member')"
+        # If your MSP is configured with the new NodeOUs, you might
+        # want to use a more specific rule like the following:
+        # Rule: "OR('GTBankOrg.admin', 'GTBankOrg.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('GTBankOrg.admin')"
+    # MSPDir is the filesystem path which contains the MSP configuration.
+    MSPDir: /opt/home/org2-msp
+    # AnchorPeers defines the location of peers which can be used for
+    # cross-org gossip communication. Note, this value is only encoded in
+    # the genesis block in the Application section context.
+    AnchorPeers:
+      - Host: 127.0.0.1
+        Port: 7052
 
 ################################################################################
 #
@@ -189,12 +231,11 @@ Application: &ApplicationDefaults
 #
 ################################################################################
 Profiles:
-  OneOrgChannel:
+  TwoOrgChannel:
     <<: *ChannelDefaults
     Consortium: AWSSystemConsortium
     Application:
       <<: *ApplicationDefaults
       Organizations:
         - <<: *AccessBankOrg
-
-
+        - <<: *GTBankOrg

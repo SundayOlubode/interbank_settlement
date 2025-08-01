@@ -136,7 +136,7 @@ export class PaymentController {
             "ACKNOWLEDGED"
           );
 
-          console.log(`Payment ${paymentID} acknowledged:`, ackData);
+          console.log(`Payment ${paymentID} Acknowledged!`);
 
           res.status(201).json({
             id: paymentID,

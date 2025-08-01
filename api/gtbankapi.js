@@ -5,7 +5,6 @@ import express from "express";
 import morgan from "morgan";
 import { promises as fs } from "node:fs";
 import * as crypto from "node:crypto";
-import path from "node:path";
 import {
   connect,
   hash,
@@ -16,19 +15,22 @@ import * as grpc from "@grpc/grpc-js";
 import * as dotenv from "dotenv";
 dotenv.config();
 import { buildQsccHelpers } from "./helper/qcss.js";
-import { extractSimpleBlockData } from "./helper/extract-block-data.js";
 
 const userAccounts = {
   "0103456789": {
+    id: "0103456789",
+    accountNumber: "0103456789",
     firstname: "Chiamaka",
     lastname: "Nwankwo",
     middlename: "Amarachi",
     gender: "Female",
     birthdate: "28-09-1993",
     bvn: "24566788901",
-    balance: 20000,
+    balance: 2000000,
   },
   "0103567890": {
+    id: "0103567890",
+    accountNumber: "0103567890",
     firstname: "Ibrahim",
     lastname: "Muhammad",
     middlename: "Abdulrahman",
@@ -36,15 +38,54 @@ const userAccounts = {
     phone: "08156789023",
     birthdate: "10-01-1988",
     bvn: "25677899012",
-    balance: 450000,
+    balance: 4500000,
   },
   "0103678901": {
+    id: "0103678901",
+    accountNumber: "0103678901",
     firstname: "Tolu",
     lastname: "Adesanya",
     middlename: "Folake",
     bvn: "34566778901",
     gender: "Female",
-    balance: 295000,
+    balance: 2950000,
+    birthdate: "11-05-1995",
+  },
+};
+
+const users = {
+  "Chiamaka": {
+    id: "0103456789",
+    accountNumber: "0103456789",
+    firstname: "Chiamaka",
+    lastname: "Nwankwo",
+    middlename: "Amarachi",
+    gender: "Female",
+    birthdate: "28-09-1993",
+    bvn: "24566788901",
+    balance: 2000000,
+  },
+  "Ibrahim": {
+    id: "0103567890",
+    accountNumber: "0103567890",
+    firstname: "Ibrahim",
+    lastname: "Muhammad",
+    middlename: "Abdulrahman",
+    gender: "Male",
+    phone: "08156789023",
+    birthdate: "10-01-1988",
+    bvn: "25677899012",
+    balance: 4500000,
+  },
+  "Tolu": {
+    id: "0103678901",
+    accountNumber: "0103678901",
+    firstname: "Tolu",
+    lastname: "Adesanya",
+    middlename: "Folake",
+    bvn: "34566778901",
+    gender: "Female",
+    balance: 2950000,
     birthdate: "11-05-1995",
   },
 };
@@ -146,7 +187,7 @@ async function processPaymentEvent(evt, contract, cp) {
   console.log(`Crediting ${pay.payeeAcct} with ₦${pay.amount}`);
 
   await contract.submit("AcknowledgePayment", {
-    arguments: [JSON.stringify({ id, payerMSP, payeeMSP })],
+    arguments: [JSON.stringify({ id, payerMSP, payeeMSP, batchWindow: 0 })],
   });
 
   // await contract.submitTransaction("SettlePayment", id);
@@ -362,6 +403,26 @@ app.post("/payments", async (req, res) => {
   }
 });
 
+app.post("/auth/login", async (req, res) => {
+  const { username, password } = req.body;
+  const user = users[username];
+  if (!user) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  return res.status(200).json({
+    message: "Login successful",
+    user: {
+      id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      accountNumber: user.accountNumber,
+      balance: user.balance,
+      bankMSP: user.bankMSP,
+    },
+  });
+});
+
 /* ---------- bootstrap everything ------------------------------------------- */
 (async () => {
   try {
@@ -377,6 +438,9 @@ app.post("/payments", async (req, res) => {
     // Start event listeners (acknowledgment is now integrated into startListener)
     console.log("Setting up event listeners...");
     startListener(gatewayGlobal).catch(console.error);
+
+    app.maxConnections = 1000; // Set max connections to handle load
+    app.timeout = 30000; // Set request timeout to 30 seconds
 
     app.listen(4001, () => {
       console.log(`${MSP_ID} API listening on port 4001`);

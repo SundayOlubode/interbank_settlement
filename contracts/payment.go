@@ -8,7 +8,7 @@ import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
-// CreatePayment records a new payment, verifies BVN, transfers tokens, and writes a public stub
+// CreatePayment records a new payment, verifies BVN, record transaction, and writes a public stub
 func (s *SmartContract) CreatePayment(ctx contractapi.TransactionContextInterface) error {
 	// Get transient payment details
 	transMap, err := ctx.GetStub().GetTransient()
